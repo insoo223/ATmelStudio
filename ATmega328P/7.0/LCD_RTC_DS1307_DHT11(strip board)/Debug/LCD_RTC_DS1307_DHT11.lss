@@ -3347,16 +3347,16 @@ void countButton()
     1190:	0e 94 7c 05 	call	0xaf8	; 0xaf8 <turnOnLCDBacklight>
 				LCD_WriteTimeDate();
     1194:	0e 94 e6 02 	call	0x5cc	; 0x5cc <LCD_WriteTimeDate>
-    1198:	ff eb       	ldi	r31, 0xBF	; 191
-    119a:	27 e2       	ldi	r18, 0x27	; 39
-    119c:	89 e0       	ldi	r24, 0x09	; 9
+    1198:	ff e7       	ldi	r31, 0x7F	; 127
+    119a:	2f e4       	ldi	r18, 0x4F	; 79
+    119c:	82 e1       	ldi	r24, 0x12	; 18
     119e:	f1 50       	subi	r31, 0x01	; 1
     11a0:	20 40       	sbci	r18, 0x00	; 0
     11a2:	80 40       	sbci	r24, 0x00	; 0
     11a4:	e1 f7       	brne	.-8      	; 0x119e <countButton+0x94>
     11a6:	00 c0       	rjmp	.+0      	; 0x11a8 <countButton+0x9e>
     11a8:	00 00       	nop
-				_delay_ms(3000);
+				_delay_ms(6000);
                 turnOffLCDBacklight();
     11aa:	0e 94 7e 05 	call	0xafc	; 0xafc <turnOffLCDBacklight>
                 break;
