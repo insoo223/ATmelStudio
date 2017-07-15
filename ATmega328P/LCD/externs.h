@@ -81,7 +81,9 @@ extern void lcd_write_string_4d(uint8_t *);
 extern void lcd_init_4d(void);
 
 // ------------------------
-extern void SetTimeDate();
+//void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
+extern void SetTimeDate(byte ,byte ,byte ,byte , byte , byte , byte , byte );
+extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 
 extern void makePDasOutput();
 extern void makePDasInput();
@@ -103,7 +105,6 @@ extern void LCD_TimeDate();
 extern void testTimingOnDebugPin();
 
 extern void dispNotice();
-extern void setTime2DS1307();
 
 
 //UTIL.C

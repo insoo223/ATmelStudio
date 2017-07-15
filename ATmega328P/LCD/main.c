@@ -31,7 +31,7 @@ avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD.hex:i
 	 Get system compile time & date and display on LCD 2*16
 		Button toggling to turn on or off the backlight of LCD
 
- HEX size[Byte]: 
+ HEX size[]: 
  3340 out of 32K (all modules built together) w/prev. version of Atmel Studio
 	5308 w/ATmel Studio 7
 
@@ -66,14 +66,16 @@ int main()
 	
 	//After call dispNotice(), sleep current remain rather high 680 uA
 	//	otherwise, 230 uA
-	//dispNotice(); 
+	//As of July 15, 2017, this function does not cause any further current draw than 0.2uA
+	dispNotice(); 
 
     //lcd_dispRealClock();
 	//lcd_dispProgInfo(); //LCD display program info
     // Use the Power Down sleep mode
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
-	//setTime2DS1307();
+	//BCD formt byte( wkDay, month, day, year,  ampm,  h,  m,  s)
+	//setTime2DS1307(0x06, 0x07, 0x15, 0x17, PM, 0x01, 0x19, 0x30 );
 
     // endless loop
     while(1)
@@ -100,13 +102,13 @@ int main()
     return 0;
 }
 /******************************* End of Main Program Code ******************/
-void setTime2DS1307()
+void setTime2DS1307(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
 {
 	makePDasOutput();
 	//turn on DS1307 power
 	DS1307_VCC_port |= _BV(DS1307_VCC_bit);
 	_delay_ms(10);
-	SetTimeDate();
+	SetTimeDate(wkDay, month, day, year,  ampm,  h,  m,  s);
 	_delay_ms(1000);
 	
 	LCD_TimeDate();
@@ -533,8 +535,8 @@ void lcd_testString()
 #define CONTROL_REGISTER 0x07
 #define RAM_BEGIN 0x08
 #define RAM_END 0x3F
-void DS1307_GetTime(byte *hours, byte *minutes, byte *seconds)
 
+void DS1307_GetTime(byte *hours, byte *minutes, byte *seconds)
 // returns hours, minutes, and seconds in BCD format
 {
 	*hours = I2C_ReadRegister(DS1307,HOURS_REGISTER);
@@ -559,28 +561,39 @@ void DS1307_GetWkDay(byte *wkdays)
 	*wkdays = I2C_ReadRegister(DS1307,DAYOFWK_REGISTER);
 }//DS1307_GetWkDay
 
-void SetTimeDate()
+void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
 // simple, hard-coded way to set the date.
 {
-	I2C_WriteRegister(DS1307,DAYOFWK_REGISTER, 0x06); //Wednesday
+	//I2C_WriteRegister(DS1307,DAYOFWK_REGISTER, 0x06); //Wednesday
+	I2C_WriteRegister(DS1307,DAYOFWK_REGISTER, wkDay); //Wednesday
 	_delay_ms(10);
 
-	I2C_WriteRegister(DS1307,MONTHS_REGISTER, 0x07);
+	//I2C_WriteRegister(DS1307,MONTHS_REGISTER, 0x07);
+	I2C_WriteRegister(DS1307,MONTHS_REGISTER, month);
 	//When F_CPU is 1Mhz , delay 10ms is required
 	//as of July 11, 2017 (insoo tested and succeeded)
 	_delay_ms(10); 
-	I2C_WriteRegister(DS1307,DAYS_REGISTER, 0x15);
+	//I2C_WriteRegister(DS1307,DAYS_REGISTER, 0x15);
+	I2C_WriteRegister(DS1307,DAYS_REGISTER, day);
 	_delay_ms(10);
-	I2C_WriteRegister(DS1307,YEARS_REGISTER, 0x17);
+	//I2C_WriteRegister(DS1307,YEARS_REGISTER, 0x17);
+	I2C_WriteRegister(DS1307,YEARS_REGISTER, year);
 	_delay_ms(10);
-	I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x11); // add 0x40 for PM
+	//I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x11); // add 0x40 for PM
 	//I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x05+0x40); // add 0x40 for PM
+	if (ampm == PM)
+		I2C_WriteRegister(DS1307,HOURS_REGISTER, h+0x40); // add 0x40 for PM
+	else
+		I2C_WriteRegister(DS1307,HOURS_REGISTER, h); // add 0x40 for PM
 	_delay_ms(10);
-	I2C_WriteRegister(DS1307,MINUTES_REGISTER, 0x38);
+
+	//I2C_WriteRegister(DS1307,MINUTES_REGISTER, 0x38);
+	I2C_WriteRegister(DS1307,MINUTES_REGISTER, m);
 	_delay_ms(10);
-	I2C_WriteRegister(DS1307,SECONDS_REGISTER, 0x30);
+	//I2C_WriteRegister(DS1307,SECONDS_REGISTER, 0x30);
+	I2C_WriteRegister(DS1307,SECONDS_REGISTER, s);
 	_delay_ms(10);
-}
+}//SetTimeDate
 
 // ---------------------------------------------------------------------------
 // HD44780-LCD DRIVER ROUTINES
@@ -621,7 +634,7 @@ void LCD_BCDDigits(uint8_t data)
 // input is two digits in BCD format
 // output is to LCD display at current cursor position
 {
-	byte temp = data>>4;
+	 byte temp = data>>4;
 	//LCD_Char(temp+'0');
 	lcd_write_character_4d(temp+'0');
 	data &= 0x0F;
@@ -631,8 +644,8 @@ void LCD_BCDDigits(uint8_t data)
 
 void WriteDate()
 {
-	byte months, days, years;
-	byte wkDays;
+	 byte months, days, years;
+	 byte wkDays;
 
 	DS1307_GetDate(&months,&days,&years);
 	LCD_BCDDigits(months);

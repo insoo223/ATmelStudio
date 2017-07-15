@@ -197,3 +197,7 @@ typedef int8_t sbyte;
 #define TW_READY (TWCR & 0x80) // ready when TWINT returns to logic 1.
 #define TW_STATUS (TWSR & 0xF8) // returns value of status register
 #define I2C_Stop() TWCR = TW_STOP // inline macro for stop condition
+
+#define AM 0
+#define PM 1
+
