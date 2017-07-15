@@ -73,11 +73,7 @@ int main()
     // Use the Power Down sleep mode
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
-	//turn on DS1307 power
-	//DS1307_VCC_port |= _BV(DS1307_VCC_bit);
-	//_delay_ms(10);
-	//SetTimeDate();
-	//_delay_ms(1000);
+	//setTime2DS1307();
 
     // endless loop
     while(1)
@@ -104,6 +100,19 @@ int main()
     return 0;
 }
 /******************************* End of Main Program Code ******************/
+void setTime2DS1307()
+{
+	makePDasOutput();
+	//turn on DS1307 power
+	DS1307_VCC_port |= _BV(DS1307_VCC_bit);
+	_delay_ms(10);
+	SetTimeDate();
+	_delay_ms(1000);
+	
+	LCD_TimeDate();
+	_delay_ms(3000);
+}//setTime2DS1307
+
 void dispNotice()
 {
 	makePDasOutput();
@@ -553,21 +562,21 @@ void DS1307_GetWkDay(byte *wkdays)
 void SetTimeDate()
 // simple, hard-coded way to set the date.
 {
-	I2C_WriteRegister(DS1307,DAYOFWK_REGISTER, 0x03); //Wednesday
+	I2C_WriteRegister(DS1307,DAYOFWK_REGISTER, 0x06); //Wednesday
 	_delay_ms(10);
 
 	I2C_WriteRegister(DS1307,MONTHS_REGISTER, 0x07);
 	//When F_CPU is 1Mhz , delay 10ms is required
 	//as of July 11, 2017 (insoo tested and succeeded)
 	_delay_ms(10); 
-	I2C_WriteRegister(DS1307,DAYS_REGISTER, 0x12);
+	I2C_WriteRegister(DS1307,DAYS_REGISTER, 0x15);
 	_delay_ms(10);
 	I2C_WriteRegister(DS1307,YEARS_REGISTER, 0x17);
 	_delay_ms(10);
 	I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x11); // add 0x40 for PM
 	//I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x05+0x40); // add 0x40 for PM
 	_delay_ms(10);
-	I2C_WriteRegister(DS1307,MINUTES_REGISTER, 0x53);
+	I2C_WriteRegister(DS1307,MINUTES_REGISTER, 0x38);
 	_delay_ms(10);
 	I2C_WriteRegister(DS1307,SECONDS_REGISTER, 0x30);
 	_delay_ms(10);

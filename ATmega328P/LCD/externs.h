@@ -103,6 +103,8 @@ extern void LCD_TimeDate();
 extern void testTimingOnDebugPin();
 
 extern void dispNotice();
+extern void setTime2DS1307();
+
 
 //UTIL.C
 extern void sysClockTest();
