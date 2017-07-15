@@ -3,31 +3,31 @@ LCD_RTC_DS1307_DHT11.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000372  00800100  00001576  0000160a  2**0
+  0 .data         00000372  00800100  00001586  0000161a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00001576  00000000  00000000  00000094  2**1
+  1 .text         00001586  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000017  00800472  00800472  0000197c  2**0
+  2 .bss          00000017  00800472  00800472  0000198c  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000197c  2**0
+  3 .comment      00000030  00000000  00000000  0000198c  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000019ac  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000019bc  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000002d8  00000000  00000000  000019ec  2**0
+  5 .debug_aranges 000002d8  00000000  00000000  000019fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00004e7c  00000000  00000000  00001cc4  2**0
+  6 .debug_info   00004e7c  00000000  00000000  00001cd4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00001655  00000000  00000000  00006b40  2**0
+  7 .debug_abbrev 00001655  00000000  00000000  00006b50  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00002150  00000000  00000000  00008195  2**0
+  8 .debug_line   0000217a  00000000  00000000  000081a5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000720  00000000  00000000  0000a2e8  2**2
+  9 .debug_frame  00000720  00000000  00000000  0000a320  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000a31  00000000  00000000  0000aa08  2**0
+ 10 .debug_str    00000a31  00000000  00000000  0000aa40  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001c3c  00000000  00000000  0000b439  2**0
+ 11 .debug_loc    00001c3c  00000000  00000000  0000b471  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000318  00000000  00000000  0000d075  2**0
+ 12 .debug_ranges 00000318  00000000  00000000  0000d0ad  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -91,7 +91,7 @@ Disassembly of section .text:
       9a:	14 e0       	ldi	r17, 0x04	; 4
       9c:	a0 e0       	ldi	r26, 0x00	; 0
       9e:	b1 e0       	ldi	r27, 0x01	; 1
-      a0:	e6 e7       	ldi	r30, 0x76	; 118
+      a0:	e6 e8       	ldi	r30, 0x86	; 134
       a2:	f5 e1       	ldi	r31, 0x15	; 21
       a4:	02 c0       	rjmp	.+4      	; 0xaa <__do_copy_data+0x10>
       a6:	05 90       	lpm	r0, Z+
@@ -114,7 +114,7 @@ Disassembly of section .text:
       bc:	b2 07       	cpc	r27, r18
       be:	e1 f7       	brne	.-8      	; 0xb8 <.do_clear_bss_loop>
       c0:	0e 94 ee 02 	call	0x5dc	; 0x5dc <main>
-      c4:	0c 94 b9 0a 	jmp	0x1572	; 0x1572 <_exit>
+      c4:	0c 94 c1 0a 	jmp	0x1582	; 0x1582 <_exit>
 
 000000c8 <__bad_interrupt>:
       c8:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -192,12 +192,12 @@ void getDHT()
      120:	74 e0       	ldi	r23, 0x04	; 4
      122:	8b 81       	ldd	r24, Y+3	; 0x03
      124:	9c 81       	ldd	r25, Y+4	; 0x04
-     126:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     126:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      12a:	4a e0       	ldi	r20, 0x0A	; 10
      12c:	61 e8       	ldi	r22, 0x81	; 129
      12e:	74 e0       	ldi	r23, 0x04	; 4
      130:	c8 01       	movw	r24, r16
-     132:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     132:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
 	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineTwo);
 	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
 	lcd_write_string_4d((uint8_t *)strHumid);
@@ -383,7 +383,7 @@ void getDHT()
      258:	f1 f7       	brne	.-4      	; 0x256 <__vector_3+0x6a>
      25a:	00 c0       	rjmp	.+0      	; 0x25c <__vector_3+0x70>
      25c:	00 00       	nop
-     25e:	0e 94 30 09 	call	0x1260	; 0x1260 <countButton>
+     25e:	0e 94 38 09 	call	0x1270	; 0x1270 <countButton>
      262:	88 81       	ld	r24, Y
      264:	80 61       	ori	r24, 0x10	; 16
      266:	88 83       	st	Y, r24
@@ -467,7 +467,7 @@ void proceedClock()
     {
         sec%=60;
      2e2:	6c e3       	ldi	r22, 0x3C	; 60
-     2e4:	0e 94 cb 09 	call	0x1396	; 0x1396 <__divmodqi4>
+     2e4:	0e 94 d3 09 	call	0x13a6	; 0x13a6 <__divmodqi4>
         min++;
         sec += 2;
      2e8:	9e 5f       	subi	r25, 0xFE	; 254
@@ -492,7 +492,7 @@ void proceedClock()
         accumulatedSec%=60;
      2fc:	82 2f       	mov	r24, r18
      2fe:	6c e3       	ldi	r22, 0x3C	; 60
-     300:	0e 94 cb 09 	call	0x1396	; 0x1396 <__divmodqi4>
+     300:	0e 94 d3 09 	call	0x13a6	; 0x13a6 <__divmodqi4>
         accumulatedMin++;
         accumulatedSec += 2;
      304:	9e 5f       	subi	r25, 0xFE	; 254
@@ -508,7 +508,7 @@ void proceedClock()
     {
         min%=60;
      312:	6c e3       	ldi	r22, 0x3C	; 60
-     314:	0e 94 cb 09 	call	0x1396	; 0x1396 <__divmodqi4>
+     314:	0e 94 d3 09 	call	0x13a6	; 0x13a6 <__divmodqi4>
      318:	90 93 7c 04 	sts	0x047C, r25	; 0x80047c <min>
         hour++;
      31c:	80 91 7d 04 	lds	r24, 0x047D	; 0x80047d <hour>
@@ -599,7 +599,7 @@ void proceedClock()
      3a6:	60 f4       	brcc	.+24     	; 0x3c0 <proceedClock+0x100>
      3a8:	ec 5c       	subi	r30, 0xCC	; 204
      3aa:	ff 4f       	sbci	r31, 0xFF	; 255
-     3ac:	0c 94 ed 09 	jmp	0x13da	; 0x13da <__tablejump2__>
+     3ac:	0c 94 f5 09 	jmp	0x13ea	; 0x13ea <__tablejump2__>
         case 5:
         case 7:
         case 8:
@@ -1101,7 +1101,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      638:	08 2e       	mov	r0, r24
      63a:	00 0c       	add	r0, r0
      63c:	99 0b       	sbc	r25, r25
-     63e:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     63e:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      642:	80 91 7c 04 	lds	r24, 0x047C	; 0x80047c <min>
      646:	4a e0       	ldi	r20, 0x0A	; 10
      648:	be 01       	movw	r22, r28
@@ -1110,7 +1110,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      64e:	08 2e       	mov	r0, r24
      650:	00 0c       	add	r0, r0
      652:	99 0b       	sbc	r25, r25
-     654:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     654:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      658:	80 91 7b 04 	lds	r24, 0x047B	; 0x80047b <sec>
      65c:	4a e0       	ldi	r20, 0x0A	; 10
      65e:	be 01       	movw	r22, r28
@@ -1119,7 +1119,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      664:	08 2e       	mov	r0, r24
      666:	00 0c       	add	r0, r0
      668:	99 0b       	sbc	r25, r25
-     66a:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     66a:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      66e:	ce 01       	movw	r24, r28
      670:	07 96       	adiw	r24, 0x07	; 7
      672:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
@@ -1154,7 +1154,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      6bc:	08 2e       	mov	r0, r24
      6be:	00 0c       	add	r0, r0
      6c0:	99 0b       	sbc	r25, r25
-     6c2:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     6c2:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      6c6:	80 91 79 04 	lds	r24, 0x0479	; 0x800479 <month>
      6ca:	4a e0       	ldi	r20, 0x0A	; 10
      6cc:	be 01       	movw	r22, r28
@@ -1163,7 +1163,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      6d2:	08 2e       	mov	r0, r24
      6d4:	00 0c       	add	r0, r0
      6d6:	99 0b       	sbc	r25, r25
-     6d8:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     6d8:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      6dc:	80 91 78 04 	lds	r24, 0x0478	; 0x800478 <date>
      6e0:	4a e0       	ldi	r20, 0x0A	; 10
      6e2:	be 01       	movw	r22, r28
@@ -1172,7 +1172,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      6e8:	08 2e       	mov	r0, r24
      6ea:	00 0c       	add	r0, r0
      6ec:	99 0b       	sbc	r25, r25
-     6ee:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     6ee:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      6f2:	ce 01       	movw	r24, r28
      6f4:	0a 96       	adiw	r24, 0x0a	; 10
      6f6:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
@@ -1204,7 +1204,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      738:	fc 01       	movw	r30, r24
      73a:	e0 5c       	subi	r30, 0xC0	; 192
      73c:	ff 4f       	sbci	r31, 0xFF	; 255
-     73e:	0c 94 ed 09 	jmp	0x13da	; 0x13da <__tablejump2__>
+     73e:	0c 94 f5 09 	jmp	0x13ea	; 0x13ea <__tablejump2__>
      742:	83 e5       	ldi	r24, 0x53	; 83
      744:	95 e7       	ldi	r25, 0x75	; 117
      746:	ae e6       	ldi	r26, 0x6E	; 110
@@ -1310,7 +1310,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      812:	08 2e       	mov	r0, r24
      814:	00 0c       	add	r0, r0
      816:	99 0b       	sbc	r25, r25
-     818:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     818:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      81c:	80 91 75 04 	lds	r24, 0x0475	; 0x800475 <accumulatedMin>
      820:	4a e0       	ldi	r20, 0x0A	; 10
      822:	be 01       	movw	r22, r28
@@ -1319,7 +1319,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      828:	08 2e       	mov	r0, r24
      82a:	00 0c       	add	r0, r0
      82c:	99 0b       	sbc	r25, r25
-     82e:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     82e:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      832:	80 91 74 04 	lds	r24, 0x0474	; 0x800474 <accumulatedSec>
      836:	4a e0       	ldi	r20, 0x0A	; 10
      838:	be 01       	movw	r22, r28
@@ -1328,7 +1328,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
      83e:	08 2e       	mov	r0, r24
      840:	00 0c       	add	r0, r0
      842:	99 0b       	sbc	r25, r25
-     844:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+     844:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
      848:	ce 01       	movw	r24, r28
      84a:	07 96       	adiw	r24, 0x07	; 7
      84c:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
@@ -1811,7 +1811,7 @@ void calcDay()
      c1e:	41 97       	sbiw	r24, 0x11	; 17
      c20:	67 e0       	ldi	r22, 0x07	; 7
      c22:	70 e0       	ldi	r23, 0x00	; 0
-     c24:	0e 94 d9 09 	call	0x13b2	; 0x13b2 <__divmodhi4>
+     c24:	0e 94 e1 09 	call	0x13c2	; 0x13c2 <__divmodhi4>
      c28:	80 93 77 04 	sts	0x0477, r24	; 0x800477 <day>
      c2c:	08 95       	ret
 
@@ -1843,7 +1843,7 @@ void parseCompileTime()
      c46:	74 e0       	ldi	r23, 0x04	; 4
      c48:	85 e2       	ldi	r24, 0x25	; 37
      c4a:	94 e0       	ldi	r25, 0x04	; 4
-     c4c:	0e 94 40 0a 	call	0x1480	; 0x1480 <strtok>
+     c4c:	0e 94 48 0a 	call	0x1490	; 0x1490 <strtok>
      c50:	bc 01       	movw	r22, r24
     while (*p)
      c52:	fc 01       	movw	r30, r24
@@ -1867,13 +1867,13 @@ void parseCompileTime()
      c72:	3d 1f       	adc	r19, r29
      c74:	82 0f       	add	r24, r18
      c76:	93 1f       	adc	r25, r19
-     c78:	0e 94 4e 0a 	call	0x149c	; 0x149c <strcpy>
+     c78:	0e 94 56 0a 	call	0x14ac	; 0x14ac <strcpy>
         p=strtok(NULL, ":");
      c7c:	63 e2       	ldi	r22, 0x23	; 35
      c7e:	74 e0       	ldi	r23, 0x04	; 4
      c80:	80 e0       	ldi	r24, 0x00	; 0
      c82:	90 e0       	ldi	r25, 0x00	; 0
-     c84:	0e 94 40 0a 	call	0x1480	; 0x1480 <strtok>
+     c84:	0e 94 48 0a 	call	0x1490	; 0x1490 <strtok>
      c88:	bc 01       	movw	r22, r24
     uint16_t yearLong;
 
@@ -1899,12 +1899,12 @@ void parseCompileTime()
     hour=atoi(sTime[0]);
      c94:	ce 01       	movw	r24, r28
      c96:	01 96       	adiw	r24, 0x01	; 1
-     c98:	0e 94 22 0a 	call	0x1444	; 0x1444 <atoi>
+     c98:	0e 94 2a 0a 	call	0x1454	; 0x1454 <atoi>
      c9c:	80 93 7d 04 	sts	0x047D, r24	; 0x80047d <hour>
     min=atoi(sTime[1]);
      ca0:	ce 01       	movw	r24, r28
      ca2:	04 96       	adiw	r24, 0x04	; 4
-     ca4:	0e 94 22 0a 	call	0x1444	; 0x1444 <atoi>
+     ca4:	0e 94 2a 0a 	call	0x1454	; 0x1454 <atoi>
      ca8:	80 93 7c 04 	sts	0x047C, r24	; 0x80047c <min>
     //give some delay (8 seconds), to compile & upload by human click
     //sec=atoi(sTime[2]) + 8;
@@ -1914,7 +1914,7 @@ void parseCompileTime()
     sec=atoi(sTime[2]) + 15;
      cac:	ce 01       	movw	r24, r28
      cae:	07 96       	adiw	r24, 0x07	; 7
-     cb0:	0e 94 22 0a 	call	0x1444	; 0x1444 <atoi>
+     cb0:	0e 94 2a 0a 	call	0x1454	; 0x1454 <atoi>
      cb4:	81 5f       	subi	r24, 0xF1	; 241
      cb6:	80 93 7b 04 	sts	0x047B, r24	; 0x80047b <sec>
     //hour = atoi(sHour);
@@ -1925,7 +1925,7 @@ void parseCompileTime()
      cbc:	74 e0       	ldi	r23, 0x04	; 4
      cbe:	84 ef       	ldi	r24, 0xF4	; 244
      cc0:	93 e0       	ldi	r25, 0x03	; 3
-     cc2:	0e 94 40 0a 	call	0x1480	; 0x1480 <strtok>
+     cc2:	0e 94 48 0a 	call	0x1490	; 0x1490 <strtok>
      cc6:	bc 01       	movw	r22, r24
     while (*p)
      cc8:	fc 01       	movw	r30, r24
@@ -1955,13 +1955,13 @@ void parseCompileTime()
      cf4:	3d 1f       	adc	r19, r29
      cf6:	82 0f       	add	r24, r18
      cf8:	93 1f       	adc	r25, r19
-     cfa:	0e 94 4e 0a 	call	0x149c	; 0x149c <strcpy>
+     cfa:	0e 94 56 0a 	call	0x14ac	; 0x14ac <strcpy>
         p=strtok(NULL, " ");
      cfe:	6a e0       	ldi	r22, 0x0A	; 10
      d00:	74 e0       	ldi	r23, 0x04	; 4
      d02:	80 e0       	ldi	r24, 0x00	; 0
      d04:	90 e0       	ldi	r25, 0x00	; 0
-     d06:	0e 94 40 0a 	call	0x1480	; 0x1480 <strtok>
+     d06:	0e 94 48 0a 	call	0x1490	; 0x1490 <strtok>
      d0a:	bc 01       	movw	r22, r24
 
     n=0;
@@ -1990,7 +1990,7 @@ void parseCompileTime()
      d18:	74 e0       	ldi	r23, 0x04	; 4
      d1a:	ce 01       	movw	r24, r28
      d1c:	0d 96       	adiw	r24, 0x0d	; 13
-     d1e:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d1e:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d22:	89 2b       	or	r24, r25
      d24:	21 f4       	brne	.+8      	; 0xd2e <parseCompileTime+0x100>
         month = 1;
@@ -2002,7 +2002,7 @@ void parseCompileTime()
      d30:	74 e0       	ldi	r23, 0x04	; 4
      d32:	ce 01       	movw	r24, r28
      d34:	0d 96       	adiw	r24, 0x0d	; 13
-     d36:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d36:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d3a:	89 2b       	or	r24, r25
      d3c:	21 f4       	brne	.+8      	; 0xd46 <parseCompileTime+0x118>
         month = 2;
@@ -2014,7 +2014,7 @@ void parseCompileTime()
      d48:	74 e0       	ldi	r23, 0x04	; 4
      d4a:	ce 01       	movw	r24, r28
      d4c:	0d 96       	adiw	r24, 0x0d	; 13
-     d4e:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d4e:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d52:	89 2b       	or	r24, r25
      d54:	21 f4       	brne	.+8      	; 0xd5e <parseCompileTime+0x130>
         month = 3;
@@ -2026,7 +2026,7 @@ void parseCompileTime()
      d60:	74 e0       	ldi	r23, 0x04	; 4
      d62:	ce 01       	movw	r24, r28
      d64:	0d 96       	adiw	r24, 0x0d	; 13
-     d66:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d66:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d6a:	89 2b       	or	r24, r25
      d6c:	21 f4       	brne	.+8      	; 0xd76 <parseCompileTime+0x148>
         month = 4;
@@ -2038,7 +2038,7 @@ void parseCompileTime()
      d78:	74 e0       	ldi	r23, 0x04	; 4
      d7a:	ce 01       	movw	r24, r28
      d7c:	0d 96       	adiw	r24, 0x0d	; 13
-     d7e:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d7e:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d82:	89 2b       	or	r24, r25
      d84:	21 f4       	brne	.+8      	; 0xd8e <parseCompileTime+0x160>
         month = 5;
@@ -2050,7 +2050,7 @@ void parseCompileTime()
      d90:	74 e0       	ldi	r23, 0x04	; 4
      d92:	ce 01       	movw	r24, r28
      d94:	0d 96       	adiw	r24, 0x0d	; 13
-     d96:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     d96:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      d9a:	89 2b       	or	r24, r25
      d9c:	21 f4       	brne	.+8      	; 0xda6 <parseCompileTime+0x178>
         month = 6;
@@ -2062,7 +2062,7 @@ void parseCompileTime()
      da8:	74 e0       	ldi	r23, 0x04	; 4
      daa:	ce 01       	movw	r24, r28
      dac:	0d 96       	adiw	r24, 0x0d	; 13
-     dae:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     dae:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      db2:	89 2b       	or	r24, r25
      db4:	21 f4       	brne	.+8      	; 0xdbe <parseCompileTime+0x190>
         month = 7;
@@ -2074,7 +2074,7 @@ void parseCompileTime()
      dc0:	74 e0       	ldi	r23, 0x04	; 4
      dc2:	ce 01       	movw	r24, r28
      dc4:	0d 96       	adiw	r24, 0x0d	; 13
-     dc6:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     dc6:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      dca:	89 2b       	or	r24, r25
      dcc:	21 f4       	brne	.+8      	; 0xdd6 <parseCompileTime+0x1a8>
         month = 8;
@@ -2086,7 +2086,7 @@ void parseCompileTime()
      dd8:	74 e0       	ldi	r23, 0x04	; 4
      dda:	ce 01       	movw	r24, r28
      ddc:	0d 96       	adiw	r24, 0x0d	; 13
-     dde:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     dde:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      de2:	89 2b       	or	r24, r25
      de4:	21 f4       	brne	.+8      	; 0xdee <parseCompileTime+0x1c0>
         month = 9;
@@ -2098,7 +2098,7 @@ void parseCompileTime()
      df0:	74 e0       	ldi	r23, 0x04	; 4
      df2:	ce 01       	movw	r24, r28
      df4:	0d 96       	adiw	r24, 0x0d	; 13
-     df6:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     df6:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      dfa:	89 2b       	or	r24, r25
      dfc:	21 f4       	brne	.+8      	; 0xe06 <parseCompileTime+0x1d8>
         month = 10;
@@ -2110,7 +2110,7 @@ void parseCompileTime()
      e08:	74 e0       	ldi	r23, 0x04	; 4
      e0a:	ce 01       	movw	r24, r28
      e0c:	0d 96       	adiw	r24, 0x0d	; 13
-     e0e:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     e0e:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      e12:	89 2b       	or	r24, r25
      e14:	21 f4       	brne	.+8      	; 0xe1e <parseCompileTime+0x1f0>
         month = 11;
@@ -2122,7 +2122,7 @@ void parseCompileTime()
      e20:	74 e0       	ldi	r23, 0x04	; 4
      e22:	ce 01       	movw	r24, r28
      e24:	0d 96       	adiw	r24, 0x0d	; 13
-     e26:	0e 94 45 0a 	call	0x148a	; 0x148a <strcmp>
+     e26:	0e 94 4d 0a 	call	0x149a	; 0x149a <strcmp>
      e2a:	89 2b       	or	r24, r25
      e2c:	19 f4       	brne	.+6      	; 0xe34 <parseCompileTime+0x206>
         month = 12;
@@ -2132,12 +2132,12 @@ void parseCompileTime()
     date=atoi(sDate[1]);
      e34:	ce 01       	movw	r24, r28
      e36:	47 96       	adiw	r24, 0x17	; 23
-     e38:	0e 94 22 0a 	call	0x1444	; 0x1444 <atoi>
+     e38:	0e 94 2a 0a 	call	0x1454	; 0x1454 <atoi>
      e3c:	80 93 78 04 	sts	0x0478, r24	; 0x800478 <date>
     yearLong=atoi(sDate[2]);
      e40:	ce 01       	movw	r24, r28
      e42:	81 96       	adiw	r24, 0x21	; 33
-     e44:	0e 94 22 0a 	call	0x1444	; 0x1444 <atoi>
+     e44:	0e 94 2a 0a 	call	0x1454	; 0x1454 <atoi>
      e48:	ac 01       	movw	r20, r24
     year=yearLong%1000;
      e4a:	9c 01       	movw	r18, r24
@@ -2149,7 +2149,7 @@ void parseCompileTime()
      e56:	27 95       	ror	r18
      e58:	a5 ec       	ldi	r26, 0xC5	; 197
      e5a:	b0 e2       	ldi	r27, 0x20	; 32
-     e5c:	0e 94 f3 09 	call	0x13e6	; 0x13e6 <__umulhisi3>
+     e5c:	0e 94 fb 09 	call	0x13f6	; 0x13f6 <__umulhisi3>
      e60:	92 95       	swap	r25
      e62:	82 95       	swap	r24
      e64:	8f 70       	andi	r24, 0x0F	; 15
@@ -2631,1063 +2631,1082 @@ void makePDasOutput()
 // Deep Power Save method in circuit
 void makePDasInput()
 {
+
+	// turn off four data lines
+	lcd_D7_port &= ~_BV(lcd_D7_bit);
+    103a:	5f 98       	cbi	0x0b, 7	; 11
+	lcd_D6_port &= ~_BV(lcd_D6_bit);
+    103c:	5e 98       	cbi	0x0b, 6	; 11
+	lcd_D5_port &= ~_BV(lcd_D5_bit);
+    103e:	5d 98       	cbi	0x0b, 5	; 11
+	lcd_D4_port &= ~_BV(lcd_D4_bit);
+    1040:	5c 98       	cbi	0x0b, 4	; 11
 	// configure the microprocessor pins for the data lines
 	// 4 data lines - output, but make it input
 	lcd_D7_ddr &= ~_BV(lcd_D7_bit);
-    103a:	57 98       	cbi	0x0a, 7	; 10
+    1042:	57 98       	cbi	0x0a, 7	; 10
 	lcd_D6_ddr &= ~_BV(lcd_D6_bit);
-    103c:	56 98       	cbi	0x0a, 6	; 10
+    1044:	56 98       	cbi	0x0a, 6	; 10
 	lcd_D5_ddr &= ~_BV(lcd_D5_bit);
-    103e:	55 98       	cbi	0x0a, 5	; 10
+    1046:	55 98       	cbi	0x0a, 5	; 10
 	lcd_D4_ddr &= ~_BV(lcd_D4_bit);
-    1040:	54 98       	cbi	0x0a, 4	; 10
+    1048:	54 98       	cbi	0x0a, 4	; 10
 
+	// turn off backlight cathode(GND)
+	lcd_Backlight_port = _BV(lcd_Backlight_bit);
+    104a:	81 e0       	ldi	r24, 0x01	; 1
+    104c:	85 b9       	out	0x05, r24	; 5
 	// LCD backlight cathode pin (K) - output, but make it input
 	lcd_Backlight_ddr &= ~_BV(lcd_Backlight_bit);
-    1042:	20 98       	cbi	0x04, 0	; 4
-
-	// turn off LCD 
-	lcd_VDD_port &= ~_BV(lcd_VDD_bit);
-    1044:	2e 98       	cbi	0x05, 6	; 5
-	// then, LCD VSS pin (Power Supply) - output, but make it input
-	lcd_VDD_ddr &= ~_BV(lcd_VDD_bit);
-    1046:	26 98       	cbi	0x04, 6	; 4
+    104e:	20 98       	cbi	0x04, 0	; 4
 
 	// turn off DS1307
 	DS1307_VCC_port &= ~_BV(DS1307_VCC_bit);
-    1048:	2f 98       	cbi	0x05, 7	; 5
+    1050:	2f 98       	cbi	0x05, 7	; 5
 	// then, DS1307 Vcc pin (Power Supply) - output, but make it input
 	DS1307_VCC_ddr &= ~_BV(DS1307_VCC_bit);
-    104a:	27 98       	cbi	0x04, 7	; 4
+    1052:	27 98       	cbi	0x04, 7	; 4
 
 	// DHT11 (temp & humid sensor) signal pin - Output/Input
 	//turn off and
 	PORTB &= ~_BV(TINUDHT_PIN);
-    104c:	29 98       	cbi	0x05, 1	; 5
+    1054:	29 98       	cbi	0x05, 1	; 5
 	//make it input
 	DDRB &= ~_BV(TINUDHT_PIN);
-    104e:	21 98       	cbi	0x04, 1	; 4
+    1056:	21 98       	cbi	0x04, 1	; 4
 	PORTB &= ~_BV(TINUDHT_PIN);
-    1050:	29 98       	cbi	0x05, 1	; 5
+    1058:	29 98       	cbi	0x05, 1	; 5
 
-	//turn off DS1307 RTC chip power
-	//DHT_VCC_port &= ~_BV(DHT_VCC_bit);
+	//turn off DHT11 chip power
+	DHT_VCC_port &= ~_BV(DHT_VCC_bit);
+    105a:	2a 98       	cbi	0x05, 2	; 5
 	//make DHT_VCC as input, added by Insoo (Jul 14, 2017)
 	DHT_VCC_ddr &= ~_BV(DHT_VCC_bit);
-    1052:	22 98       	cbi	0x04, 2	; 4
+    105c:	22 98       	cbi	0x04, 2	; 4
+
 	//Tactile switch - Input
 	//tactile_Switch_ddr &= ~_BV(tactile_Switch_bit);
 
+	// turn off Enable pin
+	lcd_E_port &= ~_BV(lcd_E_bit);
+    105e:	5b 98       	cbi	0x0b, 3	; 11
 	// configure the microprocessor pins for the control lines
 	// E line - output, but make it input
 	lcd_E_ddr &= ~_BV(lcd_E_bit);
-    1054:	53 98       	cbi	0x0a, 3	; 10
+    1060:	53 98       	cbi	0x0a, 3	; 10
 	
 	// turn off RS 
 	lcd_RS_port &= ~_BV(lcd_RS_bit);
-    1056:	5a 98       	cbi	0x0b, 2	; 11
+    1062:	5a 98       	cbi	0x0b, 2	; 11
 	// RS line - output, but make it input
 	lcd_RS_ddr &= ~_BV(lcd_RS_bit);
-    1058:	52 98       	cbi	0x0a, 2	; 10
-    105a:	08 95       	ret
+    1064:	52 98       	cbi	0x0a, 2	; 10
 
-0000105c <adjustHour>:
+	// turn off LCD power
+	lcd_VDD_port &= ~_BV(lcd_VDD_bit);
+    1066:	2e 98       	cbi	0x05, 6	; 5
+	// then, LCD VSS pin (Power Supply) - output, but make it input
+	lcd_VDD_ddr &= ~_BV(lcd_VDD_bit);
+    1068:	26 98       	cbi	0x04, 6	; 4
+    106a:	08 95       	ret
+
+0000106c <adjustHour>:
 
 }//makePDasInput
 
 void adjustHour()
 {
-    105c:	0f 93       	push	r16
-    105e:	1f 93       	push	r17
-    1060:	cf 93       	push	r28
-    1062:	df 93       	push	r29
-    1064:	00 d0       	rcall	.+0      	; 0x1066 <adjustHour+0xa>
-    1066:	1f 92       	push	r1
-    1068:	cd b7       	in	r28, 0x3d	; 61
-    106a:	de b7       	in	r29, 0x3e	; 62
+    106c:	0f 93       	push	r16
+    106e:	1f 93       	push	r17
+    1070:	cf 93       	push	r28
+    1072:	df 93       	push	r29
+    1074:	00 d0       	rcall	.+0      	; 0x1076 <adjustHour+0xa>
+    1076:	1f 92       	push	r1
+    1078:	cd b7       	in	r28, 0x3d	; 61
+    107a:	de b7       	in	r29, 0x3e	; 62
     uint8_t DONE=0, val;
     uint8_t curLoop=0, preLoop=0, lapse=0;
-    106c:	00 e0       	ldi	r16, 0x00	; 0
-    106e:	10 e0       	ldi	r17, 0x00	; 0
+    107c:	00 e0       	ldi	r16, 0x00	; 0
+    107e:	10 e0       	ldi	r17, 0x00	; 0
     char strHour[3];
 
     while (!DONE)
     {
     // set cursor to start of first line
         lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
-    1070:	80 e8       	ldi	r24, 0x80	; 128
-    1072:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
+    1080:	80 e8       	ldi	r24, 0x80	; 128
+    1082:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    1076:	84 e1       	ldi	r24, 0x14	; 20
-    1078:	8a 95       	dec	r24
-    107a:	f1 f7       	brne	.-4      	; 0x1078 <adjustHour+0x1c>
+    1086:	84 e1       	ldi	r24, 0x14	; 20
+    1088:	8a 95       	dec	r24
+    108a:	f1 f7       	brne	.-4      	; 0x1088 <adjustHour+0x1c>
         _delay_us(DELAY_INST);                                  // 40 uS delay (min)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"Hour: ");
-    107c:	8e e5       	ldi	r24, 0x5E	; 94
-    107e:	94 e0       	ldi	r25, 0x04	; 4
-    1080:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    108c:	8e e5       	ldi	r24, 0x5E	; 94
+    108e:	94 e0       	ldi	r25, 0x04	; 4
+    1090:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         itoa(hour, strHour, 10);
-    1084:	80 91 7d 04 	lds	r24, 0x047D	; 0x80047d <hour>
-    1088:	4a e0       	ldi	r20, 0x0A	; 10
-    108a:	be 01       	movw	r22, r28
-    108c:	6f 5f       	subi	r22, 0xFF	; 255
-    108e:	7f 4f       	sbci	r23, 0xFF	; 255
-    1090:	08 2e       	mov	r0, r24
-    1092:	00 0c       	add	r0, r0
-    1094:	99 0b       	sbc	r25, r25
-    1096:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+    1094:	80 91 7d 04 	lds	r24, 0x047D	; 0x80047d <hour>
+    1098:	4a e0       	ldi	r20, 0x0A	; 10
+    109a:	be 01       	movw	r22, r28
+    109c:	6f 5f       	subi	r22, 0xFF	; 255
+    109e:	7f 4f       	sbci	r23, 0xFF	; 255
+    10a0:	08 2e       	mov	r0, r24
+    10a2:	00 0c       	add	r0, r0
+    10a4:	99 0b       	sbc	r25, r25
+    10a6:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
         lcd_write_string_4d((uint8_t *)strHour);
-    109a:	ce 01       	movw	r24, r28
-    109c:	01 96       	adiw	r24, 0x01	; 1
-    109e:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    10aa:	ce 01       	movw	r24, r28
+    10ac:	01 96       	adiw	r24, 0x01	; 1
+    10ae:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         lcd_write_string_4d((uint8_t *)" ");
-    10a2:	8a e0       	ldi	r24, 0x0A	; 10
-    10a4:	94 e0       	ldi	r25, 0x04	; 4
-    10a6:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    10b2:	8a e0       	ldi	r24, 0x0A	; 10
+    10b4:	94 e0       	ldi	r25, 0x04	; 4
+    10b6:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
-    10aa:	83 b1       	in	r24, 0x03	; 3
+    10ba:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    10ac:	e7 ea       	ldi	r30, 0xA7	; 167
-    10ae:	f1 e6       	ldi	r31, 0x61	; 97
-    10b0:	31 97       	sbiw	r30, 0x01	; 1
-    10b2:	f1 f7       	brne	.-4      	; 0x10b0 <adjustHour+0x54>
-    10b4:	00 c0       	rjmp	.+0      	; 0x10b6 <adjustHour+0x5a>
-    10b6:	00 00       	nop
+    10bc:	e7 ea       	ldi	r30, 0xA7	; 167
+    10be:	f1 e6       	ldi	r31, 0x61	; 97
+    10c0:	31 97       	sbiw	r30, 0x01	; 1
+    10c2:	f1 f7       	brne	.-4      	; 0x10c0 <adjustHour+0x54>
+    10c4:	00 c0       	rjmp	.+0      	; 0x10c6 <adjustHour+0x5a>
+    10c6:	00 00       	nop
         _delay_ms(100);
         if (val == 0)
-    10b8:	84 fd       	sbrc	r24, 4
-    10ba:	0c c0       	rjmp	.+24     	; 0x10d4 <adjustHour+0x78>
+    10c8:	84 fd       	sbrc	r24, 4
+    10ca:	0c c0       	rjmp	.+24     	; 0x10e4 <adjustHour+0x78>
         {
             hour++;
-    10bc:	80 91 7d 04 	lds	r24, 0x047D	; 0x80047d <hour>
-    10c0:	8f 5f       	subi	r24, 0xFF	; 255
+    10cc:	80 91 7d 04 	lds	r24, 0x047D	; 0x80047d <hour>
+    10d0:	8f 5f       	subi	r24, 0xFF	; 255
             if (hour > 23)
-    10c2:	88 31       	cpi	r24, 0x18	; 24
-    10c4:	24 f4       	brge	.+8      	; 0x10ce <adjustHour+0x72>
+    10d2:	88 31       	cpi	r24, 0x18	; 24
+    10d4:	24 f4       	brge	.+8      	; 0x10de <adjustHour+0x72>
         lcd_write_string_4d((uint8_t *)" ");
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
         _delay_ms(100);
         if (val == 0)
         {
             hour++;
-    10c6:	80 93 7d 04 	sts	0x047D, r24	; 0x80047d <hour>
-    10ca:	01 2f       	mov	r16, r17
-    10cc:	03 c0       	rjmp	.+6      	; 0x10d4 <adjustHour+0x78>
+    10d6:	80 93 7d 04 	sts	0x047D, r24	; 0x80047d <hour>
+    10da:	01 2f       	mov	r16, r17
+    10dc:	03 c0       	rjmp	.+6      	; 0x10e4 <adjustHour+0x78>
             if (hour > 23)
                 hour=0;
-    10ce:	10 92 7d 04 	sts	0x047D, r1	; 0x80047d <hour>
-    10d2:	01 2f       	mov	r16, r17
+    10de:	10 92 7d 04 	sts	0x047D, r1	; 0x80047d <hour>
+    10e2:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
         curLoop++;
-    10d4:	1f 5f       	subi	r17, 0xFF	; 255
+    10e4:	1f 5f       	subi	r17, 0xFF	; 255
         lapse = curLoop - preLoop;
-    10d6:	81 2f       	mov	r24, r17
-    10d8:	80 1b       	sub	r24, r16
+    10e6:	81 2f       	mov	r24, r17
+    10e8:	80 1b       	sub	r24, r16
         if (lapse > adjustTimeInterval)
-    10da:	89 30       	cpi	r24, 0x09	; 9
-    10dc:	38 f4       	brcc	.+14     	; 0x10ec <adjustHour+0x90>
-    10de:	81 e1       	ldi	r24, 0x11	; 17
-    10e0:	9a e7       	ldi	r25, 0x7A	; 122
-    10e2:	01 97       	sbiw	r24, 0x01	; 1
-    10e4:	f1 f7       	brne	.-4      	; 0x10e2 <adjustHour+0x86>
-    10e6:	00 c0       	rjmp	.+0      	; 0x10e8 <adjustHour+0x8c>
-    10e8:	00 00       	nop
-    10ea:	c2 cf       	rjmp	.-124    	; 0x1070 <adjustHour+0x14>
-    10ec:	e1 e1       	ldi	r30, 0x11	; 17
-    10ee:	fa e7       	ldi	r31, 0x7A	; 122
-    10f0:	31 97       	sbiw	r30, 0x01	; 1
-    10f2:	f1 f7       	brne	.-4      	; 0x10f0 <adjustHour+0x94>
-    10f4:	00 c0       	rjmp	.+0      	; 0x10f6 <adjustHour+0x9a>
-    10f6:	00 00       	nop
+    10ea:	89 30       	cpi	r24, 0x09	; 9
+    10ec:	38 f4       	brcc	.+14     	; 0x10fc <adjustHour+0x90>
+    10ee:	81 e1       	ldi	r24, 0x11	; 17
+    10f0:	9a e7       	ldi	r25, 0x7A	; 122
+    10f2:	01 97       	sbiw	r24, 0x01	; 1
+    10f4:	f1 f7       	brne	.-4      	; 0x10f2 <adjustHour+0x86>
+    10f6:	00 c0       	rjmp	.+0      	; 0x10f8 <adjustHour+0x8c>
+    10f8:	00 00       	nop
+    10fa:	c2 cf       	rjmp	.-124    	; 0x1080 <adjustHour+0x14>
+    10fc:	e1 e1       	ldi	r30, 0x11	; 17
+    10fe:	fa e7       	ldi	r31, 0x7A	; 122
+    1100:	31 97       	sbiw	r30, 0x01	; 1
+    1102:	f1 f7       	brne	.-4      	; 0x1100 <adjustHour+0x94>
+    1104:	00 c0       	rjmp	.+0      	; 0x1106 <adjustHour+0x9a>
+    1106:	00 00       	nop
             DONE = 1;
         _delay_ms(halfSec/4);
     }//while (!DONE)
 }//adjustHour
-    10f8:	0f 90       	pop	r0
-    10fa:	0f 90       	pop	r0
-    10fc:	0f 90       	pop	r0
-    10fe:	df 91       	pop	r29
-    1100:	cf 91       	pop	r28
-    1102:	1f 91       	pop	r17
-    1104:	0f 91       	pop	r16
-    1106:	08 95       	ret
+    1108:	0f 90       	pop	r0
+    110a:	0f 90       	pop	r0
+    110c:	0f 90       	pop	r0
+    110e:	df 91       	pop	r29
+    1110:	cf 91       	pop	r28
+    1112:	1f 91       	pop	r17
+    1114:	0f 91       	pop	r16
+    1116:	08 95       	ret
 
-00001108 <adjustMin>:
+00001118 <adjustMin>:
 
 void adjustMin()
 {
-    1108:	0f 93       	push	r16
-    110a:	1f 93       	push	r17
-    110c:	cf 93       	push	r28
-    110e:	df 93       	push	r29
-    1110:	00 d0       	rcall	.+0      	; 0x1112 <adjustMin+0xa>
-    1112:	1f 92       	push	r1
-    1114:	cd b7       	in	r28, 0x3d	; 61
-    1116:	de b7       	in	r29, 0x3e	; 62
+    1118:	0f 93       	push	r16
+    111a:	1f 93       	push	r17
+    111c:	cf 93       	push	r28
+    111e:	df 93       	push	r29
+    1120:	00 d0       	rcall	.+0      	; 0x1122 <adjustMin+0xa>
+    1122:	1f 92       	push	r1
+    1124:	cd b7       	in	r28, 0x3d	; 61
+    1126:	de b7       	in	r29, 0x3e	; 62
     uint8_t DONE=0, val;
     uint8_t curLoop=0, preLoop=0, lapse=0;
-    1118:	00 e0       	ldi	r16, 0x00	; 0
-    111a:	10 e0       	ldi	r17, 0x00	; 0
+    1128:	00 e0       	ldi	r16, 0x00	; 0
+    112a:	10 e0       	ldi	r17, 0x00	; 0
     char strMin[3];
 
     while (!DONE)
     {
     // set cursor to start of first line
         lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
-    111c:	80 e8       	ldi	r24, 0x80	; 128
-    111e:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
+    112c:	80 e8       	ldi	r24, 0x80	; 128
+    112e:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    1122:	84 e1       	ldi	r24, 0x14	; 20
-    1124:	8a 95       	dec	r24
-    1126:	f1 f7       	brne	.-4      	; 0x1124 <adjustMin+0x1c>
+    1132:	84 e1       	ldi	r24, 0x14	; 20
+    1134:	8a 95       	dec	r24
+    1136:	f1 f7       	brne	.-4      	; 0x1134 <adjustMin+0x1c>
         _delay_us(DELAY_INST);                                  // 40 uS delay (min)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"Min: ");
-    1128:	85 e6       	ldi	r24, 0x65	; 101
-    112a:	94 e0       	ldi	r25, 0x04	; 4
-    112c:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    1138:	85 e6       	ldi	r24, 0x65	; 101
+    113a:	94 e0       	ldi	r25, 0x04	; 4
+    113c:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         itoa(min, strMin, 10);
-    1130:	80 91 7c 04 	lds	r24, 0x047C	; 0x80047c <min>
-    1134:	4a e0       	ldi	r20, 0x0A	; 10
-    1136:	be 01       	movw	r22, r28
-    1138:	6f 5f       	subi	r22, 0xFF	; 255
-    113a:	7f 4f       	sbci	r23, 0xFF	; 255
-    113c:	08 2e       	mov	r0, r24
-    113e:	00 0c       	add	r0, r0
-    1140:	99 0b       	sbc	r25, r25
-    1142:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+    1140:	80 91 7c 04 	lds	r24, 0x047C	; 0x80047c <min>
+    1144:	4a e0       	ldi	r20, 0x0A	; 10
+    1146:	be 01       	movw	r22, r28
+    1148:	6f 5f       	subi	r22, 0xFF	; 255
+    114a:	7f 4f       	sbci	r23, 0xFF	; 255
+    114c:	08 2e       	mov	r0, r24
+    114e:	00 0c       	add	r0, r0
+    1150:	99 0b       	sbc	r25, r25
+    1152:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
         lcd_write_string_4d((uint8_t *)strMin);
-    1146:	ce 01       	movw	r24, r28
-    1148:	01 96       	adiw	r24, 0x01	; 1
-    114a:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    1156:	ce 01       	movw	r24, r28
+    1158:	01 96       	adiw	r24, 0x01	; 1
+    115a:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         lcd_write_string_4d((uint8_t *)" ");
-    114e:	8a e0       	ldi	r24, 0x0A	; 10
-    1150:	94 e0       	ldi	r25, 0x04	; 4
-    1152:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    115e:	8a e0       	ldi	r24, 0x0A	; 10
+    1160:	94 e0       	ldi	r25, 0x04	; 4
+    1162:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
-    1156:	83 b1       	in	r24, 0x03	; 3
+    1166:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    1158:	e7 ea       	ldi	r30, 0xA7	; 167
-    115a:	f1 e6       	ldi	r31, 0x61	; 97
-    115c:	31 97       	sbiw	r30, 0x01	; 1
-    115e:	f1 f7       	brne	.-4      	; 0x115c <adjustMin+0x54>
-    1160:	00 c0       	rjmp	.+0      	; 0x1162 <adjustMin+0x5a>
-    1162:	00 00       	nop
+    1168:	e7 ea       	ldi	r30, 0xA7	; 167
+    116a:	f1 e6       	ldi	r31, 0x61	; 97
+    116c:	31 97       	sbiw	r30, 0x01	; 1
+    116e:	f1 f7       	brne	.-4      	; 0x116c <adjustMin+0x54>
+    1170:	00 c0       	rjmp	.+0      	; 0x1172 <adjustMin+0x5a>
+    1172:	00 00       	nop
         _delay_ms(100);
         if (val == 0)
-    1164:	84 fd       	sbrc	r24, 4
-    1166:	0c c0       	rjmp	.+24     	; 0x1180 <adjustMin+0x78>
+    1174:	84 fd       	sbrc	r24, 4
+    1176:	0c c0       	rjmp	.+24     	; 0x1190 <adjustMin+0x78>
         {
             min++;
-    1168:	80 91 7c 04 	lds	r24, 0x047C	; 0x80047c <min>
-    116c:	8f 5f       	subi	r24, 0xFF	; 255
+    1178:	80 91 7c 04 	lds	r24, 0x047C	; 0x80047c <min>
+    117c:	8f 5f       	subi	r24, 0xFF	; 255
             if (min > 59)
-    116e:	8c 33       	cpi	r24, 0x3C	; 60
-    1170:	24 f4       	brge	.+8      	; 0x117a <adjustMin+0x72>
+    117e:	8c 33       	cpi	r24, 0x3C	; 60
+    1180:	24 f4       	brge	.+8      	; 0x118a <adjustMin+0x72>
         lcd_write_string_4d((uint8_t *)" ");
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
         _delay_ms(100);
         if (val == 0)
         {
             min++;
-    1172:	80 93 7c 04 	sts	0x047C, r24	; 0x80047c <min>
-    1176:	01 2f       	mov	r16, r17
-    1178:	03 c0       	rjmp	.+6      	; 0x1180 <adjustMin+0x78>
+    1182:	80 93 7c 04 	sts	0x047C, r24	; 0x80047c <min>
+    1186:	01 2f       	mov	r16, r17
+    1188:	03 c0       	rjmp	.+6      	; 0x1190 <adjustMin+0x78>
             if (min > 59)
                 min=0;
-    117a:	10 92 7c 04 	sts	0x047C, r1	; 0x80047c <min>
-    117e:	01 2f       	mov	r16, r17
+    118a:	10 92 7c 04 	sts	0x047C, r1	; 0x80047c <min>
+    118e:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
         curLoop++;
-    1180:	1f 5f       	subi	r17, 0xFF	; 255
+    1190:	1f 5f       	subi	r17, 0xFF	; 255
         lapse = curLoop - preLoop;
-    1182:	81 2f       	mov	r24, r17
-    1184:	80 1b       	sub	r24, r16
+    1192:	81 2f       	mov	r24, r17
+    1194:	80 1b       	sub	r24, r16
         if (lapse > adjustTimeInterval)
-    1186:	89 30       	cpi	r24, 0x09	; 9
-    1188:	38 f4       	brcc	.+14     	; 0x1198 <adjustMin+0x90>
-    118a:	81 e1       	ldi	r24, 0x11	; 17
-    118c:	9a e7       	ldi	r25, 0x7A	; 122
-    118e:	01 97       	sbiw	r24, 0x01	; 1
-    1190:	f1 f7       	brne	.-4      	; 0x118e <adjustMin+0x86>
-    1192:	00 c0       	rjmp	.+0      	; 0x1194 <adjustMin+0x8c>
-    1194:	00 00       	nop
-    1196:	c2 cf       	rjmp	.-124    	; 0x111c <adjustMin+0x14>
-    1198:	e1 e1       	ldi	r30, 0x11	; 17
-    119a:	fa e7       	ldi	r31, 0x7A	; 122
-    119c:	31 97       	sbiw	r30, 0x01	; 1
-    119e:	f1 f7       	brne	.-4      	; 0x119c <adjustMin+0x94>
-    11a0:	00 c0       	rjmp	.+0      	; 0x11a2 <adjustMin+0x9a>
-    11a2:	00 00       	nop
+    1196:	89 30       	cpi	r24, 0x09	; 9
+    1198:	38 f4       	brcc	.+14     	; 0x11a8 <adjustMin+0x90>
+    119a:	81 e1       	ldi	r24, 0x11	; 17
+    119c:	9a e7       	ldi	r25, 0x7A	; 122
+    119e:	01 97       	sbiw	r24, 0x01	; 1
+    11a0:	f1 f7       	brne	.-4      	; 0x119e <adjustMin+0x86>
+    11a2:	00 c0       	rjmp	.+0      	; 0x11a4 <adjustMin+0x8c>
+    11a4:	00 00       	nop
+    11a6:	c2 cf       	rjmp	.-124    	; 0x112c <adjustMin+0x14>
+    11a8:	e1 e1       	ldi	r30, 0x11	; 17
+    11aa:	fa e7       	ldi	r31, 0x7A	; 122
+    11ac:	31 97       	sbiw	r30, 0x01	; 1
+    11ae:	f1 f7       	brne	.-4      	; 0x11ac <adjustMin+0x94>
+    11b0:	00 c0       	rjmp	.+0      	; 0x11b2 <adjustMin+0x9a>
+    11b2:	00 00       	nop
             DONE = 1;
         _delay_ms(halfSec/4);
     }//while (!DONE)
 
 }//adjustMin
-    11a4:	0f 90       	pop	r0
-    11a6:	0f 90       	pop	r0
-    11a8:	0f 90       	pop	r0
-    11aa:	df 91       	pop	r29
-    11ac:	cf 91       	pop	r28
-    11ae:	1f 91       	pop	r17
-    11b0:	0f 91       	pop	r16
-    11b2:	08 95       	ret
+    11b4:	0f 90       	pop	r0
+    11b6:	0f 90       	pop	r0
+    11b8:	0f 90       	pop	r0
+    11ba:	df 91       	pop	r29
+    11bc:	cf 91       	pop	r28
+    11be:	1f 91       	pop	r17
+    11c0:	0f 91       	pop	r16
+    11c2:	08 95       	ret
 
-000011b4 <adjustSec>:
+000011c4 <adjustSec>:
 
 void adjustSec()
 {
-    11b4:	0f 93       	push	r16
-    11b6:	1f 93       	push	r17
-    11b8:	cf 93       	push	r28
-    11ba:	df 93       	push	r29
-    11bc:	00 d0       	rcall	.+0      	; 0x11be <adjustSec+0xa>
-    11be:	1f 92       	push	r1
-    11c0:	cd b7       	in	r28, 0x3d	; 61
-    11c2:	de b7       	in	r29, 0x3e	; 62
+    11c4:	0f 93       	push	r16
+    11c6:	1f 93       	push	r17
+    11c8:	cf 93       	push	r28
+    11ca:	df 93       	push	r29
+    11cc:	00 d0       	rcall	.+0      	; 0x11ce <adjustSec+0xa>
+    11ce:	1f 92       	push	r1
+    11d0:	cd b7       	in	r28, 0x3d	; 61
+    11d2:	de b7       	in	r29, 0x3e	; 62
     uint8_t DONE=0, val;
     uint8_t curLoop=0, preLoop=0, lapse=0;
-    11c4:	00 e0       	ldi	r16, 0x00	; 0
-    11c6:	10 e0       	ldi	r17, 0x00	; 0
+    11d4:	00 e0       	ldi	r16, 0x00	; 0
+    11d6:	10 e0       	ldi	r17, 0x00	; 0
     char strSec[3];
 
     while (!DONE)
     {
     // set cursor to start of first line
         lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
-    11c8:	80 e8       	ldi	r24, 0x80	; 128
-    11ca:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
+    11d8:	80 e8       	ldi	r24, 0x80	; 128
+    11da:	0e 94 84 02 	call	0x508	; 0x508 <lcd_write_instruction_4d>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    11ce:	84 e1       	ldi	r24, 0x14	; 20
-    11d0:	8a 95       	dec	r24
-    11d2:	f1 f7       	brne	.-4      	; 0x11d0 <adjustSec+0x1c>
+    11de:	84 e1       	ldi	r24, 0x14	; 20
+    11e0:	8a 95       	dec	r24
+    11e2:	f1 f7       	brne	.-4      	; 0x11e0 <adjustSec+0x1c>
         _delay_us(DELAY_INST);                                  // 40 uS delay (sec)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"sec: ");
-    11d4:	8b e6       	ldi	r24, 0x6B	; 107
-    11d6:	94 e0       	ldi	r25, 0x04	; 4
-    11d8:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    11e4:	8b e6       	ldi	r24, 0x6B	; 107
+    11e6:	94 e0       	ldi	r25, 0x04	; 4
+    11e8:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         itoa(sec, strSec, 10);
-    11dc:	80 91 7b 04 	lds	r24, 0x047B	; 0x80047b <sec>
-    11e0:	4a e0       	ldi	r20, 0x0A	; 10
-    11e2:	be 01       	movw	r22, r28
-    11e4:	6f 5f       	subi	r22, 0xFF	; 255
-    11e6:	7f 4f       	sbci	r23, 0xFF	; 255
-    11e8:	08 2e       	mov	r0, r24
-    11ea:	00 0c       	add	r0, r0
-    11ec:	99 0b       	sbc	r25, r25
-    11ee:	0e 94 7c 0a 	call	0x14f8	; 0x14f8 <__itoa_ncheck>
+    11ec:	80 91 7b 04 	lds	r24, 0x047B	; 0x80047b <sec>
+    11f0:	4a e0       	ldi	r20, 0x0A	; 10
+    11f2:	be 01       	movw	r22, r28
+    11f4:	6f 5f       	subi	r22, 0xFF	; 255
+    11f6:	7f 4f       	sbci	r23, 0xFF	; 255
+    11f8:	08 2e       	mov	r0, r24
+    11fa:	00 0c       	add	r0, r0
+    11fc:	99 0b       	sbc	r25, r25
+    11fe:	0e 94 84 0a 	call	0x1508	; 0x1508 <__itoa_ncheck>
         lcd_write_string_4d((uint8_t *)strSec);
-    11f2:	ce 01       	movw	r24, r28
-    11f4:	01 96       	adiw	r24, 0x01	; 1
-    11f6:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    1202:	ce 01       	movw	r24, r28
+    1204:	01 96       	adiw	r24, 0x01	; 1
+    1206:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         lcd_write_string_4d((uint8_t *)" ");
-    11fa:	8a e0       	ldi	r24, 0x0A	; 10
-    11fc:	94 e0       	ldi	r25, 0x04	; 4
-    11fe:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
+    120a:	8a e0       	ldi	r24, 0x0A	; 10
+    120c:	94 e0       	ldi	r25, 0x04	; 4
+    120e:	0e 94 55 02 	call	0x4aa	; 0x4aa <lcd_write_string_4d>
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
-    1202:	83 b1       	in	r24, 0x03	; 3
+    1212:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-    1204:	e7 ea       	ldi	r30, 0xA7	; 167
-    1206:	f1 e6       	ldi	r31, 0x61	; 97
-    1208:	31 97       	sbiw	r30, 0x01	; 1
-    120a:	f1 f7       	brne	.-4      	; 0x1208 <adjustSec+0x54>
-    120c:	00 c0       	rjmp	.+0      	; 0x120e <adjustSec+0x5a>
-    120e:	00 00       	nop
+    1214:	e7 ea       	ldi	r30, 0xA7	; 167
+    1216:	f1 e6       	ldi	r31, 0x61	; 97
+    1218:	31 97       	sbiw	r30, 0x01	; 1
+    121a:	f1 f7       	brne	.-4      	; 0x1218 <adjustSec+0x54>
+    121c:	00 c0       	rjmp	.+0      	; 0x121e <adjustSec+0x5a>
+    121e:	00 00       	nop
         _delay_ms(100);
         if (val == 0)
-    1210:	84 fd       	sbrc	r24, 4
-    1212:	0c c0       	rjmp	.+24     	; 0x122c <adjustSec+0x78>
+    1220:	84 fd       	sbrc	r24, 4
+    1222:	0c c0       	rjmp	.+24     	; 0x123c <adjustSec+0x78>
         {
             sec++;
-    1214:	80 91 7b 04 	lds	r24, 0x047B	; 0x80047b <sec>
-    1218:	8f 5f       	subi	r24, 0xFF	; 255
+    1224:	80 91 7b 04 	lds	r24, 0x047B	; 0x80047b <sec>
+    1228:	8f 5f       	subi	r24, 0xFF	; 255
             if (sec > 59)
-    121a:	8c 33       	cpi	r24, 0x3C	; 60
-    121c:	24 f4       	brge	.+8      	; 0x1226 <adjustSec+0x72>
+    122a:	8c 33       	cpi	r24, 0x3C	; 60
+    122c:	24 f4       	brge	.+8      	; 0x1236 <adjustSec+0x72>
         lcd_write_string_4d((uint8_t *)" ");
         val = tactile_Switch_port & _BV(tactile_Switch_bit);
         _delay_ms(100);
         if (val == 0)
         {
             sec++;
-    121e:	80 93 7b 04 	sts	0x047B, r24	; 0x80047b <sec>
-    1222:	01 2f       	mov	r16, r17
-    1224:	03 c0       	rjmp	.+6      	; 0x122c <adjustSec+0x78>
+    122e:	80 93 7b 04 	sts	0x047B, r24	; 0x80047b <sec>
+    1232:	01 2f       	mov	r16, r17
+    1234:	03 c0       	rjmp	.+6      	; 0x123c <adjustSec+0x78>
             if (sec > 59)
                 sec=0;
-    1226:	10 92 7b 04 	sts	0x047B, r1	; 0x80047b <sec>
-    122a:	01 2f       	mov	r16, r17
+    1236:	10 92 7b 04 	sts	0x047B, r1	; 0x80047b <sec>
+    123a:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
         curLoop++;
-    122c:	1f 5f       	subi	r17, 0xFF	; 255
+    123c:	1f 5f       	subi	r17, 0xFF	; 255
         lapse = curLoop - preLoop;
-    122e:	81 2f       	mov	r24, r17
-    1230:	80 1b       	sub	r24, r16
+    123e:	81 2f       	mov	r24, r17
+    1240:	80 1b       	sub	r24, r16
         if (lapse > adjustTimeInterval)
-    1232:	89 30       	cpi	r24, 0x09	; 9
-    1234:	38 f4       	brcc	.+14     	; 0x1244 <adjustSec+0x90>
-    1236:	81 e1       	ldi	r24, 0x11	; 17
-    1238:	9a e7       	ldi	r25, 0x7A	; 122
-    123a:	01 97       	sbiw	r24, 0x01	; 1
-    123c:	f1 f7       	brne	.-4      	; 0x123a <adjustSec+0x86>
-    123e:	00 c0       	rjmp	.+0      	; 0x1240 <adjustSec+0x8c>
-    1240:	00 00       	nop
-    1242:	c2 cf       	rjmp	.-124    	; 0x11c8 <adjustSec+0x14>
-    1244:	e1 e1       	ldi	r30, 0x11	; 17
-    1246:	fa e7       	ldi	r31, 0x7A	; 122
-    1248:	31 97       	sbiw	r30, 0x01	; 1
-    124a:	f1 f7       	brne	.-4      	; 0x1248 <adjustSec+0x94>
-    124c:	00 c0       	rjmp	.+0      	; 0x124e <adjustSec+0x9a>
-    124e:	00 00       	nop
+    1242:	89 30       	cpi	r24, 0x09	; 9
+    1244:	38 f4       	brcc	.+14     	; 0x1254 <adjustSec+0x90>
+    1246:	81 e1       	ldi	r24, 0x11	; 17
+    1248:	9a e7       	ldi	r25, 0x7A	; 122
+    124a:	01 97       	sbiw	r24, 0x01	; 1
+    124c:	f1 f7       	brne	.-4      	; 0x124a <adjustSec+0x86>
+    124e:	00 c0       	rjmp	.+0      	; 0x1250 <adjustSec+0x8c>
+    1250:	00 00       	nop
+    1252:	c2 cf       	rjmp	.-124    	; 0x11d8 <adjustSec+0x14>
+    1254:	e1 e1       	ldi	r30, 0x11	; 17
+    1256:	fa e7       	ldi	r31, 0x7A	; 122
+    1258:	31 97       	sbiw	r30, 0x01	; 1
+    125a:	f1 f7       	brne	.-4      	; 0x1258 <adjustSec+0x94>
+    125c:	00 c0       	rjmp	.+0      	; 0x125e <adjustSec+0x9a>
+    125e:	00 00       	nop
             DONE = 1;
         _delay_ms(halfSec/4);
     }//while (!DONE)
 
 }//adjustSec
-    1250:	0f 90       	pop	r0
-    1252:	0f 90       	pop	r0
-    1254:	0f 90       	pop	r0
-    1256:	df 91       	pop	r29
-    1258:	cf 91       	pop	r28
-    125a:	1f 91       	pop	r17
-    125c:	0f 91       	pop	r16
-    125e:	08 95       	ret
+    1260:	0f 90       	pop	r0
+    1262:	0f 90       	pop	r0
+    1264:	0f 90       	pop	r0
+    1266:	df 91       	pop	r29
+    1268:	cf 91       	pop	r28
+    126a:	1f 91       	pop	r17
+    126c:	0f 91       	pop	r16
+    126e:	08 95       	ret
 
-00001260 <countButton>:
+00001270 <countButton>:
 
     uint8_t val;
     uint8_t DONE=0;
 
 
     loopCnt=0;
-    1260:	80 e0       	ldi	r24, 0x00	; 0
+    1270:	80 e0       	ldi	r24, 0x00	; 0
     prevLoop=0;
-    1262:	30 e0       	ldi	r19, 0x00	; 0
+    1272:	30 e0       	ldi	r19, 0x00	; 0
 }//sysClockTest
 
 //-----------------------------------
 void countButton()
 {
     uint8_t menuCnt=0;
-    1264:	20 e0       	ldi	r18, 0x00	; 0
+    1274:	20 e0       	ldi	r18, 0x00	; 0
         //  which is the unit delay of each while loop
         if (lapse > menuSelectInterval)
         {
 			// if selected something, then get out of menu selection while loop
             if (menuCnt != 0)
                 DONE = 1;
-    1266:	61 e0       	ldi	r22, 0x01	; 1
-    1268:	40 e0       	ldi	r20, 0x00	; 0
+    1276:	61 e0       	ldi	r22, 0x01	; 1
+    1278:	40 e0       	ldi	r20, 0x00	; 0
                 ;
         }
         //if user has not chosen menuCnt > 0, and time lapse over 3sec,
         //forget about it, and call DONE as 2, and eventually go to sleep.
         if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
             DONE = 2;
-    126a:	52 e0       	ldi	r21, 0x02	; 2
+    127a:	52 e0       	ldi	r21, 0x02	; 2
     //  it will be accumulated as "menuCnt".
     //If the interval is over 1 sec, which is menuSelectInterval,
     //  then DONE is set to 1.
     while (!DONE)
     {
         loopCnt++;
-    126c:	8f 5f       	subi	r24, 0xFF	; 255
+    127c:	8f 5f       	subi	r24, 0xFF	; 255
         curLoop = loopCnt;
         lapse = curLoop - prevLoop;
-    126e:	98 2f       	mov	r25, r24
-    1270:	93 1b       	sub	r25, r19
+    127e:	98 2f       	mov	r25, r24
+    1280:	93 1b       	sub	r25, r19
 
         //menuSelectInterval is
         //  multiple of _delay_ms(halfSec/4)
         //  which is the unit delay of each while loop
         if (lapse > menuSelectInterval)
-    1272:	93 30       	cpi	r25, 0x03	; 3
-    1274:	18 f0       	brcs	.+6      	; 0x127c <countButton+0x1c>
+    1282:	93 30       	cpi	r25, 0x03	; 3
+    1284:	18 f0       	brcs	.+6      	; 0x128c <countButton+0x1c>
         {
 			// if selected something, then get out of menu selection while loop
             if (menuCnt != 0)
-    1276:	21 11       	cpse	r18, r1
-    1278:	8b c0       	rjmp	.+278    	; 0x1390 <countButton+0x130>
-    127a:	75 c0       	rjmp	.+234    	; 0x1366 <countButton+0x106>
+    1286:	21 11       	cpse	r18, r1
+    1288:	8b c0       	rjmp	.+278    	; 0x13a0 <countButton+0x130>
+    128a:	75 c0       	rjmp	.+234    	; 0x1376 <countButton+0x106>
                 //wait another 1 sec to get user's menuCnt
                 ;
         }
         //if user has not chosen menuCnt > 0, and time lapse over 3sec,
         //forget about it, and call DONE as 2, and eventually go to sleep.
         if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
-    127c:	95 30       	cpi	r25, 0x05	; 5
-    127e:	08 f4       	brcc	.+2      	; 0x1282 <countButton+0x22>
-    1280:	7c c0       	rjmp	.+248    	; 0x137a <countButton+0x11a>
-    1282:	22 23       	and	r18, r18
-    1284:	09 f4       	brne	.+2      	; 0x1288 <countButton+0x28>
-    1286:	6c c0       	rjmp	.+216    	; 0x1360 <countButton+0x100>
-    1288:	78 c0       	rjmp	.+240    	; 0x137a <countButton+0x11a>
+    128c:	95 30       	cpi	r25, 0x05	; 5
+    128e:	08 f4       	brcc	.+2      	; 0x1292 <countButton+0x22>
+    1290:	7c c0       	rjmp	.+248    	; 0x138a <countButton+0x11a>
+    1292:	22 23       	and	r18, r18
+    1294:	09 f4       	brne	.+2      	; 0x1298 <countButton+0x28>
+    1296:	6c c0       	rjmp	.+216    	; 0x1370 <countButton+0x100>
+    1298:	78 c0       	rjmp	.+240    	; 0x138a <countButton+0x11a>
             DONE = 2;
 
       //check if tactile_Switch pressed to 0
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
-    128a:	1c 99       	sbic	0x03, 4	; 3
-    128c:	10 c0       	rjmp	.+32     	; 0x12ae <countButton+0x4e>
-    128e:	94 2f       	mov	r25, r20
-    1290:	05 c0       	rjmp	.+10     	; 0x129c <countButton+0x3c>
+    129a:	1c 99       	sbic	0x03, 4	; 3
+    129c:	10 c0       	rjmp	.+32     	; 0x12be <countButton+0x4e>
+    129e:	94 2f       	mov	r25, r20
+    12a0:	05 c0       	rjmp	.+10     	; 0x12ac <countButton+0x3c>
                 ;
         }
         //if user has not chosen menuCnt > 0, and time lapse over 3sec,
         //forget about it, and call DONE as 2, and eventually go to sleep.
         if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
             DONE = 2;
-    1292:	95 2f       	mov	r25, r21
-    1294:	03 c0       	rjmp	.+6      	; 0x129c <countButton+0x3c>
+    12a2:	95 2f       	mov	r25, r21
+    12a4:	03 c0       	rjmp	.+6      	; 0x12ac <countButton+0x3c>
 
       //check if tactile_Switch pressed to 0
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
-    1296:	94 2f       	mov	r25, r20
-    1298:	01 c0       	rjmp	.+2      	; 0x129c <countButton+0x3c>
+    12a6:	94 2f       	mov	r25, r20
+    12a8:	01 c0       	rjmp	.+2      	; 0x12ac <countButton+0x3c>
         //  which is the unit delay of each while loop
         if (lapse > menuSelectInterval)
         {
 			// if selected something, then get out of menu selection while loop
             if (menuCnt != 0)
                 DONE = 1;
-    129a:	96 2f       	mov	r25, r22
-    129c:	e3 e2       	ldi	r30, 0x23	; 35
-    129e:	f4 ef       	ldi	r31, 0xF4	; 244
-    12a0:	31 97       	sbiw	r30, 0x01	; 1
-    12a2:	f1 f7       	brne	.-4      	; 0x12a0 <countButton+0x40>
-    12a4:	00 c0       	rjmp	.+0      	; 0x12a6 <countButton+0x46>
-    12a6:	00 00       	nop
+    12aa:	96 2f       	mov	r25, r22
+    12ac:	e3 e2       	ldi	r30, 0x23	; 35
+    12ae:	f4 ef       	ldi	r31, 0xF4	; 244
+    12b0:	31 97       	sbiw	r30, 0x01	; 1
+    12b2:	f1 f7       	brne	.-4      	; 0x12b0 <countButton+0x40>
+    12b4:	00 c0       	rjmp	.+0      	; 0x12b6 <countButton+0x46>
+    12b6:	00 00       	nop
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
       {
         // for debounce
         _delay_ms(halfSec/2);
         menuCnt++;
-    12a8:	2f 5f       	subi	r18, 0xFF	; 255
+    12b8:	2f 5f       	subi	r18, 0xFF	; 255
 
         //Pressing the button, lap time calculation should be reset
         //to give 1 sec of time to choose menuCnt
         prevLoop = loopCnt;
-    12aa:	38 2f       	mov	r19, r24
-    12ac:	01 c0       	rjmp	.+2      	; 0x12b0 <countButton+0x50>
-    12ae:	94 2f       	mov	r25, r20
-    12b0:	e1 e1       	ldi	r30, 0x11	; 17
-    12b2:	fa e7       	ldi	r31, 0x7A	; 122
-    12b4:	31 97       	sbiw	r30, 0x01	; 1
-    12b6:	f1 f7       	brne	.-4      	; 0x12b4 <countButton+0x54>
-    12b8:	00 c0       	rjmp	.+0      	; 0x12ba <countButton+0x5a>
-    12ba:	00 00       	nop
+    12ba:	38 2f       	mov	r19, r24
+    12bc:	01 c0       	rjmp	.+2      	; 0x12c0 <countButton+0x50>
+    12be:	94 2f       	mov	r25, r20
+    12c0:	e1 e1       	ldi	r30, 0x11	; 17
+    12c2:	fa e7       	ldi	r31, 0x7A	; 122
+    12c4:	31 97       	sbiw	r30, 0x01	; 1
+    12c6:	f1 f7       	brne	.-4      	; 0x12c4 <countButton+0x54>
+    12c8:	00 c0       	rjmp	.+0      	; 0x12ca <countButton+0x5a>
+    12ca:	00 00       	nop
     //Get menuCnt by counting the button press
     //If pressing the button within 1 second of interval between each press,
     //  it will be accumulated as "menuCnt".
     //If the interval is over 1 sec, which is menuSelectInterval,
     //  then DONE is set to 1.
     while (!DONE)
-    12bc:	99 23       	and	r25, r25
-    12be:	b1 f2       	breq	.-84     	; 0x126c <countButton+0xc>
+    12cc:	99 23       	and	r25, r25
+    12ce:	b1 f2       	breq	.-84     	; 0x127c <countButton+0xc>
 
     //menuCnt has been set within 3sec of a PCINT occurence
     //  then, play WDT count for a corresponding alarm period.
     if (DONE)
     {
         if (DONE == 2)
-    12c0:	92 30       	cpi	r25, 0x02	; 2
-    12c2:	11 f4       	brne	.+4      	; 0x12c8 <countButton+0x68>
+    12d0:	92 30       	cpi	r25, 0x02	; 2
+    12d2:	11 f4       	brne	.+4      	; 0x12d8 <countButton+0x68>
             menuCnt = prevMenuCnt;
-    12c4:	20 91 88 04 	lds	r18, 0x0488	; 0x800488 <prevMenuCnt>
+    12d4:	20 91 88 04 	lds	r18, 0x0488	; 0x800488 <prevMenuCnt>
         //visual cue to notifiy user selected menuCnt
         //blinkLED(menuCnt);
         //_delay_ms(halfSec);
         //turnOnLCDpower();
         //lcd_dispON();
         prevMenuCnt = menuCnt;
-    12c8:	20 93 88 04 	sts	0x0488, r18	; 0x800488 <prevMenuCnt>
+    12d8:	20 93 88 04 	sts	0x0488, r18	; 0x800488 <prevMenuCnt>
         switch (menuCnt)
-    12cc:	23 30       	cpi	r18, 0x03	; 3
-    12ce:	91 f0       	breq	.+36     	; 0x12f4 <countButton+0x94>
-    12d0:	28 f4       	brcc	.+10     	; 0x12dc <countButton+0x7c>
-    12d2:	21 30       	cpi	r18, 0x01	; 1
-    12d4:	49 f0       	breq	.+18     	; 0x12e8 <countButton+0x88>
-    12d6:	22 30       	cpi	r18, 0x02	; 2
-    12d8:	51 f0       	breq	.+20     	; 0x12ee <countButton+0x8e>
-    12da:	2b c0       	rjmp	.+86     	; 0x1332 <countButton+0xd2>
-    12dc:	25 30       	cpi	r18, 0x05	; 5
-    12de:	19 f1       	breq	.+70     	; 0x1326 <countButton+0xc6>
-    12e0:	c8 f0       	brcs	.+50     	; 0x1314 <countButton+0xb4>
-    12e2:	26 30       	cpi	r18, 0x06	; 6
-    12e4:	19 f1       	breq	.+70     	; 0x132c <countButton+0xcc>
-    12e6:	25 c0       	rjmp	.+74     	; 0x1332 <countButton+0xd2>
+    12dc:	23 30       	cpi	r18, 0x03	; 3
+    12de:	91 f0       	breq	.+36     	; 0x1304 <countButton+0x94>
+    12e0:	28 f4       	brcc	.+10     	; 0x12ec <countButton+0x7c>
+    12e2:	21 30       	cpi	r18, 0x01	; 1
+    12e4:	49 f0       	breq	.+18     	; 0x12f8 <countButton+0x88>
+    12e6:	22 30       	cpi	r18, 0x02	; 2
+    12e8:	51 f0       	breq	.+20     	; 0x12fe <countButton+0x8e>
+    12ea:	2b c0       	rjmp	.+86     	; 0x1342 <countButton+0xd2>
+    12ec:	25 30       	cpi	r18, 0x05	; 5
+    12ee:	19 f1       	breq	.+70     	; 0x1336 <countButton+0xc6>
+    12f0:	c8 f0       	brcs	.+50     	; 0x1324 <countButton+0xb4>
+    12f2:	26 30       	cpi	r18, 0x06	; 6
+    12f4:	19 f1       	breq	.+70     	; 0x133c <countButton+0xcc>
+    12f6:	25 c0       	rjmp	.+74     	; 0x1342 <countButton+0xd2>
         {
             case 1:
                 //lcd_dispWords();
                 //lcd_dispRealClock();
 				LCD_TimeDateTempHumid();
-    12e8:	0e 94 e9 05 	call	0xbd2	; 0xbd2 <LCD_TimeDateTempHumid>
+    12f8:	0e 94 e9 05 	call	0xbd2	; 0xbd2 <LCD_TimeDateTempHumid>
 				//LCD_TimeDate();
 				//LCD_TimeDateTempHumid();
                 //_delay_ms(2000);
 				//getDHT();
                 break;
-    12ec:	24 c0       	rjmp	.+72     	; 0x1336 <countButton+0xd6>
+    12fc:	24 c0       	rjmp	.+72     	; 0x1346 <countButton+0xd6>
             case 2:
 				LCD_TimeDate();
-    12ee:	0e 94 d8 05 	call	0xbb0	; 0xbb0 <LCD_TimeDate>
+    12fe:	0e 94 d8 05 	call	0xbb0	; 0xbb0 <LCD_TimeDate>
                 //_delay_ms(2000);
 				//getDHT();
                 //lcd_showDHT11();
                 break;
-    12f2:	21 c0       	rjmp	.+66     	; 0x1336 <countButton+0xd6>
+    1302:	21 c0       	rjmp	.+66     	; 0x1346 <countButton+0xd6>
             case 3:
 				makePDasOutput();
-    12f4:	0e 94 02 08 	call	0x1004	; 0x1004 <makePDasOutput>
+    1304:	0e 94 02 08 	call	0x1004	; 0x1004 <makePDasOutput>
                 turnOnLCDBacklight();
-    12f8:	0e 94 02 03 	call	0x604	; 0x604 <turnOnLCDBacklight>
-    12fc:	ff e9       	ldi	r31, 0x9F	; 159
-    12fe:	26 e8       	ldi	r18, 0x86	; 134
-    1300:	81 e0       	ldi	r24, 0x01	; 1
-    1302:	f1 50       	subi	r31, 0x01	; 1
-    1304:	20 40       	sbci	r18, 0x00	; 0
-    1306:	80 40       	sbci	r24, 0x00	; 0
-    1308:	e1 f7       	brne	.-8      	; 0x1302 <countButton+0xa2>
-    130a:	00 c0       	rjmp	.+0      	; 0x130c <countButton+0xac>
-    130c:	00 00       	nop
+    1308:	0e 94 02 03 	call	0x604	; 0x604 <turnOnLCDBacklight>
+    130c:	ff e9       	ldi	r31, 0x9F	; 159
+    130e:	26 e8       	ldi	r18, 0x86	; 134
+    1310:	81 e0       	ldi	r24, 0x01	; 1
+    1312:	f1 50       	subi	r31, 0x01	; 1
+    1314:	20 40       	sbci	r18, 0x00	; 0
+    1316:	80 40       	sbci	r24, 0x00	; 0
+    1318:	e1 f7       	brne	.-8      	; 0x1312 <countButton+0xa2>
+    131a:	00 c0       	rjmp	.+0      	; 0x131c <countButton+0xac>
+    131c:	00 00       	nop
 				//LCD_TimeDate();
 				_delay_ms(500);
                 turnOffLCDBacklight();
-    130e:	0e 94 04 03 	call	0x608	; 0x608 <turnOffLCDBacklight>
+    131e:	0e 94 04 03 	call	0x608	; 0x608 <turnOffLCDBacklight>
                 break;
-    1312:	11 c0       	rjmp	.+34     	; 0x1336 <countButton+0xd6>
+    1322:	11 c0       	rjmp	.+34     	; 0x1346 <countButton+0xd6>
             case 4:
                 //adjustClock();
                 adjustMin();
-    1314:	0e 94 84 08 	call	0x1108	; 0x1108 <adjustMin>
+    1324:	0e 94 8c 08 	call	0x1118	; 0x1118 <adjustMin>
                 adjustHour();
-    1318:	0e 94 2e 08 	call	0x105c	; 0x105c <adjustHour>
+    1328:	0e 94 36 08 	call	0x106c	; 0x106c <adjustHour>
                 adjustSec();
-    131c:	0e 94 da 08 	call	0x11b4	; 0x11b4 <adjustSec>
+    132c:	0e 94 e2 08 	call	0x11c4	; 0x11c4 <adjustSec>
                 lcd_dispRealClock();
-    1320:	0e 94 06 03 	call	0x60c	; 0x60c <lcd_dispRealClock>
+    1330:	0e 94 06 03 	call	0x60c	; 0x60c <lcd_dispRealClock>
                 break;
-    1324:	08 c0       	rjmp	.+16     	; 0x1336 <countButton+0xd6>
+    1334:	08 c0       	rjmp	.+16     	; 0x1346 <countButton+0xd6>
             case 5:
                 lcd_dispAccumulatedTime();
-    1326:	0e 94 f3 03 	call	0x7e6	; 0x7e6 <lcd_dispAccumulatedTime>
+    1336:	0e 94 f3 03 	call	0x7e6	; 0x7e6 <lcd_dispAccumulatedTime>
                 break;
-    132a:	05 c0       	rjmp	.+10     	; 0x1336 <countButton+0xd6>
+    133a:	05 c0       	rjmp	.+10     	; 0x1346 <countButton+0xd6>
             case 6:
                 lcd_dispProgInfo();
-    132c:	0e 94 48 04 	call	0x890	; 0x890 <lcd_dispProgInfo>
+    133c:	0e 94 48 04 	call	0x890	; 0x890 <lcd_dispProgInfo>
                 break;
-    1330:	02 c0       	rjmp	.+4      	; 0x1336 <countButton+0xd6>
+    1340:	02 c0       	rjmp	.+4      	; 0x1346 <countButton+0xd6>
             default:
                 lcd_dispMenu();
-    1332:	0e 94 79 04 	call	0x8f2	; 0x8f2 <lcd_dispMenu>
-    1336:	9f e3       	ldi	r25, 0x3F	; 63
-    1338:	e2 e4       	ldi	r30, 0x42	; 66
-    133a:	ff e0       	ldi	r31, 0x0F	; 15
-    133c:	91 50       	subi	r25, 0x01	; 1
-    133e:	e0 40       	sbci	r30, 0x00	; 0
-    1340:	f0 40       	sbci	r31, 0x00	; 0
-    1342:	e1 f7       	brne	.-8      	; 0x133c <countButton+0xdc>
-    1344:	00 c0       	rjmp	.+0      	; 0x1346 <countButton+0xe6>
-    1346:	00 00       	nop
+    1342:	0e 94 79 04 	call	0x8f2	; 0x8f2 <lcd_dispMenu>
+    1346:	9f e3       	ldi	r25, 0x3F	; 63
+    1348:	e2 e4       	ldi	r30, 0x42	; 66
+    134a:	ff e0       	ldi	r31, 0x0F	; 15
+    134c:	91 50       	subi	r25, 0x01	; 1
+    134e:	e0 40       	sbci	r30, 0x00	; 0
+    1350:	f0 40       	sbci	r31, 0x00	; 0
+    1352:	e1 f7       	brne	.-8      	; 0x134c <countButton+0xdc>
+    1354:	00 c0       	rjmp	.+0      	; 0x1356 <countButton+0xe6>
+    1356:	00 00       	nop
                 //getDHT();
         }//switch (menuCnt)
 
         _delay_ms(5000); //show time of menu result
 
 		makePDasInput(); //make LCD in deep power save mode
-    1348:	0e 94 1d 08 	call	0x103a	; 0x103a <makePDasInput>
+    1358:	0e 94 1d 08 	call	0x103a	; 0x103a <makePDasInput>
 		pwrOn = 0;
-    134c:	10 92 80 04 	sts	0x0480, r1	; 0x800480 <pwrOn>
-    1350:	08 95       	ret
-    1352:	81 e1       	ldi	r24, 0x11	; 17
-    1354:	9a e7       	ldi	r25, 0x7A	; 122
-    1356:	01 97       	sbiw	r24, 0x01	; 1
-    1358:	f1 f7       	brne	.-4      	; 0x1356 <countButton+0xf6>
-    135a:	00 c0       	rjmp	.+0      	; 0x135c <countButton+0xfc>
-    135c:	00 00       	nop
-    135e:	b2 cf       	rjmp	.-156    	; 0x12c4 <countButton+0x64>
+    135c:	10 92 80 04 	sts	0x0480, r1	; 0x800480 <pwrOn>
+    1360:	08 95       	ret
+    1362:	81 e1       	ldi	r24, 0x11	; 17
+    1364:	9a e7       	ldi	r25, 0x7A	; 122
+    1366:	01 97       	sbiw	r24, 0x01	; 1
+    1368:	f1 f7       	brne	.-4      	; 0x1366 <countButton+0xf6>
+    136a:	00 c0       	rjmp	.+0      	; 0x136c <countButton+0xfc>
+    136c:	00 00       	nop
+    136e:	b2 cf       	rjmp	.-156    	; 0x12d4 <countButton+0x64>
             DONE = 2;
 
       //check if tactile_Switch pressed to 0
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
-    1360:	1c 99       	sbic	0x03, 4	; 3
-    1362:	f7 cf       	rjmp	.-18     	; 0x1352 <countButton+0xf2>
-    1364:	96 cf       	rjmp	.-212    	; 0x1292 <countButton+0x32>
+    1370:	1c 99       	sbic	0x03, 4	; 3
+    1372:	f7 cf       	rjmp	.-18     	; 0x1362 <countButton+0xf2>
+    1374:	96 cf       	rjmp	.-212    	; 0x12a2 <countButton+0x32>
                 //wait another 1 sec to get user's menuCnt
                 ;
         }
         //if user has not chosen menuCnt > 0, and time lapse over 3sec,
         //forget about it, and call DONE as 2, and eventually go to sleep.
         if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
-    1366:	95 30       	cpi	r25, 0x05	; 5
-    1368:	d8 f7       	brcc	.-10     	; 0x1360 <countButton+0x100>
-    136a:	8f cf       	rjmp	.-226    	; 0x128a <countButton+0x2a>
-    136c:	e1 e1       	ldi	r30, 0x11	; 17
-    136e:	fa e7       	ldi	r31, 0x7A	; 122
-    1370:	31 97       	sbiw	r30, 0x01	; 1
-    1372:	f1 f7       	brne	.-4      	; 0x1370 <countButton+0x110>
-    1374:	00 c0       	rjmp	.+0      	; 0x1376 <countButton+0x116>
-    1376:	00 00       	nop
-    1378:	79 cf       	rjmp	.-270    	; 0x126c <countButton+0xc>
+    1376:	95 30       	cpi	r25, 0x05	; 5
+    1378:	d8 f7       	brcc	.-10     	; 0x1370 <countButton+0x100>
+    137a:	8f cf       	rjmp	.-226    	; 0x129a <countButton+0x2a>
+    137c:	e1 e1       	ldi	r30, 0x11	; 17
+    137e:	fa e7       	ldi	r31, 0x7A	; 122
+    1380:	31 97       	sbiw	r30, 0x01	; 1
+    1382:	f1 f7       	brne	.-4      	; 0x1380 <countButton+0x110>
+    1384:	00 c0       	rjmp	.+0      	; 0x1386 <countButton+0x116>
+    1386:	00 00       	nop
+    1388:	79 cf       	rjmp	.-270    	; 0x127c <countButton+0xc>
             DONE = 2;
 
       //check if tactile_Switch pressed to 0
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
-    137a:	1c 99       	sbic	0x03, 4	; 3
-    137c:	f7 cf       	rjmp	.-18     	; 0x136c <countButton+0x10c>
-    137e:	8b cf       	rjmp	.-234    	; 0x1296 <countButton+0x36>
-    1380:	81 e1       	ldi	r24, 0x11	; 17
-    1382:	9a e7       	ldi	r25, 0x7A	; 122
-    1384:	01 97       	sbiw	r24, 0x01	; 1
-    1386:	f1 f7       	brne	.-4      	; 0x1384 <countButton+0x124>
-    1388:	00 c0       	rjmp	.+0      	; 0x138a <countButton+0x12a>
-    138a:	00 00       	nop
+    138a:	1c 99       	sbic	0x03, 4	; 3
+    138c:	f7 cf       	rjmp	.-18     	; 0x137c <countButton+0x10c>
+    138e:	8b cf       	rjmp	.-234    	; 0x12a6 <countButton+0x36>
+    1390:	81 e1       	ldi	r24, 0x11	; 17
+    1392:	9a e7       	ldi	r25, 0x7A	; 122
+    1394:	01 97       	sbiw	r24, 0x01	; 1
+    1396:	f1 f7       	brne	.-4      	; 0x1394 <countButton+0x124>
+    1398:	00 c0       	rjmp	.+0      	; 0x139a <countButton+0x12a>
+    139a:	00 00       	nop
         //  which is the unit delay of each while loop
         if (lapse > menuSelectInterval)
         {
 			// if selected something, then get out of menu selection while loop
             if (menuCnt != 0)
                 DONE = 1;
-    138c:	91 e0       	ldi	r25, 0x01	; 1
-    138e:	98 cf       	rjmp	.-208    	; 0x12c0 <countButton+0x60>
+    139c:	91 e0       	ldi	r25, 0x01	; 1
+    139e:	98 cf       	rjmp	.-208    	; 0x12d0 <countButton+0x60>
             DONE = 2;
 
       //check if tactile_Switch pressed to 0
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
-    1390:	1c 99       	sbic	0x03, 4	; 3
-    1392:	f6 cf       	rjmp	.-20     	; 0x1380 <countButton+0x120>
-    1394:	82 cf       	rjmp	.-252    	; 0x129a <countButton+0x3a>
+    13a0:	1c 99       	sbic	0x03, 4	; 3
+    13a2:	f6 cf       	rjmp	.-20     	; 0x1390 <countButton+0x120>
+    13a4:	82 cf       	rjmp	.-252    	; 0x12aa <countButton+0x3a>
 
-00001396 <__divmodqi4>:
-    1396:	87 fb       	bst	r24, 7
-    1398:	08 2e       	mov	r0, r24
-    139a:	06 26       	eor	r0, r22
-    139c:	87 fd       	sbrc	r24, 7
-    139e:	81 95       	neg	r24
-    13a0:	67 fd       	sbrc	r22, 7
-    13a2:	61 95       	neg	r22
-    13a4:	0e 94 02 0a 	call	0x1404	; 0x1404 <__udivmodqi4>
-    13a8:	0e f4       	brtc	.+2      	; 0x13ac <__divmodqi4_1>
-    13aa:	91 95       	neg	r25
-
-000013ac <__divmodqi4_1>:
-    13ac:	07 fc       	sbrc	r0, 7
+000013a6 <__divmodqi4>:
+    13a6:	87 fb       	bst	r24, 7
+    13a8:	08 2e       	mov	r0, r24
+    13aa:	06 26       	eor	r0, r22
+    13ac:	87 fd       	sbrc	r24, 7
     13ae:	81 95       	neg	r24
+    13b0:	67 fd       	sbrc	r22, 7
+    13b2:	61 95       	neg	r22
+    13b4:	0e 94 0a 0a 	call	0x1414	; 0x1414 <__udivmodqi4>
+    13b8:	0e f4       	brtc	.+2      	; 0x13bc <__divmodqi4_1>
+    13ba:	91 95       	neg	r25
 
-000013b0 <__divmodqi4_exit>:
-    13b0:	08 95       	ret
+000013bc <__divmodqi4_1>:
+    13bc:	07 fc       	sbrc	r0, 7
+    13be:	81 95       	neg	r24
 
-000013b2 <__divmodhi4>:
-    13b2:	97 fb       	bst	r25, 7
-    13b4:	07 2e       	mov	r0, r23
-    13b6:	16 f4       	brtc	.+4      	; 0x13bc <__divmodhi4+0xa>
-    13b8:	00 94       	com	r0
-    13ba:	07 d0       	rcall	.+14     	; 0x13ca <__divmodhi4_neg1>
-    13bc:	77 fd       	sbrc	r23, 7
-    13be:	09 d0       	rcall	.+18     	; 0x13d2 <__divmodhi4_neg2>
-    13c0:	0e 94 0e 0a 	call	0x141c	; 0x141c <__udivmodhi4>
-    13c4:	07 fc       	sbrc	r0, 7
-    13c6:	05 d0       	rcall	.+10     	; 0x13d2 <__divmodhi4_neg2>
-    13c8:	3e f4       	brtc	.+14     	; 0x13d8 <__divmodhi4_exit>
+000013c0 <__divmodqi4_exit>:
+    13c0:	08 95       	ret
 
-000013ca <__divmodhi4_neg1>:
-    13ca:	90 95       	com	r25
-    13cc:	81 95       	neg	r24
-    13ce:	9f 4f       	sbci	r25, 0xFF	; 255
-    13d0:	08 95       	ret
+000013c2 <__divmodhi4>:
+    13c2:	97 fb       	bst	r25, 7
+    13c4:	07 2e       	mov	r0, r23
+    13c6:	16 f4       	brtc	.+4      	; 0x13cc <__divmodhi4+0xa>
+    13c8:	00 94       	com	r0
+    13ca:	07 d0       	rcall	.+14     	; 0x13da <__divmodhi4_neg1>
+    13cc:	77 fd       	sbrc	r23, 7
+    13ce:	09 d0       	rcall	.+18     	; 0x13e2 <__divmodhi4_neg2>
+    13d0:	0e 94 16 0a 	call	0x142c	; 0x142c <__udivmodhi4>
+    13d4:	07 fc       	sbrc	r0, 7
+    13d6:	05 d0       	rcall	.+10     	; 0x13e2 <__divmodhi4_neg2>
+    13d8:	3e f4       	brtc	.+14     	; 0x13e8 <__divmodhi4_exit>
 
-000013d2 <__divmodhi4_neg2>:
-    13d2:	70 95       	com	r23
-    13d4:	61 95       	neg	r22
-    13d6:	7f 4f       	sbci	r23, 0xFF	; 255
+000013da <__divmodhi4_neg1>:
+    13da:	90 95       	com	r25
+    13dc:	81 95       	neg	r24
+    13de:	9f 4f       	sbci	r25, 0xFF	; 255
+    13e0:	08 95       	ret
 
-000013d8 <__divmodhi4_exit>:
-    13d8:	08 95       	ret
+000013e2 <__divmodhi4_neg2>:
+    13e2:	70 95       	com	r23
+    13e4:	61 95       	neg	r22
+    13e6:	7f 4f       	sbci	r23, 0xFF	; 255
 
-000013da <__tablejump2__>:
-    13da:	ee 0f       	add	r30, r30
-    13dc:	ff 1f       	adc	r31, r31
-    13de:	05 90       	lpm	r0, Z+
-    13e0:	f4 91       	lpm	r31, Z
-    13e2:	e0 2d       	mov	r30, r0
-    13e4:	09 94       	ijmp
+000013e8 <__divmodhi4_exit>:
+    13e8:	08 95       	ret
 
-000013e6 <__umulhisi3>:
-    13e6:	a2 9f       	mul	r26, r18
-    13e8:	b0 01       	movw	r22, r0
-    13ea:	b3 9f       	mul	r27, r19
-    13ec:	c0 01       	movw	r24, r0
-    13ee:	a3 9f       	mul	r26, r19
-    13f0:	70 0d       	add	r23, r0
-    13f2:	81 1d       	adc	r24, r1
-    13f4:	11 24       	eor	r1, r1
-    13f6:	91 1d       	adc	r25, r1
-    13f8:	b2 9f       	mul	r27, r18
-    13fa:	70 0d       	add	r23, r0
-    13fc:	81 1d       	adc	r24, r1
-    13fe:	11 24       	eor	r1, r1
-    1400:	91 1d       	adc	r25, r1
-    1402:	08 95       	ret
+000013ea <__tablejump2__>:
+    13ea:	ee 0f       	add	r30, r30
+    13ec:	ff 1f       	adc	r31, r31
+    13ee:	05 90       	lpm	r0, Z+
+    13f0:	f4 91       	lpm	r31, Z
+    13f2:	e0 2d       	mov	r30, r0
+    13f4:	09 94       	ijmp
 
-00001404 <__udivmodqi4>:
-    1404:	99 1b       	sub	r25, r25
-    1406:	79 e0       	ldi	r23, 0x09	; 9
-    1408:	04 c0       	rjmp	.+8      	; 0x1412 <__udivmodqi4_ep>
+000013f6 <__umulhisi3>:
+    13f6:	a2 9f       	mul	r26, r18
+    13f8:	b0 01       	movw	r22, r0
+    13fa:	b3 9f       	mul	r27, r19
+    13fc:	c0 01       	movw	r24, r0
+    13fe:	a3 9f       	mul	r26, r19
+    1400:	70 0d       	add	r23, r0
+    1402:	81 1d       	adc	r24, r1
+    1404:	11 24       	eor	r1, r1
+    1406:	91 1d       	adc	r25, r1
+    1408:	b2 9f       	mul	r27, r18
+    140a:	70 0d       	add	r23, r0
+    140c:	81 1d       	adc	r24, r1
+    140e:	11 24       	eor	r1, r1
+    1410:	91 1d       	adc	r25, r1
+    1412:	08 95       	ret
 
-0000140a <__udivmodqi4_loop>:
-    140a:	99 1f       	adc	r25, r25
-    140c:	96 17       	cp	r25, r22
-    140e:	08 f0       	brcs	.+2      	; 0x1412 <__udivmodqi4_ep>
-    1410:	96 1b       	sub	r25, r22
+00001414 <__udivmodqi4>:
+    1414:	99 1b       	sub	r25, r25
+    1416:	79 e0       	ldi	r23, 0x09	; 9
+    1418:	04 c0       	rjmp	.+8      	; 0x1422 <__udivmodqi4_ep>
 
-00001412 <__udivmodqi4_ep>:
-    1412:	88 1f       	adc	r24, r24
-    1414:	7a 95       	dec	r23
-    1416:	c9 f7       	brne	.-14     	; 0x140a <__udivmodqi4_loop>
-    1418:	80 95       	com	r24
-    141a:	08 95       	ret
+0000141a <__udivmodqi4_loop>:
+    141a:	99 1f       	adc	r25, r25
+    141c:	96 17       	cp	r25, r22
+    141e:	08 f0       	brcs	.+2      	; 0x1422 <__udivmodqi4_ep>
+    1420:	96 1b       	sub	r25, r22
 
-0000141c <__udivmodhi4>:
-    141c:	aa 1b       	sub	r26, r26
-    141e:	bb 1b       	sub	r27, r27
-    1420:	51 e1       	ldi	r21, 0x11	; 17
-    1422:	07 c0       	rjmp	.+14     	; 0x1432 <__udivmodhi4_ep>
+00001422 <__udivmodqi4_ep>:
+    1422:	88 1f       	adc	r24, r24
+    1424:	7a 95       	dec	r23
+    1426:	c9 f7       	brne	.-14     	; 0x141a <__udivmodqi4_loop>
+    1428:	80 95       	com	r24
+    142a:	08 95       	ret
 
-00001424 <__udivmodhi4_loop>:
-    1424:	aa 1f       	adc	r26, r26
-    1426:	bb 1f       	adc	r27, r27
-    1428:	a6 17       	cp	r26, r22
-    142a:	b7 07       	cpc	r27, r23
-    142c:	10 f0       	brcs	.+4      	; 0x1432 <__udivmodhi4_ep>
-    142e:	a6 1b       	sub	r26, r22
-    1430:	b7 0b       	sbc	r27, r23
+0000142c <__udivmodhi4>:
+    142c:	aa 1b       	sub	r26, r26
+    142e:	bb 1b       	sub	r27, r27
+    1430:	51 e1       	ldi	r21, 0x11	; 17
+    1432:	07 c0       	rjmp	.+14     	; 0x1442 <__udivmodhi4_ep>
 
-00001432 <__udivmodhi4_ep>:
-    1432:	88 1f       	adc	r24, r24
-    1434:	99 1f       	adc	r25, r25
-    1436:	5a 95       	dec	r21
-    1438:	a9 f7       	brne	.-22     	; 0x1424 <__udivmodhi4_loop>
-    143a:	80 95       	com	r24
-    143c:	90 95       	com	r25
-    143e:	bc 01       	movw	r22, r24
-    1440:	cd 01       	movw	r24, r26
-    1442:	08 95       	ret
+00001434 <__udivmodhi4_loop>:
+    1434:	aa 1f       	adc	r26, r26
+    1436:	bb 1f       	adc	r27, r27
+    1438:	a6 17       	cp	r26, r22
+    143a:	b7 07       	cpc	r27, r23
+    143c:	10 f0       	brcs	.+4      	; 0x1442 <__udivmodhi4_ep>
+    143e:	a6 1b       	sub	r26, r22
+    1440:	b7 0b       	sbc	r27, r23
 
-00001444 <atoi>:
-    1444:	fc 01       	movw	r30, r24
-    1446:	88 27       	eor	r24, r24
-    1448:	99 27       	eor	r25, r25
-    144a:	e8 94       	clt
-    144c:	21 91       	ld	r18, Z+
-    144e:	20 32       	cpi	r18, 0x20	; 32
-    1450:	e9 f3       	breq	.-6      	; 0x144c <atoi+0x8>
-    1452:	29 30       	cpi	r18, 0x09	; 9
-    1454:	10 f0       	brcs	.+4      	; 0x145a <atoi+0x16>
-    1456:	2e 30       	cpi	r18, 0x0E	; 14
-    1458:	c8 f3       	brcs	.-14     	; 0x144c <atoi+0x8>
-    145a:	2b 32       	cpi	r18, 0x2B	; 43
-    145c:	41 f0       	breq	.+16     	; 0x146e <atoi+0x2a>
-    145e:	2d 32       	cpi	r18, 0x2D	; 45
-    1460:	39 f4       	brne	.+14     	; 0x1470 <atoi+0x2c>
-    1462:	68 94       	set
-    1464:	04 c0       	rjmp	.+8      	; 0x146e <atoi+0x2a>
-    1466:	0e 94 87 0a 	call	0x150e	; 0x150e <__mulhi_const_10>
-    146a:	82 0f       	add	r24, r18
-    146c:	91 1d       	adc	r25, r1
-    146e:	21 91       	ld	r18, Z+
-    1470:	20 53       	subi	r18, 0x30	; 48
-    1472:	2a 30       	cpi	r18, 0x0A	; 10
-    1474:	c0 f3       	brcs	.-16     	; 0x1466 <atoi+0x22>
-    1476:	1e f4       	brtc	.+6      	; 0x147e <atoi+0x3a>
-    1478:	90 95       	com	r25
-    147a:	81 95       	neg	r24
-    147c:	9f 4f       	sbci	r25, 0xFF	; 255
-    147e:	08 95       	ret
+00001442 <__udivmodhi4_ep>:
+    1442:	88 1f       	adc	r24, r24
+    1444:	99 1f       	adc	r25, r25
+    1446:	5a 95       	dec	r21
+    1448:	a9 f7       	brne	.-22     	; 0x1434 <__udivmodhi4_loop>
+    144a:	80 95       	com	r24
+    144c:	90 95       	com	r25
+    144e:	bc 01       	movw	r22, r24
+    1450:	cd 01       	movw	r24, r26
+    1452:	08 95       	ret
 
-00001480 <strtok>:
-    1480:	42 e7       	ldi	r20, 0x72	; 114
-    1482:	54 e0       	ldi	r21, 0x04	; 4
-    1484:	0e 94 55 0a 	call	0x14aa	; 0x14aa <strtok_r>
-    1488:	08 95       	ret
+00001454 <atoi>:
+    1454:	fc 01       	movw	r30, r24
+    1456:	88 27       	eor	r24, r24
+    1458:	99 27       	eor	r25, r25
+    145a:	e8 94       	clt
+    145c:	21 91       	ld	r18, Z+
+    145e:	20 32       	cpi	r18, 0x20	; 32
+    1460:	e9 f3       	breq	.-6      	; 0x145c <atoi+0x8>
+    1462:	29 30       	cpi	r18, 0x09	; 9
+    1464:	10 f0       	brcs	.+4      	; 0x146a <atoi+0x16>
+    1466:	2e 30       	cpi	r18, 0x0E	; 14
+    1468:	c8 f3       	brcs	.-14     	; 0x145c <atoi+0x8>
+    146a:	2b 32       	cpi	r18, 0x2B	; 43
+    146c:	41 f0       	breq	.+16     	; 0x147e <atoi+0x2a>
+    146e:	2d 32       	cpi	r18, 0x2D	; 45
+    1470:	39 f4       	brne	.+14     	; 0x1480 <atoi+0x2c>
+    1472:	68 94       	set
+    1474:	04 c0       	rjmp	.+8      	; 0x147e <atoi+0x2a>
+    1476:	0e 94 8f 0a 	call	0x151e	; 0x151e <__mulhi_const_10>
+    147a:	82 0f       	add	r24, r18
+    147c:	91 1d       	adc	r25, r1
+    147e:	21 91       	ld	r18, Z+
+    1480:	20 53       	subi	r18, 0x30	; 48
+    1482:	2a 30       	cpi	r18, 0x0A	; 10
+    1484:	c0 f3       	brcs	.-16     	; 0x1476 <atoi+0x22>
+    1486:	1e f4       	brtc	.+6      	; 0x148e <atoi+0x3a>
+    1488:	90 95       	com	r25
+    148a:	81 95       	neg	r24
+    148c:	9f 4f       	sbci	r25, 0xFF	; 255
+    148e:	08 95       	ret
 
-0000148a <strcmp>:
-    148a:	fb 01       	movw	r30, r22
-    148c:	dc 01       	movw	r26, r24
-    148e:	8d 91       	ld	r24, X+
-    1490:	01 90       	ld	r0, Z+
-    1492:	80 19       	sub	r24, r0
-    1494:	01 10       	cpse	r0, r1
-    1496:	d9 f3       	breq	.-10     	; 0x148e <strcmp+0x4>
-    1498:	99 0b       	sbc	r25, r25
-    149a:	08 95       	ret
+00001490 <strtok>:
+    1490:	42 e7       	ldi	r20, 0x72	; 114
+    1492:	54 e0       	ldi	r21, 0x04	; 4
+    1494:	0e 94 5d 0a 	call	0x14ba	; 0x14ba <strtok_r>
+    1498:	08 95       	ret
 
-0000149c <strcpy>:
-    149c:	fb 01       	movw	r30, r22
-    149e:	dc 01       	movw	r26, r24
+0000149a <strcmp>:
+    149a:	fb 01       	movw	r30, r22
+    149c:	dc 01       	movw	r26, r24
+    149e:	8d 91       	ld	r24, X+
     14a0:	01 90       	ld	r0, Z+
-    14a2:	0d 92       	st	X+, r0
-    14a4:	00 20       	and	r0, r0
-    14a6:	e1 f7       	brne	.-8      	; 0x14a0 <strcpy+0x4>
-    14a8:	08 95       	ret
+    14a2:	80 19       	sub	r24, r0
+    14a4:	01 10       	cpse	r0, r1
+    14a6:	d9 f3       	breq	.-10     	; 0x149e <strcmp+0x4>
+    14a8:	99 0b       	sbc	r25, r25
+    14aa:	08 95       	ret
 
-000014aa <strtok_r>:
-    14aa:	fa 01       	movw	r30, r20
-    14ac:	a1 91       	ld	r26, Z+
-    14ae:	b0 81       	ld	r27, Z
-    14b0:	00 97       	sbiw	r24, 0x00	; 0
-    14b2:	19 f4       	brne	.+6      	; 0x14ba <strtok_r+0x10>
-    14b4:	10 97       	sbiw	r26, 0x00	; 0
-    14b6:	e1 f0       	breq	.+56     	; 0x14f0 <strtok_r+0x46>
-    14b8:	cd 01       	movw	r24, r26
-    14ba:	dc 01       	movw	r26, r24
-    14bc:	cd 01       	movw	r24, r26
-    14be:	0d 90       	ld	r0, X+
-    14c0:	00 20       	and	r0, r0
-    14c2:	11 f4       	brne	.+4      	; 0x14c8 <strtok_r+0x1e>
-    14c4:	c0 01       	movw	r24, r0
-    14c6:	13 c0       	rjmp	.+38     	; 0x14ee <strtok_r+0x44>
-    14c8:	fb 01       	movw	r30, r22
-    14ca:	21 91       	ld	r18, Z+
-    14cc:	22 23       	and	r18, r18
-    14ce:	19 f0       	breq	.+6      	; 0x14d6 <strtok_r+0x2c>
-    14d0:	20 15       	cp	r18, r0
-    14d2:	d9 f7       	brne	.-10     	; 0x14ca <strtok_r+0x20>
-    14d4:	f3 cf       	rjmp	.-26     	; 0x14bc <strtok_r+0x12>
-    14d6:	fb 01       	movw	r30, r22
-    14d8:	21 91       	ld	r18, Z+
-    14da:	20 15       	cp	r18, r0
-    14dc:	19 f4       	brne	.+6      	; 0x14e4 <strtok_r+0x3a>
-    14de:	1e 92       	st	-X, r1
-    14e0:	11 96       	adiw	r26, 0x01	; 1
-    14e2:	06 c0       	rjmp	.+12     	; 0x14f0 <strtok_r+0x46>
-    14e4:	22 23       	and	r18, r18
-    14e6:	c1 f7       	brne	.-16     	; 0x14d8 <strtok_r+0x2e>
-    14e8:	0d 90       	ld	r0, X+
-    14ea:	00 20       	and	r0, r0
-    14ec:	a1 f7       	brne	.-24     	; 0x14d6 <strtok_r+0x2c>
-    14ee:	d0 01       	movw	r26, r0
-    14f0:	fa 01       	movw	r30, r20
-    14f2:	a1 93       	st	Z+, r26
-    14f4:	b0 83       	st	Z, r27
-    14f6:	08 95       	ret
+000014ac <strcpy>:
+    14ac:	fb 01       	movw	r30, r22
+    14ae:	dc 01       	movw	r26, r24
+    14b0:	01 90       	ld	r0, Z+
+    14b2:	0d 92       	st	X+, r0
+    14b4:	00 20       	and	r0, r0
+    14b6:	e1 f7       	brne	.-8      	; 0x14b0 <strcpy+0x4>
+    14b8:	08 95       	ret
 
-000014f8 <__itoa_ncheck>:
-    14f8:	bb 27       	eor	r27, r27
-    14fa:	4a 30       	cpi	r20, 0x0A	; 10
-    14fc:	31 f4       	brne	.+12     	; 0x150a <__itoa_ncheck+0x12>
-    14fe:	99 23       	and	r25, r25
-    1500:	22 f4       	brpl	.+8      	; 0x150a <__itoa_ncheck+0x12>
-    1502:	bd e2       	ldi	r27, 0x2D	; 45
-    1504:	90 95       	com	r25
-    1506:	81 95       	neg	r24
-    1508:	9f 4f       	sbci	r25, 0xFF	; 255
-    150a:	0c 94 90 0a 	jmp	0x1520	; 0x1520 <__utoa_common>
+000014ba <strtok_r>:
+    14ba:	fa 01       	movw	r30, r20
+    14bc:	a1 91       	ld	r26, Z+
+    14be:	b0 81       	ld	r27, Z
+    14c0:	00 97       	sbiw	r24, 0x00	; 0
+    14c2:	19 f4       	brne	.+6      	; 0x14ca <strtok_r+0x10>
+    14c4:	10 97       	sbiw	r26, 0x00	; 0
+    14c6:	e1 f0       	breq	.+56     	; 0x1500 <strtok_r+0x46>
+    14c8:	cd 01       	movw	r24, r26
+    14ca:	dc 01       	movw	r26, r24
+    14cc:	cd 01       	movw	r24, r26
+    14ce:	0d 90       	ld	r0, X+
+    14d0:	00 20       	and	r0, r0
+    14d2:	11 f4       	brne	.+4      	; 0x14d8 <strtok_r+0x1e>
+    14d4:	c0 01       	movw	r24, r0
+    14d6:	13 c0       	rjmp	.+38     	; 0x14fe <strtok_r+0x44>
+    14d8:	fb 01       	movw	r30, r22
+    14da:	21 91       	ld	r18, Z+
+    14dc:	22 23       	and	r18, r18
+    14de:	19 f0       	breq	.+6      	; 0x14e6 <strtok_r+0x2c>
+    14e0:	20 15       	cp	r18, r0
+    14e2:	d9 f7       	brne	.-10     	; 0x14da <strtok_r+0x20>
+    14e4:	f3 cf       	rjmp	.-26     	; 0x14cc <strtok_r+0x12>
+    14e6:	fb 01       	movw	r30, r22
+    14e8:	21 91       	ld	r18, Z+
+    14ea:	20 15       	cp	r18, r0
+    14ec:	19 f4       	brne	.+6      	; 0x14f4 <strtok_r+0x3a>
+    14ee:	1e 92       	st	-X, r1
+    14f0:	11 96       	adiw	r26, 0x01	; 1
+    14f2:	06 c0       	rjmp	.+12     	; 0x1500 <strtok_r+0x46>
+    14f4:	22 23       	and	r18, r18
+    14f6:	c1 f7       	brne	.-16     	; 0x14e8 <strtok_r+0x2e>
+    14f8:	0d 90       	ld	r0, X+
+    14fa:	00 20       	and	r0, r0
+    14fc:	a1 f7       	brne	.-24     	; 0x14e6 <strtok_r+0x2c>
+    14fe:	d0 01       	movw	r26, r0
+    1500:	fa 01       	movw	r30, r20
+    1502:	a1 93       	st	Z+, r26
+    1504:	b0 83       	st	Z, r27
+    1506:	08 95       	ret
 
-0000150e <__mulhi_const_10>:
-    150e:	7a e0       	ldi	r23, 0x0A	; 10
-    1510:	97 9f       	mul	r25, r23
-    1512:	90 2d       	mov	r25, r0
-    1514:	87 9f       	mul	r24, r23
-    1516:	80 2d       	mov	r24, r0
-    1518:	91 0d       	add	r25, r1
-    151a:	11 24       	eor	r1, r1
-    151c:	08 95       	ret
+00001508 <__itoa_ncheck>:
+    1508:	bb 27       	eor	r27, r27
+    150a:	4a 30       	cpi	r20, 0x0A	; 10
+    150c:	31 f4       	brne	.+12     	; 0x151a <__itoa_ncheck+0x12>
+    150e:	99 23       	and	r25, r25
+    1510:	22 f4       	brpl	.+8      	; 0x151a <__itoa_ncheck+0x12>
+    1512:	bd e2       	ldi	r27, 0x2D	; 45
+    1514:	90 95       	com	r25
+    1516:	81 95       	neg	r24
+    1518:	9f 4f       	sbci	r25, 0xFF	; 255
+    151a:	0c 94 98 0a 	jmp	0x1530	; 0x1530 <__utoa_common>
 
-0000151e <__utoa_ncheck>:
-    151e:	bb 27       	eor	r27, r27
+0000151e <__mulhi_const_10>:
+    151e:	7a e0       	ldi	r23, 0x0A	; 10
+    1520:	97 9f       	mul	r25, r23
+    1522:	90 2d       	mov	r25, r0
+    1524:	87 9f       	mul	r24, r23
+    1526:	80 2d       	mov	r24, r0
+    1528:	91 0d       	add	r25, r1
+    152a:	11 24       	eor	r1, r1
+    152c:	08 95       	ret
 
-00001520 <__utoa_common>:
-    1520:	fb 01       	movw	r30, r22
-    1522:	55 27       	eor	r21, r21
-    1524:	aa 27       	eor	r26, r26
-    1526:	88 0f       	add	r24, r24
-    1528:	99 1f       	adc	r25, r25
-    152a:	aa 1f       	adc	r26, r26
-    152c:	a4 17       	cp	r26, r20
-    152e:	10 f0       	brcs	.+4      	; 0x1534 <__utoa_common+0x14>
-    1530:	a4 1b       	sub	r26, r20
-    1532:	83 95       	inc	r24
-    1534:	50 51       	subi	r21, 0x10	; 16
-    1536:	b9 f7       	brne	.-18     	; 0x1526 <__utoa_common+0x6>
-    1538:	a0 5d       	subi	r26, 0xD0	; 208
-    153a:	aa 33       	cpi	r26, 0x3A	; 58
-    153c:	08 f0       	brcs	.+2      	; 0x1540 <__utoa_common+0x20>
-    153e:	a9 5d       	subi	r26, 0xD9	; 217
-    1540:	a1 93       	st	Z+, r26
-    1542:	00 97       	sbiw	r24, 0x00	; 0
-    1544:	79 f7       	brne	.-34     	; 0x1524 <__utoa_common+0x4>
-    1546:	b1 11       	cpse	r27, r1
-    1548:	b1 93       	st	Z+, r27
-    154a:	11 92       	st	Z+, r1
-    154c:	cb 01       	movw	r24, r22
-    154e:	0c 94 a9 0a 	jmp	0x1552	; 0x1552 <strrev>
+0000152e <__utoa_ncheck>:
+    152e:	bb 27       	eor	r27, r27
 
-00001552 <strrev>:
-    1552:	dc 01       	movw	r26, r24
-    1554:	fc 01       	movw	r30, r24
-    1556:	67 2f       	mov	r22, r23
-    1558:	71 91       	ld	r23, Z+
-    155a:	77 23       	and	r23, r23
-    155c:	e1 f7       	brne	.-8      	; 0x1556 <strrev+0x4>
-    155e:	32 97       	sbiw	r30, 0x02	; 2
-    1560:	04 c0       	rjmp	.+8      	; 0x156a <strrev+0x18>
-    1562:	7c 91       	ld	r23, X
-    1564:	6d 93       	st	X+, r22
-    1566:	70 83       	st	Z, r23
-    1568:	62 91       	ld	r22, -Z
-    156a:	ae 17       	cp	r26, r30
-    156c:	bf 07       	cpc	r27, r31
-    156e:	c8 f3       	brcs	.-14     	; 0x1562 <strrev+0x10>
-    1570:	08 95       	ret
+00001530 <__utoa_common>:
+    1530:	fb 01       	movw	r30, r22
+    1532:	55 27       	eor	r21, r21
+    1534:	aa 27       	eor	r26, r26
+    1536:	88 0f       	add	r24, r24
+    1538:	99 1f       	adc	r25, r25
+    153a:	aa 1f       	adc	r26, r26
+    153c:	a4 17       	cp	r26, r20
+    153e:	10 f0       	brcs	.+4      	; 0x1544 <__utoa_common+0x14>
+    1540:	a4 1b       	sub	r26, r20
+    1542:	83 95       	inc	r24
+    1544:	50 51       	subi	r21, 0x10	; 16
+    1546:	b9 f7       	brne	.-18     	; 0x1536 <__utoa_common+0x6>
+    1548:	a0 5d       	subi	r26, 0xD0	; 208
+    154a:	aa 33       	cpi	r26, 0x3A	; 58
+    154c:	08 f0       	brcs	.+2      	; 0x1550 <__utoa_common+0x20>
+    154e:	a9 5d       	subi	r26, 0xD9	; 217
+    1550:	a1 93       	st	Z+, r26
+    1552:	00 97       	sbiw	r24, 0x00	; 0
+    1554:	79 f7       	brne	.-34     	; 0x1534 <__utoa_common+0x4>
+    1556:	b1 11       	cpse	r27, r1
+    1558:	b1 93       	st	Z+, r27
+    155a:	11 92       	st	Z+, r1
+    155c:	cb 01       	movw	r24, r22
+    155e:	0c 94 b1 0a 	jmp	0x1562	; 0x1562 <strrev>
 
-00001572 <_exit>:
-    1572:	f8 94       	cli
+00001562 <strrev>:
+    1562:	dc 01       	movw	r26, r24
+    1564:	fc 01       	movw	r30, r24
+    1566:	67 2f       	mov	r22, r23
+    1568:	71 91       	ld	r23, Z+
+    156a:	77 23       	and	r23, r23
+    156c:	e1 f7       	brne	.-8      	; 0x1566 <strrev+0x4>
+    156e:	32 97       	sbiw	r30, 0x02	; 2
+    1570:	04 c0       	rjmp	.+8      	; 0x157a <strrev+0x18>
+    1572:	7c 91       	ld	r23, X
+    1574:	6d 93       	st	X+, r22
+    1576:	70 83       	st	Z, r23
+    1578:	62 91       	ld	r22, -Z
+    157a:	ae 17       	cp	r26, r30
+    157c:	bf 07       	cpc	r27, r31
+    157e:	c8 f3       	brcs	.-14     	; 0x1572 <strrev+0x10>
+    1580:	08 95       	ret
 
-00001574 <__stop_program>:
-    1574:	ff cf       	rjmp	.-2      	; 0x1574 <__stop_program>
+00001582 <_exit>:
+    1582:	f8 94       	cli
+
+00001584 <__stop_program>:
+    1584:	ff cf       	rjmp	.-2      	; 0x1584 <__stop_program>
