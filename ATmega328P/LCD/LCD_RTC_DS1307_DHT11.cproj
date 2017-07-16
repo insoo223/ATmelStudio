@@ -121,6 +121,9 @@
     <Compile Include="config.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="definesDS1307.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="definesI2C.h">
       <SubType>compile</SubType>
     </Compile>

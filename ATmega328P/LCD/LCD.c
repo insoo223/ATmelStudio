@@ -76,6 +76,7 @@ The four data lines as well as the two control lines may be
 #include "defines.h"
 #include <util/delay.h>
 
+//----------------------------------
 /*
   Name:     lcd_init_4d
   Purpose:  initialize the LCD module for a 4-bit data interface
@@ -157,6 +158,7 @@ void lcd_init_4d()
     _delay_us(DELAY_INST);                                  // 40uS delay (min)
 }//lcd_init_4d
 
+//----------------------------------
 /*...........................................................................
   Name:     lcd_write_string_4d
 ; Purpose:  display a string of characters on the LCD
@@ -175,6 +177,7 @@ void lcd_write_string_4d(uint8_t theString[])
     }
 }
 
+//----------------------------------
 /*...........................................................................
   Name:     lcd_write_character_4d
   Purpose:  send a byte of information to the LCD data register
@@ -191,6 +194,7 @@ void lcd_write_character_4d(uint8_t theData)
     lcd_write_4(theData << 4);                      // write the lower 4-bits of the data
 }
 
+//----------------------------------
 /*...........................................................................
   Name:     lcd_write_instruction_4d
   Purpose:  send a byte of information to the LCD instruction register
@@ -207,6 +211,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 }
 
 
+//----------------------------------
 /*...........................................................................
   Name:     lcd_write_4
   Purpose:  send a byte of information to the LCD module

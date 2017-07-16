@@ -16,7 +16,8 @@ globals.d globals.o: .././globals.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- .././defines.h .././definesIOpin.h .././definesLCD.h .././definesI2C.h
+ .././defines.h .././definesDS1307.h .././definesI2C.h \
+ .././definesIOpin.h .././definesLCD.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -54,8 +55,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././defines.h:
 
+.././definesDS1307.h:
+
+.././definesI2C.h:
+
 .././definesIOpin.h:
 
 .././definesLCD.h:
-
-.././definesI2C.h:

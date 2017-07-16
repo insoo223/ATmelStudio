@@ -24,10 +24,26 @@
 		Includes a simple write string routine.
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
 **************************************/
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
  
+#include "definesDS1307.h"
+#include "definesI2C.h"
+=======
+
+#include "definesDS1307.h"
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+
+#include "definesDS1307.h"
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+
+#include "definesDS1307.h"
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 #include "definesIOpin.h"
 #include "definesLCD.h"
-#include "definesI2C.h"
 
 /*--- MCU CLOCK -------------------
 datasheet: Ch.8.2.1 default clock source is 1Mhz
@@ -51,4 +67,5 @@ typedef int8_t sbyte;
 
 #define AM 0
 #define PM 1
+
 

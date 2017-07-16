@@ -32,6 +32,7 @@ extern uint8_t year, month, date;
 extern uint8_t monthEndDate, day;
 */
 
+//-----------------------------------
 void parseCompileTime()
 {
     char *p;
@@ -96,8 +97,9 @@ void parseCompileTime()
     calcDay();
 }//parseCompileTime
 
+//-----------------------------------
 void calcDay()
 {
     day = (date - 17)%7;
-}
+}//calcDay
 

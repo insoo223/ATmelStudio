@@ -63,14 +63,6 @@ void turnOnLCDBacklight()
 	lcd_Backlight_port &= ~_BV(lcd_Backlight_bit);
 }//turnOnLCDBacklight
 
-//----------------------------------
-void LCD_blankChar(uint8_t num)
-{
-	uint8_t i;
-	for (i=0; i<num; i++)
-	lcd_write_character_4d(' ');
-}//LCD_blankChar
-
 //-----------------------------------
 void turnOffLCDBacklight()
 {
@@ -78,6 +70,14 @@ void turnOffLCDBacklight()
 	//  by giving 5 volt to K of LCD
 	lcd_Backlight_port |= _BV(lcd_Backlight_bit);
 }//turnOffLCDBacklight
+
+//----------------------------------
+void LCD_blankChar(uint8_t num)
+{
+	uint8_t i;
+	for (i=0; i<num; i++)
+	lcd_write_character_4d(' ');
+}//LCD_blankChar
 
 //-----------------------------------
 void lcd_SysTime()
@@ -97,20 +97,20 @@ void lcd_SysTime()
 }//lcd_SysTime
 
 //-----------------------------------
-void lcd_dispOFF()
-{
-	// set LCD off
-	lcd_write_instruction_4d(lcd_DisplayOff);
-	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
-}//lcd_dispOFF
-
-//-----------------------------------
 void lcd_dispON()
 {
 	// set LCD off
 	lcd_write_instruction_4d(lcd_DisplayOn);
 	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
 }//lcd_dispON
+
+//-----------------------------------
+void lcd_dispOFF()
+{
+	// set LCD off
+	lcd_write_instruction_4d(lcd_DisplayOff);
+	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+}//lcd_dispOFF
 
 //-----------------------------------
 void lcd_dispRealClock()
@@ -395,7 +395,10 @@ void chkButtonAndToggleBacklight()
 
 	//if switch is pressed,
 	if (valSwitch == 0)
-	//toggle backlight by allow K to touch ground
-	lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
+	{
+		makePDasOutput();
+		//toggle backlight by allow K to touch ground
+		lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
+	}
 }//chkButtonAndToggleBacklight
 

@@ -124,4 +124,4 @@ uint8_t tinudht_read(TinuDHT *ptinudht, uint8_t dht_pin) {
 	ptinudht->temperature = data[2]; 
 
 	return TINUDHT_OK;
-}
+}//tinudht_read

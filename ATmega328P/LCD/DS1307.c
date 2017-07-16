@@ -23,6 +23,18 @@
 #include "defines.h"
 #include <util/delay.h>
 
+#define DS1307 0xD0 // I2C bus address of DS1307 RTC
+#define SECONDS_REGISTER 0x00
+#define MINUTES_REGISTER 0x01
+#define HOURS_REGISTER 0x02
+#define DAYOFWK_REGISTER 0x03
+#define DAYS_REGISTER 0x04
+#define MONTHS_REGISTER 0x05
+#define YEARS_REGISTER 0x06
+#define CONTROL_REGISTER 0x07
+#define RAM_BEGIN 0x08
+#define RAM_END 0x3F
+
 //-----------------------------------
 void setTime2DS1307(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
 {
@@ -38,20 +50,6 @@ void setTime2DS1307(byte wkDay,byte month,byte day,byte year, byte ampm, byte h,
 }//setTime2DS1307
 
 //-----------------------------------
-// ---------------------------------------------------------------------------
-// DS1307 RTC ROUTINES
-#define DS1307 0xD0 // I2C bus address of DS1307 RTC
-#define SECONDS_REGISTER 0x00
-#define MINUTES_REGISTER 0x01
-#define HOURS_REGISTER 0x02
-#define DAYOFWK_REGISTER 0x03
-#define DAYS_REGISTER 0x04
-#define MONTHS_REGISTER 0x05
-#define YEARS_REGISTER 0x06
-#define CONTROL_REGISTER 0x07
-#define RAM_BEGIN 0x08
-#define RAM_END 0x3F
-
 void DS1307_GetTime(byte *hours, byte *minutes, byte *seconds)
 // returns hours, minutes, and seconds in BCD format
 {
@@ -63,6 +61,7 @@ void DS1307_GetTime(byte *hours, byte *minutes, byte *seconds)
 	else *hours &= 0x3F; // 24hr mode: use bottom 6 bits
 }//DS1307_GetTime
 
+//-----------------------------------
 void DS1307_GetDate(byte *months, byte *days, byte *years)
 // returns months, days, and years in BCD format
 {
@@ -71,12 +70,14 @@ void DS1307_GetDate(byte *months, byte *days, byte *years)
 	*years = I2C_ReadRegister(DS1307,YEARS_REGISTER);
 }//DS1307_GetDate
 
+//-----------------------------------
 void DS1307_GetWkDay(byte *wkdays)
 // returns days of week in BCD format
 {
 	*wkdays = I2C_ReadRegister(DS1307,DAYOFWK_REGISTER);
 }//DS1307_GetWkDay
 
+//-----------------------------------
 void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
 // simple, hard-coded way to set the date.
 {

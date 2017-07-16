@@ -67,7 +67,8 @@ void I2C_Start (byte slaveAddr)
 }//I2C_Start
 
 //----------------------------------
-byte I2C_Write (byte data) // sends a data byte to slave
+// sends a data byte to slave
+byte I2C_Write (byte data) 
 {
 	TWDR = data; // load data to be sent
 	TWCR = TW_SEND; // and send it
