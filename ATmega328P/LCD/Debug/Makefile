@@ -40,6 +40,7 @@ C_SRCS +=  \
 ../config.c \
 ../DHT11.c \
 ../DS1307.c \
+../EEPROM.c \
 ../LCD_DS1307_DHT11.c \
 ../globals.c \
 ../I2C.c \
@@ -64,6 +65,7 @@ OBJS +=  \
 config.o \
 DHT11.o \
 DS1307.o \
+EEPROM.o \
 LCD_DS1307_DHT11.o \
 globals.o \
 I2C.o \
@@ -81,6 +83,7 @@ OBJS_AS_ARGS +=  \
 config.o \
 DHT11.o \
 DS1307.o \
+EEPROM.o \
 LCD_DS1307_DHT11.o \
 globals.o \
 I2C.o \
@@ -98,6 +101,7 @@ C_DEPS +=  \
 config.d \
 DHT11.d \
 DS1307.d \
+EEPROM.d \
 LCD_DS1307_DHT11.d \
 globals.d \
 I2C.d \
@@ -115,6 +119,7 @@ C_DEPS_AS_ARGS +=  \
 config.d \
 DHT11.d \
 DS1307.d \
+EEPROM.d \
 LCD_DS1307_DHT11.d \
 globals.d \
 I2C.d \
@@ -142,6 +147,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

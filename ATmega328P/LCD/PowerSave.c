@@ -24,6 +24,15 @@
  #include <util/delay.h>
 
 //----------------------------------
+void prepareWakeUpandLCDHome()
+{
+	makePDasOutput();
+	lcd_init_4d();
+	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+	_delay_us(DELAY_INST); // 40 uS delay (min)
+}//prepareWakeUpandLCDHome
+
+//----------------------------------
 //Return to normal usage mode
 //after making them as input mode to remove power usage by LCD
 //by calling makePDasInput(). (added by Insoo: Jul 12, 2017)

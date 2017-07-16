@@ -8,6 +8,8 @@ DHT11.c
 
 DS1307.c
 
+EEPROM.c
+
 LCD_DS1307_DHT11.c
 
 globals.c

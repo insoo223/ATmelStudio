@@ -32,8 +32,6 @@ extern uint8_t program_date[];
 extern uint8_t menu_str1[];
 extern uint8_t menu_str2[];
 
-extern char strTemp[3], strHumid[3];
-
 extern int8_t dht_getdata(int8_t *, int8_t *);
 extern int8_t dht_getdata_EXT16MHZ(int8_t *, int8_t *);
 extern int8_t dht_getdata_INT8MHZ(int8_t *, int8_t *);
@@ -65,6 +63,10 @@ extern void debugPinConfig();
 /*----------------------------
 DHT11.c (defined at)
 ------------------------------*/
+extern uint8_t temp;
+extern uint8_t humid;
+extern char strTemp[3], strHumid[3];
+
 extern  void getDHT();
 
 /*----------------------------
@@ -82,6 +84,12 @@ extern void SetTimeDate(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 extern void adjustHour();
 extern void adjustMin();
 extern void adjustSec();
+
+/*----------------------------
+EEPROM.c (defined at)
+------------------------------*/
+extern void ER_Byte();
+extern void EW_tempHumid();
 
 /*----------------------------
 I2C.c (defined at)
@@ -168,6 +176,7 @@ extern void countButton(void);
 /*----------------------------
 PowerSave.c (defined at)
 ------------------------------*/
+extern void prepareWakeUpandLCDHome();
 extern void makePDasOutput();
 extern void makePDasInput();
 

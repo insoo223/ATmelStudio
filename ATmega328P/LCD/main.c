@@ -81,7 +81,7 @@ int main()
 	//After call LCD_dispNotice(), sleep current remain rather high 680 uA
 	//	otherwise, 230 uA
 	//As of July 15, 2017, this function does not cause any further current draw than 0.2uA
-	LCD_dispNotice(); 
+	//LCD_dispNotice(); 
 
     //lcd_dispRealClock();
 	//lcd_dispProgInfo(); //LCD display program info
@@ -90,12 +90,17 @@ int main()
 
 	//BCD formt byte( wkDay, month, day, year,  ampm,  h,  m,  s)
 	//setTime2DS1307(0x06, 0x07, 0x15, 0x17, PM, 0x01, 0x19, 0x30 );
-
+	prepareWakeUpandLCDHome();
+	getDHT();
+	_delay_ms(500);
+	getDHT();
+	EW_tempHumid();
     // endless loop
     while(1)
     {
       // go to sleep and wait for interrupt...
-      sleep_mode();
+      //sleep_mode();
+	  ER_Byte();
 	  
 	}
     return 0;

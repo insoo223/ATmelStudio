@@ -31,14 +31,16 @@ https://bitbucket.org/tinusaur/tinudht/downloads/
 //#include "C:\Users\insoo\Box Sync\BoxElec\DIY Electronics\Arduino\AVR C\Win_Atmel Studio_Codes\7.0\ATtiny13A\Library\DHT11\tinudht\tinudht.h" //DHT11 library hader
 #include "tinudht.h" //DHT11 library hader
 
+uint8_t temp;
+uint8_t humid;
 char strTemp[3], strHumid[3];
 
 //-------------------------------------------
+//void getDHT(uint16_t *temp, uint16_t *humid)
 void getDHT()
 {
-	uint16_t temp; 
-	uint16_t humid; 
 	TinuDHT tinudht;
+
 	DHT_VCC_ddr |= _BV(DHT_VCC_bit);
 	DHT_VCC_port |= _BV(DHT_VCC_bit);
 	_delay_ms(500);

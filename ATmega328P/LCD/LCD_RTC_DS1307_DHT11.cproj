@@ -142,6 +142,9 @@
     <Compile Include="DS1307.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="EEPROM.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LCD_DS1307_DHT11.c">
       <SubType>compile</SubType>
     </Compile>
