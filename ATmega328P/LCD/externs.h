@@ -60,6 +60,13 @@ extern void RTC_DS1307config();
 extern void DHT11config();
 extern void debugPinConfig();
 
+/*----------------------------
+DS1307.c (defined at)
+------------------------------*/
+extern void DS1307_GetDate(byte*, byte*, byte*);
+extern void DS1307_GetWkDay(byte*);
+extern void DS1307_GetTime(byte*, byte*, byte*);
+
 extern void proceedClock();
 
 extern void WDT_Init(void);
@@ -108,9 +115,9 @@ extern byte I2C_ReadRegister(byte , byte );
 extern void I2C_WriteRegister(byte , byte , byte );
 extern byte I2C_FindDevice(byte );
 
-extern void ShowDevices();
-extern void WriteDate();
-extern void WriteTime();
+extern void ShowI2Cdevices();
+extern void LCD_WriteDate();
+extern void LCD_WriteTime();
 extern void LCD_blankChar(uint8_t );
 extern void LCD_TimeDate();
 

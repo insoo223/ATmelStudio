@@ -237,4 +237,5 @@ void lcd_write_4(uint8_t theByte)
     _delay_us(1);                                   // implement 'Data set-up time' (80 nS) and 'Enable pulse width' (230 nS)
     lcd_E_port &= ~_BV(lcd_E_bit);                  // Enable pin low
     _delay_us(1);                                   // implement 'Data hold time' (10 nS) and 'Enable cycle time' (500 nS)
-}
+}//lcd_write_4
+

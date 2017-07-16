@@ -136,6 +136,12 @@
     <Compile Include="DHT11_LCDdisp.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="DS1307.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="DS1307onLCD.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="externs.h">
       <SubType>compile</SubType>
     </Compile>
@@ -149,6 +155,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="LCD.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LCDutil.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

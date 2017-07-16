@@ -39,10 +39,13 @@ SUBDIRS :=
 C_SRCS +=  \
 ../config.c \
 ../DHT11_LCDdisp.c \
+../DS1307.c \
+../DS1307onLCD.c \
 ../globals.c \
 ../I2C.c \
 ../intrpt.c \
 ../LCD.c \
+../LCDutil.c \
 ../main.c \
 ../strFunc.c \
 ../tinudht.c \
@@ -58,10 +61,13 @@ ASM_SRCS +=
 OBJS +=  \
 config.o \
 DHT11_LCDdisp.o \
+DS1307.o \
+DS1307onLCD.o \
 globals.o \
 I2C.o \
 intrpt.o \
 LCD.o \
+LCDutil.o \
 main.o \
 strFunc.o \
 tinudht.o \
@@ -70,10 +76,13 @@ util.o
 OBJS_AS_ARGS +=  \
 config.o \
 DHT11_LCDdisp.o \
+DS1307.o \
+DS1307onLCD.o \
 globals.o \
 I2C.o \
 intrpt.o \
 LCD.o \
+LCDutil.o \
 main.o \
 strFunc.o \
 tinudht.o \
@@ -82,10 +91,13 @@ util.o
 C_DEPS +=  \
 config.d \
 DHT11_LCDdisp.d \
+DS1307.d \
+DS1307onLCD.d \
 globals.d \
 I2C.d \
 intrpt.d \
 LCD.d \
+LCDutil.d \
 main.d \
 strFunc.d \
 tinudht.d \
@@ -94,10 +106,13 @@ util.d
 C_DEPS_AS_ARGS +=  \
 config.d \
 DHT11_LCDdisp.d \
+DS1307.d \
+DS1307onLCD.d \
 globals.d \
 I2C.d \
 intrpt.d \
 LCD.d \
+LCDutil.d \
 main.d \
 strFunc.d \
 tinudht.d \
@@ -117,6 +132,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

@@ -6,6 +6,10 @@ config.c
 
 DHT11_LCDdisp.c
 
+DS1307.c
+
+DS1307onLCD.c
+
 globals.c
 
 I2C.c
@@ -13,6 +17,8 @@ I2C.c
 intrpt.c
 
 LCD.c
+
+LCDutil.c
 
 main.c
 
