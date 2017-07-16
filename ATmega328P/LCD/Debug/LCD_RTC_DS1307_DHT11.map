@@ -745,7 +745,7 @@ END GROUP
  *(.fini0)
                 0x00001600                _etext = .
 
-.data           0x00800100      0x36a load address 0x00001600
+.data           0x00800100      0x362 load address 0x00001600
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -779,63 +779,64 @@ END GROUP
                 0x008003e1       0x50 LCDutil.o
                                  0x70 (size before relaxing)
  .rodata.str1.1
-                0x00800431       0x39 strFunc.o
+                0x00800431       0x30 strFunc.o
                                  0x49 (size before relaxing)
  *(.gnu.linkonce.d*)
-                0x0080046a                . = ALIGN (0x2)
-                0x0080046a                _edata = .
-                0x0080046a                PROVIDE (__data_end, .)
+                0x00800462                . = ALIGN (0x2)
+ *fill*         0x00800461        0x1 
+                0x00800462                _edata = .
+                0x00800462                PROVIDE (__data_end, .)
 
-.bss            0x0080046a       0x17
-                0x0080046a                PROVIDE (__bss_start, .)
+.bss            0x00800462       0x17
+                0x00800462                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0080046a        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
+ .bss           0x00800462        0x2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
  *(.bss*)
  .bss.accumulatedSec
-                0x0080046c        0x1 globals.o
-                0x0080046c                accumulatedSec
+                0x00800464        0x1 globals.o
+                0x00800464                accumulatedSec
  .bss.accumulatedMin
-                0x0080046d        0x1 globals.o
-                0x0080046d                accumulatedMin
+                0x00800465        0x1 globals.o
+                0x00800465                accumulatedMin
  .bss.accumulatedHour
-                0x0080046e        0x1 globals.o
-                0x0080046e                accumulatedHour
- .bss.day       0x0080046f        0x1 globals.o
-                0x0080046f                day
- .bss.date      0x00800470        0x1 globals.o
-                0x00800470                date
- .bss.month     0x00800471        0x1 globals.o
-                0x00800471                month
- .bss.year      0x00800472        0x1 globals.o
-                0x00800472                year
- .bss.sec       0x00800473        0x1 globals.o
-                0x00800473                sec
- .bss.min       0x00800474        0x1 globals.o
-                0x00800474                min
- .bss.hour      0x00800475        0x1 globals.o
-                0x00800475                hour
- .bss.wd        0x00800476        0x1 globals.o
-                0x00800476                wd
- .bss.btcnt     0x00800477        0x1 intrpt.o
-                0x00800477                btcnt
- .bss.pwrOn     0x00800478        0x1 intrpt.o
-                0x00800478                pwrOn
+                0x00800466        0x1 globals.o
+                0x00800466                accumulatedHour
+ .bss.day       0x00800467        0x1 globals.o
+                0x00800467                day
+ .bss.date      0x00800468        0x1 globals.o
+                0x00800468                date
+ .bss.month     0x00800469        0x1 globals.o
+                0x00800469                month
+ .bss.year      0x0080046a        0x1 globals.o
+                0x0080046a                year
+ .bss.sec       0x0080046b        0x1 globals.o
+                0x0080046b                sec
+ .bss.min       0x0080046c        0x1 globals.o
+                0x0080046c                min
+ .bss.hour      0x0080046d        0x1 globals.o
+                0x0080046d                hour
+ .bss.wd        0x0080046e        0x1 globals.o
+                0x0080046e                wd
+ .bss.btcnt     0x0080046f        0x1 intrpt.o
+                0x0080046f                btcnt
+ .bss.pwrOn     0x00800470        0x1 intrpt.o
+                0x00800470                pwrOn
  *(COMMON)
- COMMON         0x00800479        0x6 DHT11.o
-                0x00800479                strHumid
-                0x0080047c                strTemp
- COMMON         0x0080047f        0x2 globals.o
-                0x0080047f                monthEndDate
-                0x00800480                prevMenuCnt
-                0x00800481                PROVIDE (__bss_end, .)
+ COMMON         0x00800471        0x6 DHT11.o
+                0x00800471                strHumid
+                0x00800474                strTemp
+ COMMON         0x00800477        0x2 globals.o
+                0x00800477                monthEndDate
+                0x00800478                prevMenuCnt
+                0x00800479                PROVIDE (__bss_end, .)
                 0x00001600                __data_load_start = LOADADDR (.data)
-                0x0000196a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001962                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800481        0x0
+.noinit         0x00800479        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800481                _end = .
+                0x00800479                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
