@@ -58,8 +58,8 @@ ISR(PCINT0_vect)
 			//For PCINT7-0, DS: Ch 12.2.8
 			//PCMSK0 &= ~_BV(PCINT6);
         
-			PCMSK0 &= ~_BV(tactile_Switch_bit);
-			_delay_ms(5);
+			//PCMSK0 &= ~_BV(tactile_Switch_bit);
+			//_delay_ms(5);
 			//check only rising or falling edge
 			countButton();
 
@@ -68,8 +68,8 @@ ISR(PCINT0_vect)
 			//For PCINT7-0, DS: Ch 12.2.8
 			//PCMSK0 |= _BV(PCINT6);
         
-			PCMSK0 |= _BV(tactile_Switch_bit);
-			_delay_ms(5);
+			//PCMSK0 |= _BV(tactile_Switch_bit);
+			//_delay_ms(5);
 			/***********************************************/
 
 		}//if (tactile_Switch_port & _BV(tactile_Switch_bit))
