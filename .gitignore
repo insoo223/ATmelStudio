@@ -1,14 +1,8 @@
 
 ATmega328P/LCD/.vs/LCD_RTC_DS1307_DHT11/v14/.atsuo
 ATmega328P/LCD/.vs/LCD_RTC_DS1307_DHT11/v14/.atsuo
-ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.elf
-ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.hex
-ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.srec
-ATmega328P/LCD/Debug/strFunc.o
-ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.elf
-ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.elf
-*.hex
-*.lss
-*.elf
-*.hex
-*.srec
+ATmega328P/LCD/Debug/*.o
+ATmega328P/LCD/Debug/*.hex
+ATmega328P/LCD/Debug/*.lss
+ATmega328P/LCD/Debug/*.elf
+ATmega328P/LCD/Debug/*.srec
