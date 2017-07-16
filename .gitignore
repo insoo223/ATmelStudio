@@ -6,3 +6,4 @@ ATmega328P/LCD/Debug/*.hex
 ATmega328P/LCD/Debug/*.lss
 ATmega328P/LCD/Debug/*.elf
 ATmega328P/LCD/Debug/*.srec
+ATmega328P/LCD/Debug/Makefile
