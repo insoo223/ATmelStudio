@@ -23,27 +23,7 @@
  #include "defines.h"
  #include <util/delay.h>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 //----------------------------------
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 //Return to normal usage mode
 //after making them as input mode to remove power usage by LCD
 //by calling makePDasInput(). (added by Insoo: Jul 12, 2017)
@@ -91,27 +71,7 @@ void makePDasOutput()
 
 }//makePDasOutput
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 //----------------------------------
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-//-----------------------------------
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 //to remove power usage by LCD (added by Insoo: Jul 12, 2017)
 // Deep Power Save method in circuit
 //As of July 15, 2017(Sat) pm12:30,
@@ -177,12 +137,3 @@ void makePDasInput()
 	lcd_VDD_ddr &= ~_BV(lcd_VDD_bit);
 
 }//makePDasInput
-
-//-----------------------------------
-// Set modes of MCU pins for LCD and Init LCD
-void LCD_pwrReady()
-{
-	makePDasOutput();
-	//_delay_ms(10);
-	lcd_init_4d();
-}//LCD_pwrReady

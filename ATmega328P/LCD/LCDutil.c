@@ -395,10 +395,7 @@ void chkButtonAndToggleBacklight()
 
 	//if switch is pressed,
 	if (valSwitch == 0)
-	{
-		makePDasOutput();
-		//toggle backlight by allow K to touch ground
-		lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
-	}
+	//toggle backlight by allow K to touch ground
+	lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
 }//chkButtonAndToggleBacklight
 

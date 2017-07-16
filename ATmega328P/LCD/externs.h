@@ -29,22 +29,6 @@ extern uint8_t program_date[];
 extern uint8_t menu_str1[];
 extern uint8_t menu_str2[];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-extern  void LCD_WriteTimeDateTempHumid();
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 extern char strTemp[3], strHumid[3];
 
 extern int8_t dht_getdata(int8_t *, int8_t *);
@@ -75,67 +59,16 @@ extern void DHT11config();
 extern void debugPinConfig();
 
 /*----------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 DHT11.c (defined at)
-=======
-DHT.c (defined at)
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-DHT.c (defined at)
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-DHT.c (defined at)
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-DHT.c (defined at)
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
-DHT.c (defined at)
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 ------------------------------*/
 extern  void getDHT();
 
 /*----------------------------
 DS1307.c (defined at)
 ------------------------------*/
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 
 extern void DS1307_GetTime(byte*, byte*, byte*);
-=======
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-//void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
-extern void SetTimeDate(byte ,byte ,byte ,byte , byte , byte , byte , byte );
-extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 extern void DS1307_GetDate(byte*, byte*, byte*);
 extern void DS1307_GetWkDay(byte*);
 
@@ -217,27 +150,11 @@ extern void lcd_showDHT11();
 extern void lcd_dispProgInfo();
 extern void lcd_dispMenu();
 
-<<<<<<< HEAD
 extern void lcd_dispWords(uint8_t );
 extern void lcd_testString();
-=======
-// ------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 
 extern void LCD_dispNotice();
 extern void chkButtonAndToggleBacklight();
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 
 /*----------------------------
 Menu.c (defined at)
@@ -264,34 +181,7 @@ extern void sysClockTest();
 
 
 
-/*----------------------------
-PowerSave.c (defined at)
-------------------------------*/
-extern void LCD_pwrReady()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-=======
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
-/*----------------------------
-Menu.c (defined at)
-------------------------------*/
-extern void sysClockTest();
-extern void countButton(void);
-extern void adjustHour();
-extern void adjustMin();
-extern void adjustSec();
->>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 
 // Function Prototypes
 extern void config();

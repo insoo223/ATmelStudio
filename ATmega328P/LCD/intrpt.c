@@ -26,17 +26,22 @@
 #include "defines.h"
 #include <util/delay.h>
 
-uint8_t pwrOn = 0;//LCD power on status
+uint8_t pwrOn = 0;
 volatile uint8_t btcnt = 0;
-/*----------------------------------
-button switch is caught on by Pin Change intr.
-----------------------------------*/
+//----------------------------------
 ISR(PCINT0_vect)
 {
     if ((btcnt++ % 2) == 0)
 	{
 		if (pwrOn == 0)
 		{
+			makePDasOutput();
+			//make VDD pin as OUTPUT
+			//lcd_VDD_ddr |= _BV(lcd_VDD_bit); //done by makePDasOutput();
+
+
+			//_delay_ms(10);
+			lcd_init_4d();
 			//lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
 			//lcd_write_string_4d((uint8_t *)"Init OK!");
 			_delay_ms(10);
@@ -57,7 +62,8 @@ ISR(PCINT0_vect)
 			//_delay_ms(5);
 			//check only rising or falling edge
 			countButton();
-			
+
+
 			//Enable PC(Pin Change) interrupt
 			//For PCINT7-0, DS: Ch 12.2.8
 			//PCMSK0 |= _BV(PCINT6);
@@ -67,7 +73,7 @@ ISR(PCINT0_vect)
 			/***********************************************/
 
 		}//if (tactile_Switch_port & _BV(tactile_Switch_bit))
-		_delay_ms(100); // for debounce
+		_delay_ms(200); // for debounce
 	}//if ((btcnt++ % 2) == 0)
 }//ISR(PCINT0_vect)
 
