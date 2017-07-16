@@ -9,3 +9,6 @@ ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.elf
 ATmega328P/LCD/Debug/LCD_RTC_DS1307_DHT11.elf
 *.hex
 *.lss
+*.elf
+*.hex
+*.srec

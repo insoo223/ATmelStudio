@@ -16,7 +16,7 @@
  Description: 
 
  HEX size[Byte]:
-
+  
  Ref:
     Donald Weiman    (weimandn@alfredstate.edu)
     Summary:    4-bit data interface, busy flag not implemented.
