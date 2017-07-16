@@ -7,7 +7,7 @@
 	Jul 16, 2017 
 	Dispatch sub-defines to explicit .h files, such as,
 		definesIOpin.h, definesLCD.h, definesI2C.h  
-	Put more structured comments
+	Put more structured comments 
 
 	May 16, 2015
 	Get system compile time & date and display on LCD 2*16
