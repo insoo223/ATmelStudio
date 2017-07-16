@@ -3,10 +3,13 @@
  Name    : externs.h
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : May 15, 2015
- Updated : May 17, 2015
-
- Description: Get system compile time & date and display on LCD 2*16
-    Button toggling to turn on or off the backlight of LCD
+ Updated : 
+	Jul 16, 2017: 
+	Sort out function prototypes with regard to their code file name
+	
+ Description: 
+	1) Notice function prototypes and make them extern,
+		so that they are accessible to other code file than its original file.
 
  HEX size[Byte]:
 
@@ -52,6 +55,7 @@ External Functions
 /*----------------------------
 config.c (defined at)
 ------------------------------*/
+extern void config();
 extern void LCDconfig();
 extern void SwitchConfig();
 extern void RTC_DS1307config();
@@ -179,10 +183,4 @@ TimingDebug.c (defined at)
 extern void testTimingOnDebugPin();
 extern void sysClockTest();
 
-
-
-
-
-// Function Prototypes
-extern void config();
 // ------------------------
