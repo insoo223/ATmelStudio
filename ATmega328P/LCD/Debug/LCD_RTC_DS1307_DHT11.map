@@ -446,7 +446,11 @@ END GROUP
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .text           0x00000000     0x15d6
+=======
+.text           0x00000000     0x15de
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 .text           0x00000000     0x15de
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -680,6 +684,7 @@ END GROUP
  .text.countButton
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x000012b8      0x13e Menu.o
                 0x000012b8                countButton
  .text.libgcc.div
@@ -789,6 +794,8 @@ END GROUP
                 0x000015da                exit
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
                 0x000012b8      0x146 Menu.o
                 0x000012b8                countButton
  .text.libgcc.div
@@ -842,6 +849,9 @@ END GROUP
  .fini9         0x000015da        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
                 0x000015da                _exit
                 0x000015da                exit
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
  *(.fini9)
  *(.fini8)
@@ -863,11 +873,19 @@ END GROUP
  *(.fini0)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  .fini0         0x000015d2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
                 0x000015d6                _etext = .
 
 .data           0x00800100      0x36a load address 0x000015d6
+=======
+ .fini0         0x000015da        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ *(.fini0)
+                0x000015de                _etext = .
+
+.data           0x00800100      0x36a load address 0x000015de
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
  .fini0         0x000015da        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
@@ -966,8 +984,13 @@ END GROUP
                 0x00800481                PROVIDE (__bss_end, .)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x000015d6                __data_load_start = LOADADDR (.data)
                 0x00001940                __data_load_end = (__data_load_start + SIZEOF (.data))
+=======
+                0x000015de                __data_load_start = LOADADDR (.data)
+                0x00001948                __data_load_end = (__data_load_start + SIZEOF (.data))
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
                 0x000015de                __data_load_start = LOADADDR (.data)
                 0x00001948                __data_load_end = (__data_load_start + SIZEOF (.data))
@@ -1096,7 +1119,11 @@ END GROUP
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .debug_info     0x00000000     0x52f3
+=======
+.debug_info     0x00000000     0x5316
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 .debug_info     0x00000000     0x5316
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1135,6 +1162,9 @@ END GROUP
 
 .debug_abbrev   0x00000000     0x1a4f
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1150,6 +1180,7 @@ END GROUP
  .debug_abbrev  0x00000fbd      0x1b3 LCD.o
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  .debug_abbrev  0x00001170      0x37b LCDutil.o
  .debug_abbrev  0x000014eb       0x94 main.o
  .debug_abbrev  0x0000157f       0xe7 PowerSave.o
@@ -1161,6 +1192,8 @@ END GROUP
 =======
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
  .debug_abbrev  0x00001170      0x36c LCDutil.o
  .debug_abbrev  0x000014dc       0x94 main.o
  .debug_abbrev  0x00001570       0xe7 PowerSave.o
@@ -1170,6 +1203,9 @@ END GROUP
 
 .debug_line     0x00000000     0x250d
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1201,6 +1237,9 @@ END GROUP
  .debug_line    0x00002061      0x21f tinudht.o
  .debug_line    0x00002280      0x28d Menu.o
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1253,7 +1292,11 @@ END GROUP
  .debug_str     0x00000aa6       0x25 Menu.o
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 0x2e3 (size before relaxing)
+=======
+                                0x2d4 (size before relaxing)
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
                                 0x2d4 (size before relaxing)
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712

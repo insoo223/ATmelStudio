@@ -32,7 +32,10 @@ extern uint8_t menu_str2[];
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
@@ -72,7 +75,11 @@ extern void debugPinConfig();
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 DHT11.c (defined at)
+=======
+DHT.c (defined at)
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 DHT.c (defined at)
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -91,10 +98,13 @@ DS1307.c (defined at)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 
 extern void DS1307_GetTime(byte*, byte*, byte*);
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
@@ -105,6 +115,9 @@ extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -198,10 +211,13 @@ extern void lcd_testString();
 // ------------------------
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 
 extern void LCD_dispNotice();
 extern void chkButtonAndToggleBacklight();
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
@@ -240,7 +256,10 @@ extern void LCD_pwrReady()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
