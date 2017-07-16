@@ -118,7 +118,19 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="config.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="definesI2C.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="definesIOpin.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="defines.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="definesLCD.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="DHT11_LCDdisp.c">

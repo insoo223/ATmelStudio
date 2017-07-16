@@ -1,9 +1,68 @@
-﻿/*
- * LCD.c
- *
- * Created: 2017-07-13 오후 9:23:40
- *  Author: insoo
- */ 
+﻿/**************************************
+ Target MCU & clock speed: ATmega328P @ 1Mhz internal
+ Name    : LCD.c
+ Author  : Insoo Kim (insoo@hotmail.com)
+ Created : May 15, 2015
+ Updated : Jul 16, 2017
+	
+	2017-07-13 오후 9:23:40
+
+	May 16, 2015
+	Get system compile time & date and display on LCD 2*16
+	Button toggling to turn on or off the backlight of LCD
+
+ Description: 
+
+ HEX size[Byte]:
+
+ Ref:
+    Donald Weiman    (weimandn@alfredstate.edu)
+    Summary:    4-bit data interface, busy flag not implemented.
+		Any LCD pin can be connected to any available I/O port.
+		Includes a simple write string routine.
+    http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
+ *************************************/
+
+
+/*** Program Notes *******************
+
+This program uses a 4-bit data interface but does not use the
+busy flag to determine when the LCD controller is ready.  The
+LCD RW line (pin 5) is not connected to the MCU and it must be
+connected to GND for the program to function.
+
+All time delays are longer than those specified in most datasheets
+in order to accommodate slower than normal LCD modules.  This
+requirement is well documented but almost always ignored.  The
+information is in a note at the bottom of the right hand
+(Execution Time) column of the instruction set.
+
+************************************
+
+The four data lines as well as the two control lines may be
+    implemented on any available I/O pin of any port.  These are
+    the connections used for this program:
+
++-----------+        +----------+
+| ATmega328 |        |   LCD    |
+|           |        |          |
+|        PD7|------->|D7        |
+|        PD6|------->|D6        |
+|        PD5|------->|D5        |
+|        PD4|------->|D4        |
+|           |        |D3        |
+|           |        |D2        |
+|           |        |D1        |
+|           |        |D0        |
+|           |        |          |
+|        PD3|------->|E         |
+|           |  GND-->|RW        |
+|        PD2|------->|RS        |
++-----------+        +----------+
+
+************************************/
+
+
 /*============================== 4-bit LCD Functions ======================*/
 
 #include <stdio.h>

@@ -42,9 +42,9 @@ void getDHT()
 	DHT_VCC_ddr |= _BV(DHT_VCC_bit);
 	DHT_VCC_port |= _BV(DHT_VCC_bit);
 	_delay_ms(500);
-	tinudht_read(&tinudht, TINUDHT_PIN);
+	tinudht_read(&tinudht, DHT_SIG_bit);
 	_delay_ms(500);
-	tinudht_read(&tinudht, TINUDHT_PIN);
+	tinudht_read(&tinudht, DHT_SIG_bit);
 	temp = tinudht.temperature;
 	humid = tinudht.humidity;
 

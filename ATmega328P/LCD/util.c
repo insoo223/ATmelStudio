@@ -30,9 +30,9 @@
 //-----------------------------------
 void sysClockTest()
 {
-    PORTB |= _BV(debug_PIN);
+    debug_PIN_port |= _BV(debug_PIN_bit);
     _delay_ms(10);
-    PORTB &= ~_BV(debug_PIN);
+    debug_PIN_port &= ~_BV(debug_PIN_bit);
     _delay_ms(10);
 
 }//sysClockTest
@@ -253,10 +253,10 @@ void makePDasInput()
 
 	// DHT11 (temp & humid sensor) signal pin - Output/Input
 	//turn off and
-	PORTB &= ~_BV(TINUDHT_PIN);
+	DHT_SIG_port &= ~_BV(DHT_SIG_bit);
 	//make it input
-	DDRB &= ~_BV(TINUDHT_PIN);
-	PORTB &= ~_BV(TINUDHT_PIN);
+	DHT_SIG_ddr &= ~_BV(DHT_SIG_bit);
+	DHT_SIG_port &= ~_BV(DHT_SIG_bit);
 
 	//turn off DHT11 chip power
 	DHT_VCC_port &= ~_BV(DHT_VCC_bit);

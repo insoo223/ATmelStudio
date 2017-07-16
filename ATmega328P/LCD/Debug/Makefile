@@ -37,6 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../config.c \
 ../DHT11_LCDdisp.c \
 ../globals.c \
 ../I2C.c \
@@ -55,6 +56,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+config.o \
 DHT11_LCDdisp.o \
 globals.o \
 I2C.o \
@@ -66,6 +68,7 @@ tinudht.o \
 util.o
 
 OBJS_AS_ARGS +=  \
+config.o \
 DHT11_LCDdisp.o \
 globals.o \
 I2C.o \
@@ -77,6 +80,7 @@ tinudht.o \
 util.o
 
 C_DEPS +=  \
+config.d \
 DHT11_LCDdisp.d \
 globals.d \
 I2C.d \
@@ -88,6 +92,7 @@ tinudht.d \
 util.d
 
 C_DEPS_AS_ARGS +=  \
+config.d \
 DHT11_LCDdisp.d \
 globals.d \
 I2C.d \
@@ -112,6 +117,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

@@ -48,6 +48,18 @@ extern int8_t accumulatedHour, accumulatedMin, accumulatedSec;
 
 extern uint8_t pwrOn;
 
+/************************************
+External Functions
+*************************************/
+/*----------------------------
+config.c (defined at)
+------------------------------*/
+extern void LCDconfig();
+extern void SwitchConfig();
+extern void RTC_DS1307config();
+extern void DHT11config();
+extern void debugPinConfig();
+
 extern void proceedClock();
 
 extern void WDT_Init(void);

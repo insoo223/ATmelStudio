@@ -49,6 +49,9 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .text          0x00000000        0x0 config.o
+ .data          0x00000000        0x0 config.o
+ .bss           0x00000000        0x0 config.o
  .text          0x00000000        0x0 DHT11_LCDdisp.o
  .data          0x00000000        0x0 DHT11_LCDdisp.o
  .bss           0x00000000        0x0 DHT11_LCDdisp.o
@@ -293,6 +296,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
+LOAD config.o
 LOAD DHT11_LCDdisp.o
 LOAD globals.o
 LOAD I2C.o
@@ -409,7 +413,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x15de
+.text           0x00000000     0x1600
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -498,181 +502,196 @@ END GROUP
                 0x000000c8                __vector_20
                 0x000000cc                . = ALIGN (0x2)
  *(.text.*)
- .text.getDHT   0x000000cc       0x7c DHT11_LCDdisp.o
-                0x000000cc                getDHT
+ .text.LCDconfig
+                0x000000cc       0x1a config.o
+                0x000000cc                LCDconfig
+ .text.SwitchConfig
+                0x000000e6        0x4 config.o
+                0x000000e6                SwitchConfig
+ .text.RTC_DS1307config
+                0x000000ea        0x6 config.o
+                0x000000ea                RTC_DS1307config
+ .text.DHT11config
+                0x000000f0        0x6 config.o
+                0x000000f0                DHT11config
+ .text.debugPinConfig
+                0x000000f6        0x6 config.o
+                0x000000f6                debugPinConfig
+ .text.config   0x000000fc       0x16 config.o
+                0x000000fc                config
+ .text.getDHT   0x00000112       0x7c DHT11_LCDdisp.o
+                0x00000112                getDHT
  .text.I2C_Init
-                0x00000148        0xc I2C.o
-                0x00000148                I2C_Init
+                0x0000018e        0xc I2C.o
+                0x0000018e                I2C_Init
  .text.I2C_Detect
-                0x00000154       0x34 I2C.o
-                0x00000154                I2C_Detect
+                0x0000019a       0x34 I2C.o
+                0x0000019a                I2C_Detect
  .text.I2C_Write
-                0x00000188       0x24 I2C.o
-                0x00000188                I2C_Write
+                0x000001ce       0x24 I2C.o
+                0x000001ce                I2C_Write
  .text.I2C_ReadNACK
-                0x000001ac       0x16 I2C.o
-                0x000001ac                I2C_ReadNACK
+                0x000001f2       0x16 I2C.o
+                0x000001f2                I2C_ReadNACK
  .text.I2C_ReadRegister
-                0x000001c2       0x2a I2C.o
-                0x000001c2                I2C_ReadRegister
+                0x00000208       0x2a I2C.o
+                0x00000208                I2C_ReadRegister
  .text.__vector_3
-                0x000001ec       0xba intrpt.o
-                0x000001ec                __vector_3
- .text.initINT  0x000002a6       0x1a intrpt.o
-                0x000002a6                initINT
+                0x00000232       0xba intrpt.o
+                0x00000232                __vector_3
+ .text.initINT  0x000002ec       0x1a intrpt.o
+                0x000002ec                initINT
  .text.proceedClock
-                0x000002c0      0x138 intrpt.o
-                0x000002c0                proceedClock
+                0x00000306      0x138 intrpt.o
+                0x00000306                proceedClock
  .text.__vector_6
-                0x000003f8       0x74 intrpt.o
-                0x000003f8                __vector_6
+                0x0000043e       0x74 intrpt.o
+                0x0000043e                __vector_6
  .text.lcd_write_4
-                0x0000046c       0x24 LCD.o
-                0x0000046c                lcd_write_4
+                0x000004b2       0x24 LCD.o
+                0x000004b2                lcd_write_4
  .text.lcd_write_character_4d
-                0x00000490       0x1a LCD.o
-                0x00000490                lcd_write_character_4d
+                0x000004d6       0x1a LCD.o
+                0x000004d6                lcd_write_character_4d
  .text.lcd_write_string_4d
-                0x000004aa       0x5e LCD.o
-                0x000004aa                lcd_write_string_4d
+                0x000004f0       0x5e LCD.o
+                0x000004f0                lcd_write_string_4d
  .text.lcd_write_instruction_4d
-                0x00000508       0x1a LCD.o
-                0x00000508                lcd_write_instruction_4d
+                0x0000054e       0x1a LCD.o
+                0x0000054e                lcd_write_instruction_4d
  .text.lcd_init_4d
-                0x00000522       0x96 LCD.o
-                0x00000522                lcd_init_4d
+                0x00000568       0x96 LCD.o
+                0x00000568                lcd_init_4d
  .text.dispNotice
-                0x000005b8       0x54 main.o
-                0x000005b8                dispNotice
- .text.config   0x0000060c       0x24 main.o
-                0x0000060c                config
- .text.main     0x00000630       0x2c main.o
-                0x00000630                main
+                0x000005fe       0x54 main.o
+                0x000005fe                dispNotice
+ .text.main     0x00000652       0x2c main.o
+                0x00000652                main
  .text.turnOnLCDBacklight
-                0x0000065c        0x4 main.o
-                0x0000065c                turnOnLCDBacklight
+                0x0000067e        0x4 main.o
+                0x0000067e                turnOnLCDBacklight
  .text.turnOffLCDBacklight
-                0x00000660        0x4 main.o
-                0x00000660                turnOffLCDBacklight
+                0x00000682        0x4 main.o
+                0x00000682                turnOffLCDBacklight
  .text.lcd_dispRealClock
-                0x00000664      0x1da main.o
-                0x00000664                lcd_dispRealClock
+                0x00000686      0x1da main.o
+                0x00000686                lcd_dispRealClock
  .text.lcd_dispAccumulatedTime
-                0x0000083e       0xaa main.o
-                0x0000083e                lcd_dispAccumulatedTime
+                0x00000860       0xaa main.o
+                0x00000860                lcd_dispAccumulatedTime
  .text.lcd_dispProgInfo
-                0x000008e8       0x62 main.o
-                0x000008e8                lcd_dispProgInfo
+                0x0000090a       0x62 main.o
+                0x0000090a                lcd_dispProgInfo
  .text.lcd_dispMenu
-                0x0000094a       0x3c main.o
-                0x0000094a                lcd_dispMenu
+                0x0000096c       0x3c main.o
+                0x0000096c                lcd_dispMenu
  .text.lcd_dispWords
-                0x00000986       0xf4 main.o
-                0x00000986                lcd_dispWords
+                0x000009a8       0xf4 main.o
+                0x000009a8                lcd_dispWords
  .text.DS1307_GetTime
-                0x00000a7a       0x52 main.o
-                0x00000a7a                DS1307_GetTime
+                0x00000a9c       0x52 main.o
+                0x00000a9c                DS1307_GetTime
  .text.DS1307_GetDate
-                0x00000acc       0x42 main.o
-                0x00000acc                DS1307_GetDate
+                0x00000aee       0x42 main.o
+                0x00000aee                DS1307_GetDate
  .text.DS1307_GetWkDay
-                0x00000b0e       0x16 main.o
-                0x00000b0e                DS1307_GetWkDay
+                0x00000b30       0x16 main.o
+                0x00000b30                DS1307_GetWkDay
  .text.LCD_BCDDigits
-                0x00000b24       0x1c main.o
-                0x00000b24                LCD_BCDDigits
+                0x00000b46       0x1c main.o
+                0x00000b46                LCD_BCDDigits
  .text.WriteDate
-                0x00000b40       0x60 main.o
-                0x00000b40                WriteDate
+                0x00000b62       0x60 main.o
+                0x00000b62                WriteDate
  .text.WriteTime
-                0x00000ba0       0x4a main.o
-                0x00000ba0                WriteTime
+                0x00000bc2       0x4a main.o
+                0x00000bc2                WriteTime
  .text.LCD_blankChar
-                0x00000bea       0x1e main.o
-                0x00000bea                LCD_blankChar
+                0x00000c0c       0x1e main.o
+                0x00000c0c                LCD_blankChar
  .text.LCD_TimeDate
-                0x00000c08       0x22 main.o
-                0x00000c08                LCD_TimeDate
+                0x00000c2a       0x22 main.o
+                0x00000c2a                LCD_TimeDate
  .text.LCD_TimeDateTempHumid
-                0x00000c2a       0x42 main.o
-                0x00000c2a                LCD_TimeDateTempHumid
- .text.calcDay  0x00000c6c       0x1a strFunc.o
-                0x00000c6c                calcDay
+                0x00000c4c       0x42 main.o
+                0x00000c4c                LCD_TimeDateTempHumid
+ .text.calcDay  0x00000c8e       0x1a strFunc.o
+                0x00000c8e                calcDay
  .text.parseCompileTime
-                0x00000c86      0x270 strFunc.o
-                0x00000c86                parseCompileTime
+                0x00000ca8      0x270 strFunc.o
+                0x00000ca8                parseCompileTime
  .text.tinudht_read
-                0x00000ef6      0x166 tinudht.o
-                0x00000ef6                tinudht_read
+                0x00000f18      0x166 tinudht.o
+                0x00000f18                tinudht_read
  .text.makePDasOutput
-                0x0000105c       0x36 util.o
-                0x0000105c                makePDasOutput
+                0x0000107e       0x36 util.o
+                0x0000107e                makePDasOutput
  .text.makePDasInput
-                0x00001092       0x32 util.o
-                0x00001092                makePDasInput
+                0x000010b4       0x32 util.o
+                0x000010b4                makePDasInput
  .text.adjustHour
-                0x000010c4       0xac util.o
-                0x000010c4                adjustHour
+                0x000010e6       0xac util.o
+                0x000010e6                adjustHour
  .text.adjustMin
-                0x00001170       0xac util.o
-                0x00001170                adjustMin
+                0x00001192       0xac util.o
+                0x00001192                adjustMin
  .text.adjustSec
-                0x0000121c       0xac util.o
-                0x0000121c                adjustSec
+                0x0000123e       0xac util.o
+                0x0000123e                adjustSec
  .text.countButton
-                0x000012c8      0x136 util.o
-                0x000012c8                countButton
+                0x000012ea      0x136 util.o
+                0x000012ea                countButton
  .text.libgcc.div
-                0x000013fe       0x1c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_divmodqi4.o)
-                0x000013fe                __divmodqi4
+                0x00001420       0x1c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_divmodqi4.o)
+                0x00001420                __divmodqi4
  .text.libgcc.div
-                0x0000141a       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_divmodhi4.o)
-                0x0000141a                _div
-                0x0000141a                __divmodhi4
- .text.libgcc   0x00001442        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_tablejump2.o)
-                0x00001442                __tablejump2__
+                0x0000143c       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_divmodhi4.o)
+                0x0000143c                _div
+                0x0000143c                __divmodhi4
+ .text.libgcc   0x00001464        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_tablejump2.o)
+                0x00001464                __tablejump2__
  .text.libgcc.mul
-                0x0000144e       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_umulhisi3.o)
-                0x0000144e                __umulhisi3
+                0x00001470       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_umulhisi3.o)
+                0x00001470                __umulhisi3
  .text.libgcc.div
-                0x0000146c       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodqi4.o)
-                0x0000146c                __udivmodqi4
+                0x0000148e       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodqi4.o)
+                0x0000148e                __udivmodqi4
  .text.libgcc.div
-                0x00001484       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodhi4.o)
-                0x00001484                __udivmodhi4
+                0x000014a6       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodhi4.o)
+                0x000014a6                __udivmodhi4
  .text.avr-libc
-                0x000014ac       0x3c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(atoi.o)
-                0x000014ac                atoi
+                0x000014ce       0x3c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(atoi.o)
+                0x000014ce                atoi
  .text.avr-libc
-                0x000014e8        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
-                0x000014e8                strtok
+                0x0000150a        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok.o)
+                0x0000150a                strtok
  .text.avr-libc
-                0x000014f2       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strcmp.o)
-                0x000014f2                strcmp
+                0x00001514       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strcmp.o)
+                0x00001514                strcmp
  .text.avr-libc
-                0x00001504        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strcpy.o)
-                0x00001504                strcpy
+                0x00001526        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strcpy.o)
+                0x00001526                strcpy
  .text.avr-libc
-                0x00001512       0x4e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok_r.o)
-                0x00001512                strtok_r
+                0x00001534       0x4e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strtok_r.o)
+                0x00001534                strtok_r
  .text.avr-libc
-                0x00001560       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
-                0x00001560                __itoa_ncheck
+                0x00001582       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+                0x00001582                __itoa_ncheck
  .text.avr-libc
-                0x00001576       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(mul10.o)
-                0x00001576                __mulhi_const_10
+                0x00001598       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(mul10.o)
+                0x00001598                __mulhi_const_10
  .text.avr-libc
-                0x00001586       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
-                0x00001586                __utoa_ncheck
-                0x00001588                __utoa_common
+                0x000015a8       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+                0x000015a8                __utoa_ncheck
+                0x000015aa                __utoa_common
  .text.avr-libc
-                0x000015ba       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strrev.o)
-                0x000015ba                strrev
-                0x000015da                . = ALIGN (0x2)
+                0x000015dc       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+                0x000015dc                strrev
+                0x000015fc                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000015da        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x000015da                _exit
-                0x000015da                exit
+ .fini9         0x000015fc        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x000015fc                _exit
+                0x000015fc                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -691,11 +710,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000015da        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x000015fc        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000015de                _etext = .
+                0x00001600                _etext = .
 
-.data           0x00800100      0x372 load address 0x000015de
+.data           0x00800100      0x372 load address 0x00001600
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -779,8 +798,8 @@ END GROUP
                 0x00800487                monthEndDate
                 0x00800488                prevMenuCnt
                 0x00800489                PROVIDE (__bss_end, .)
-                0x000015de                __data_load_start = LOADADDR (.data)
-                0x00001950                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001600                __data_load_start = LOADADDR (.data)
+                0x00001972                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800489        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -828,8 +847,9 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 DHT11_LCDdisp.o
+ .comment       0x00000000       0x30 config.o
                                  0x31 (size before relaxing)
+ .comment       0x00000030       0x31 DHT11_LCDdisp.o
  .comment       0x00000030       0x31 globals.o
  .comment       0x00000030       0x31 I2C.o
  .comment       0x00000030       0x31 intrpt.o
@@ -860,100 +880,108 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x2d8
+.debug_aranges  0x00000000      0x318
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x20 DHT11_LCDdisp.o
+                0x00000000       0x48 config.o
  .debug_aranges
-                0x00000020       0x18 globals.o
+                0x00000048       0x20 DHT11_LCDdisp.o
  .debug_aranges
-                0x00000038       0x68 I2C.o
+                0x00000068       0x18 globals.o
  .debug_aranges
-                0x000000a0       0x58 intrpt.o
+                0x00000080       0x68 I2C.o
  .debug_aranges
-                0x000000f8       0x40 LCD.o
+                0x000000e8       0x58 intrpt.o
  .debug_aranges
-                0x00000138      0x108 main.o
+                0x00000140       0x40 LCD.o
  .debug_aranges
-                0x00000240       0x28 strFunc.o
+                0x00000180      0x100 main.o
  .debug_aranges
-                0x00000268       0x20 tinudht.o
+                0x00000280       0x28 strFunc.o
  .debug_aranges
-                0x00000288       0x50 util.o
+                0x000002a8       0x20 tinudht.o
+ .debug_aranges
+                0x000002c8       0x50 util.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4fcf
+.debug_info     0x00000000     0x50d8
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_info    0x000005f4      0x39a DHT11_LCDdisp.o
- .debug_info    0x0000098e      0x22d globals.o
- .debug_info    0x00000bbb      0x385 I2C.o
- .debug_info    0x00000f40      0x411 intrpt.o
- .debug_info    0x00001351      0x5d2 LCD.o
- .debug_info    0x00001923     0x23e1 main.o
- .debug_info    0x00003d04      0x51a strFunc.o
- .debug_info    0x0000421e      0x2a1 tinudht.o
- .debug_info    0x000044bf      0xb10 util.o
+ .debug_info    0x000005f4      0x120 config.o
+ .debug_info    0x00000714      0x39a DHT11_LCDdisp.o
+ .debug_info    0x00000aae      0x22d globals.o
+ .debug_info    0x00000cdb      0x385 I2C.o
+ .debug_info    0x00001060      0x411 intrpt.o
+ .debug_info    0x00001471      0x5d2 LCD.o
+ .debug_info    0x00001a43     0x23ca main.o
+ .debug_info    0x00003e0d      0x51a strFunc.o
+ .debug_info    0x00004327      0x2a1 tinudht.o
+ .debug_info    0x000045c8      0xb10 util.o
 
-.debug_abbrev   0x00000000     0x1675
+.debug_abbrev   0x00000000     0x170c
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_abbrev  0x000005a2      0x1f9 DHT11_LCDdisp.o
- .debug_abbrev  0x0000079b       0x67 globals.o
- .debug_abbrev  0x00000802      0x173 I2C.o
- .debug_abbrev  0x00000975      0x1dd intrpt.o
- .debug_abbrev  0x00000b52      0x1b3 LCD.o
- .debug_abbrev  0x00000d05      0x3aa main.o
- .debug_abbrev  0x000010af      0x12f strFunc.o
- .debug_abbrev  0x000011de      0x188 tinudht.o
- .debug_abbrev  0x00001366      0x30f util.o
+ .debug_abbrev  0x000005a2       0x70 config.o
+ .debug_abbrev  0x00000612      0x1f9 DHT11_LCDdisp.o
+ .debug_abbrev  0x0000080b       0x67 globals.o
+ .debug_abbrev  0x00000872      0x173 I2C.o
+ .debug_abbrev  0x000009e5      0x1dd intrpt.o
+ .debug_abbrev  0x00000bc2      0x1b3 LCD.o
+ .debug_abbrev  0x00000d75      0x3d1 main.o
+ .debug_abbrev  0x00001146      0x12f strFunc.o
+ .debug_abbrev  0x00001275      0x188 tinudht.o
+ .debug_abbrev  0x000013fd      0x30f util.o
 
-.debug_line     0x00000000     0x219e
+.debug_line     0x00000000     0x22a0
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000133      0x1e4 DHT11_LCDdisp.o
- .debug_line    0x00000317       0x8e globals.o
- .debug_line    0x000003a5      0x270 I2C.o
- .debug_line    0x00000615      0x3ca intrpt.o
- .debug_line    0x000009df      0x2e8 LCD.o
- .debug_line    0x00000cc7      0xb29 main.o
- .debug_line    0x000017f0      0x1e2 strFunc.o
- .debug_line    0x000019d2      0x21f tinudht.o
- .debug_line    0x00001bf1      0x5ad util.o
+ .debug_line    0x00000133      0x181 config.o
+ .debug_line    0x000002b4      0x1e4 DHT11_LCDdisp.o
+ .debug_line    0x00000498       0x8e globals.o
+ .debug_line    0x00000526      0x270 I2C.o
+ .debug_line    0x00000796      0x3ca intrpt.o
+ .debug_line    0x00000b60      0x2e3 LCD.o
+ .debug_line    0x00000e43      0xaaf main.o
+ .debug_line    0x000018f2      0x1e2 strFunc.o
+ .debug_line    0x00001ad4      0x21f tinudht.o
+ .debug_line    0x00001cf3      0x5ad util.o
 
-.debug_frame    0x00000000      0x76c
+.debug_frame    0x00000000      0x7d0
  *(.debug_frame)
- .debug_frame   0x00000000       0x40 DHT11_LCDdisp.o
- .debug_frame   0x00000040       0xdc I2C.o
- .debug_frame   0x0000011c      0x12c intrpt.o
- .debug_frame   0x00000248       0x90 LCD.o
- .debug_frame   0x000002d8      0x328 main.o
- .debug_frame   0x00000600       0x4c strFunc.o
- .debug_frame   0x0000064c       0x48 tinudht.o
- .debug_frame   0x00000694       0xd8 util.o
+ .debug_frame   0x00000000       0x74 config.o
+ .debug_frame   0x00000074       0x40 DHT11_LCDdisp.o
+ .debug_frame   0x000000b4       0xdc I2C.o
+ .debug_frame   0x00000190      0x12c intrpt.o
+ .debug_frame   0x000002bc       0x90 LCD.o
+ .debug_frame   0x0000034c      0x318 main.o
+ .debug_frame   0x00000664       0x4c strFunc.o
+ .debug_frame   0x000006b0       0x48 tinudht.o
+ .debug_frame   0x000006f8       0xd8 util.o
 
-.debug_str      0x00000000      0xa3c
+.debug_str      0x00000000      0xa86
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208      0x207 DHT11_LCDdisp.o
+ .debug_str     0x00000208      0x176 config.o
+                                0x1b6 (size before relaxing)
+ .debug_str     0x0000037e       0xe2 DHT11_LCDdisp.o
                                 0x24d (size before relaxing)
- .debug_str     0x0000040f       0xb8 globals.o
+ .debug_str     0x00000460       0xb8 globals.o
                                 0x22b (size before relaxing)
- .debug_str     0x000004c7       0xbd I2C.o
+ .debug_str     0x00000518       0xbd I2C.o
                                 0x21b (size before relaxing)
- .debug_str     0x00000584       0xca intrpt.o
+ .debug_str     0x000005d5       0xca intrpt.o
                                 0x2d3 (size before relaxing)
- .debug_str     0x0000064e       0x93 LCD.o
+ .debug_str     0x0000069f       0x93 LCD.o
                                 0x248 (size before relaxing)
- .debug_str     0x000006e1      0x269 main.o
+ .debug_str     0x00000732      0x262 main.o
                                 0x5df (size before relaxing)
- .debug_str     0x0000094a       0x40 strFunc.o
+ .debug_str     0x00000994       0x40 strFunc.o
                                 0x1e3 (size before relaxing)
- .debug_str     0x0000098a       0x46 tinudht.o
+ .debug_str     0x000009d4       0x46 tinudht.o
                                 0x23a (size before relaxing)
- .debug_str     0x000009d0       0x6c util.o
+ .debug_str     0x00000a1a       0x6c util.o
                                 0x371 (size before relaxing)
 
 .debug_loc      0x00000000     0x1f91
@@ -985,16 +1013,17 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x318
+.debug_ranges   0x00000000      0x348
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x10 DHT11_LCDdisp.o
- .debug_ranges  0x00000010       0x70 I2C.o
- .debug_ranges  0x00000080       0x48 intrpt.o
- .debug_ranges  0x000000c8       0x30 LCD.o
- .debug_ranges  0x000000f8       0xf8 main.o
- .debug_ranges  0x000001f0       0x18 strFunc.o
- .debug_ranges  0x00000208       0x60 tinudht.o
- .debug_ranges  0x00000268       0xb0 util.o
+ .debug_ranges  0x00000000       0x38 config.o
+ .debug_ranges  0x00000038       0x10 DHT11_LCDdisp.o
+ .debug_ranges  0x00000048       0x70 I2C.o
+ .debug_ranges  0x000000b8       0x48 intrpt.o
+ .debug_ranges  0x00000100       0x30 LCD.o
+ .debug_ranges  0x00000130       0xf0 main.o
+ .debug_ranges  0x00000220       0x18 strFunc.o
+ .debug_ranges  0x00000238       0x60 tinudht.o
+ .debug_ranges  0x00000298       0xb0 util.o
 
 .debug_macro
  *(.debug_macro)

@@ -1,44 +1,53 @@
-/****************************************************************************
-<For Windows Atmel Studio>
-cd "Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
-OR cd "C:\Users\insoo\Documents\Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
-OR cd "C:\Users\insoo\Box Sync\BoxElec\DIY Electronics\Arduino\Codes Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
-avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD.hex:i
+/****************************************
+Target MCU & clock speed: ATmega328P @ 1Mhz internal
+Name : main.c
+	C modules of this project, LCD:
+	main.c globals.c intrpt.c strFunc.c util.c
+	custom Headers:
+	defines.h externs.h
+Author  : Insoo Kim (insoo@hotmail.com)
+Created : May 15, 2015
+Updated : Jul 12, 2017 (On Atmel Studio 7)
+	Oct 9, 2016 (On Atmel Studio 7)
 
- */
+Description: 
+	** Jul 12, 2017 (On Atmel Studio 7)
+	Attach DS1307 RTC chip w/32Khz crystal. 
+	Deeply power save by inventing LCD & DS1307 chip pin IO and Vcc, Vdd management.
+	Sleep: 1.5 uA
+	Run: 4 mA
 
-/**************************************************************
- Target MCU & clock speed: ATmega328P @ 1Mhz internal
- Name    : main.c
- C modules of this project, LCD:
-    main.c globals.c intrpt.c strFunc.c util.c
- custom Headers:
-    defines.h externs.h
- Author  : Insoo Kim (insoo@hotmail.com)
- Created : May 15, 2015
- Updated : Jul 12, 2017 (On Atmel Studio 7)
-			Oct 9, 2016 (On Atmel Studio 7)
+	** Oct 9, 2016 (On Atmel Studio 7)
+	Get system compile time & date and display on LCD 2*16
+	Button toggling to turn on or off the backlight of LCD
 
- Description: 
-	 ** Jul 12, 2017 (On Atmel Studio 7)
-	 Attach DS1307 RTC chip w/32Khz crystal. 
-	 Deeply power save by inventing LCD & DS1307 chip pin IO and Vcc, Vdd management.
-		Sleep: 1.5 uA
-		Run: 4 mA
+HEX size[Byte]: 
+	6504 w/ATmel Studio 7
 
+Build & Upload to MCU in Windows Atmel Studio
+	Jul 12, 2017 (On Atmel Studio 7)
+	도구(T) - 외부도구(E)에서 아래처럼 추가
+	제목: USBtin&Y
+	명령: C:\WinAVR-20100110\bin\avrdude.exe
+	인수: avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD_RTC_DS1307_DHT11.hex:i
+	초기 디렉토리$(ProjectDir)\Debug
+	출력 창 사용 (체크)
 
-	 ** Oct 9, 2016 (On Atmel Studio 7)
-	 Get system compile time & date and display on LCD 2*16
-		Button toggling to turn on or off the backlight of LCD
+	완료되면 도구(T) -  USBtinY(Y에 밑줄) 생성
+	이제 USBtiny programmer를 PC에 연결하고, build(F7) 한 이후 Alt+T, Y하면 업로드 됨
 
- HEX size[]: 
- 3340 out of 32K (all modules built together) w/prev. version of Atmel Studio
-	5308 w/ATmel Studio 7
+	cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATmega328P\LCD\Debug"
+
+	Oct 9, 2016 (On Atmel Studio 7)
+	cd "Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
+	OR cd "C:\Users\insoo\Documents\Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
+	OR cd "C:\Users\insoo\Box Sync\BoxElec\DIY Electronics\Arduino\Codes Atmel Studio\7.0\ATmega328P\LCD\LCD\Debug"
+	avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD.hex:i
 
  Ref:
     Donald Weiman    (weimandn@alfredstate.edu)
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
- *****************************************************************/
+ *******************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,12 +61,10 @@ avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD.hex:i
 #include <util/delay.h>
 
 
-/******************************* Main Program Code *************************/
+//------------------------------------
 int main()
 {
     config();
-    //ioinit(); //dht11
-    //init_devices();
  
     initINT();//to make English Words go round
 
@@ -135,9 +142,9 @@ void dispNotice()
 
 void testTimingOnDebugPin()
 {
-    PORTB |= _BV(debug_PIN);
+    debug_PIN_port |= _BV(debug_PIN_bit);
     _delay_ms(100);
-    PORTB &= ~_BV(debug_PIN);
+    debug_PIN_port &= ~_BV(debug_PIN_bit);
     _delay_ms(100);
 }//testTimingOnDebugPin
 
@@ -154,61 +161,6 @@ void chkButtonAndToggleBacklight()
         lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
 }//chkButtonAndToggleBacklight
 
-void config()
-{
-// configure the microprocessor pins for the data lines
-// 4 data lines - output
-    lcd_D7_ddr |= _BV(lcd_D7_bit);
-    lcd_D6_ddr |= _BV(lcd_D6_bit);
-    lcd_D5_ddr |= _BV(lcd_D5_bit);
-    lcd_D4_ddr |= _BV(lcd_D4_bit);
-
-// LCD backlight cathode pin (K) - Output
-    lcd_Backlight_ddr |= _BV(lcd_Backlight_bit);
-    //turn off LCD backlight
-	// for it is GND or cathode pin, make it HIGH turn it off
-    lcd_Backlight_port |= _BV(lcd_Backlight_bit);
-
-// LCD VSS pin (Power Supply) - Output
-//added by Insoo (Jul 11, 2017)
-	lcd_VDD_ddr |= _BV(lcd_VDD_bit);
-	//turn off LCD power
-	lcd_VDD_port &= ~_BV(lcd_VDD_bit); 
-
-// DS1307 VCC pin (Power Supply) - Output
-//added by Insoo (Jul 11, 2017)
-	DS1307_VCC_ddr |= _BV(DS1307_VCC_bit);
-	//turn off DS1307 RTC chip power
-	DS1307_VCC_port &= ~_BV(DS1307_VCC_bit);
-
-
-// DHT11 (temp & humid sensor) VCC pin (Power Supply) - Output
-	//added by Insoo (Jul 14, 2017)
-	DHT_VCC_ddr |= _BV(DHT_VCC_bit);
-	//turn off DS1307 RTC chip power
-	DHT_VCC_port &= ~_BV(DHT_VCC_bit);
-
-//Tactile switch - Input
-    tactile_Switch_ddr &= ~_BV(tactile_Switch_bit);
-
-// configure the microprocessor pins for the control lines
-// E line - output
-    lcd_E_ddr |= _BV(lcd_E_bit);
-// RS line - output
-    lcd_RS_ddr |= _BV(lcd_RS_bit);
-
-// debug pin - Output
-    debug_PIN_ddr |= _BV(debug_PIN_bit);
-    //turn off debug_PIN
-    debug_PIN_port &= ~_BV(debug_PIN_bit);
-    //turn on debug_PIN
-    //debug_PIN_port |= _BV(debug_PIN_bit);
-
-// initialize the LCD controller as determined by the defines (LCD instructions)
-// initialize the LCD display for a 4-bit interface
-    //lcd_init_4d();
-
-}//config
 
 void turnOnLCDBacklight()
 {
