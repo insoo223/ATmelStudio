@@ -6,6 +6,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   0 .data         0000036a  00800100  000015d6  0000166a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         000015d6  00000000  00000000  00000094  2**1
@@ -31,6 +32,33 @@ Idx Name          Size      VMA       LMA       File off  Algn
  11 .debug_loc    00001eeb  00000000  00000000  0000c2eb  2**0
                   CONTENTS, READONLY, DEBUGGING
  12 .debug_ranges 00000360  00000000  00000000  0000e1d6  2**0
+=======
+  0 .data         0000036a  00800100  000015de  00001672  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000015de  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000017  0080046a  0080046a  000019dc  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000019dc  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00001a0c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000370  00000000  00000000  00001a4c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00005316  00000000  00000000  00001dbc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00001a4f  00000000  00000000  000070d2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000250d  00000000  00000000  00008b21  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000808  00000000  00000000  0000b030  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000acb  00000000  00000000  0000b838  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00001f1d  00000000  00000000  0000c303  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000360  00000000  00000000  0000e220  2**0
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
   0 .data         0000036a  00800100  000015de  00001672  2**0
                   CONTENTS, ALLOC, LOAD, DATA
@@ -178,7 +206,11 @@ Disassembly of section .text:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       a0:	e6 ed       	ldi	r30, 0xD6	; 214
+=======
+      a0:	ee ed       	ldi	r30, 0xDE	; 222
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
       a0:	ee ed       	ldi	r30, 0xDE	; 222
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -213,7 +245,11 @@ Disassembly of section .text:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       c4:	0c 94 e9 0a 	jmp	0x15d2	; 0x15d2 <_exit>
+=======
+      c4:	0c 94 ed 0a 	jmp	0x15da	; 0x15da <_exit>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
       c4:	0c 94 ed 0a 	jmp	0x15da	; 0x15da <_exit>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -417,7 +453,11 @@ void getDHT()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      16c:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     16c:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      16c:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -434,7 +474,11 @@ void getDHT()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      178:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     178:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      178:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -603,7 +647,11 @@ void adjustHour()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      272:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     272:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      272:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -747,7 +795,11 @@ void adjustMin()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      31e:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     31e:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      31e:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -892,7 +944,11 @@ void adjustSec()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      3ca:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     3ca:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      3ca:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1403,7 +1459,11 @@ void proceedClock()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      6b4:	0e 94 fb 09 	call	0x13f6	; 0x13f6 <__divmodqi4>
+=======
+     6b4:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      6b4:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1440,7 +1500,11 @@ void proceedClock()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      6d0:	0e 94 fb 09 	call	0x13f6	; 0x13f6 <__divmodqi4>
+=======
+     6d0:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      6d0:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1468,7 +1532,11 @@ void proceedClock()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      6e4:	0e 94 fb 09 	call	0x13f6	; 0x13f6 <__divmodqi4>
+=======
+     6e4:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      6e4:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__divmodqi4>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -1571,7 +1639,11 @@ void proceedClock()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      77c:	0c 94 1d 0a 	jmp	0x143a	; 0x143a <__tablejump2__>
+=======
+     77c:	0c 94 21 0a 	jmp	0x1442	; 0x1442 <__tablejump2__>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      77c:	0c 94 21 0a 	jmp	0x1442	; 0x1442 <__tablejump2__>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2077,7 +2149,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      9fc:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     9fc:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      9fc:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2098,7 +2174,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      a12:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     a12:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      a12:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2119,7 +2199,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      a28:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     a28:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      a28:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2166,7 +2250,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      a80:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     a80:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      a80:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2187,7 +2275,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      a96:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     a96:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      a96:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2208,7 +2300,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      aac:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     aac:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      aac:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2252,7 +2348,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      afc:	0c 94 1d 0a 	jmp	0x143a	; 0x143a <__tablejump2__>
+=======
+     afc:	0c 94 21 0a 	jmp	0x1442	; 0x1442 <__tablejump2__>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      afc:	0c 94 21 0a 	jmp	0x1442	; 0x1442 <__tablejump2__>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2370,7 +2470,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      bd6:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     bd6:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      bd6:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2391,7 +2495,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      bec:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     bec:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      bec:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2412,7 +2520,11 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      c02:	0e 94 ac 0a 	call	0x1558	; 0x1558 <__itoa_ncheck>
+=======
+     c02:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      c02:	0e 94 b0 0a 	call	0x1560	; 0x1560 <__itoa_ncheck>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2926,7 +3038,11 @@ void calcDay()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      ed8:	0e 94 09 0a 	call	0x1412	; 0x1412 <__divmodhi4>
+=======
+     ed8:	0e 94 0d 0a 	call	0x141a	; 0x141a <__divmodhi4>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      ed8:	0e 94 0d 0a 	call	0x141a	; 0x141a <__divmodhi4>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -2970,7 +3086,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f00:	0e 94 70 0a 	call	0x14e0	; 0x14e0 <strtok>
+=======
+     f00:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f00:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3006,7 +3126,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f2c:	0e 94 7e 0a 	call	0x14fc	; 0x14fc <strcpy>
+=======
+     f2c:	0e 94 82 0a 	call	0x1504	; 0x1504 <strcpy>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f2c:	0e 94 82 0a 	call	0x1504	; 0x1504 <strcpy>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3024,7 +3148,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f38:	0e 94 70 0a 	call	0x14e0	; 0x14e0 <strtok>
+=======
+     f38:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f38:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3062,7 +3190,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f4c:	0e 94 52 0a 	call	0x14a4	; 0x14a4 <atoi>
+=======
+     f4c:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f4c:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3079,7 +3211,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f58:	0e 94 52 0a 	call	0x14a4	; 0x14a4 <atoi>
+=======
+     f58:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f58:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3101,7 +3237,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f64:	0e 94 52 0a 	call	0x14a4	; 0x14a4 <atoi>
+=======
+     f64:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f64:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3124,7 +3264,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      f76:	0e 94 70 0a 	call	0x14e0	; 0x14e0 <strtok>
+=======
+     f76:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      f76:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3166,7 +3310,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      fae:	0e 94 7e 0a 	call	0x14fc	; 0x14fc <strcpy>
+=======
+     fae:	0e 94 82 0a 	call	0x1504	; 0x1504 <strcpy>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      fae:	0e 94 82 0a 	call	0x1504	; 0x1504 <strcpy>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3184,7 +3332,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      fba:	0e 94 70 0a 	call	0x14e0	; 0x14e0 <strtok>
+=======
+     fba:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      fba:	0e 94 74 0a 	call	0x14e8	; 0x14e8 <strtok>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3225,7 +3377,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      fd2:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+     fd2:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      fd2:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3249,7 +3405,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      fea:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+     fea:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
      fea:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3273,7 +3433,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1002:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    1002:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1002:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3297,7 +3461,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     101a:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    101a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     101a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3321,7 +3489,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1032:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    1032:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1032:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3345,7 +3517,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     104a:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    104a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     104a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3369,7 +3545,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1062:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    1062:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1062:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3393,7 +3573,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     107a:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    107a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     107a:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3417,7 +3601,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1092:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    1092:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1092:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3441,7 +3629,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     10aa:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    10aa:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     10aa:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3465,7 +3657,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     10c2:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    10c2:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     10c2:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3489,7 +3685,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     10da:	0e 94 75 0a 	call	0x14ea	; 0x14ea <strcmp>
+=======
+    10da:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     10da:	0e 94 79 0a 	call	0x14f2	; 0x14f2 <strcmp>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3511,7 +3711,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     10ec:	0e 94 52 0a 	call	0x14a4	; 0x14a4 <atoi>
+=======
+    10ec:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     10ec:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3528,7 +3732,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     10f8:	0e 94 52 0a 	call	0x14a4	; 0x14a4 <atoi>
+=======
+    10f8:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     10f8:	0e 94 56 0a 	call	0x14ac	; 0x14ac <atoi>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -3552,7 +3760,11 @@ void parseCompileTime()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1110:	0e 94 23 0a 	call	0x1446	; 0x1446 <__umulhisi3>
+=======
+    1110:	0e 94 27 0a 	call	0x144e	; 0x144e <__umulhisi3>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1110:	0e 94 27 0a 	call	0x144e	; 0x144e <__umulhisi3>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4021,8 +4233,13 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     12d0:	8f c0       	rjmp	.+286    	; 0x13f0 <countButton+0x138>
     12d2:	79 c0       	rjmp	.+242    	; 0x13c6 <countButton+0x10e>
+=======
+    12d0:	93 c0       	rjmp	.+294    	; 0x13f8 <countButton+0x140>
+    12d2:	7d c0       	rjmp	.+250    	; 0x13ce <countButton+0x116>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     12d0:	93 c0       	rjmp	.+294    	; 0x13f8 <countButton+0x140>
     12d2:	7d c0       	rjmp	.+250    	; 0x13ce <countButton+0x116>
@@ -4043,6 +4260,7 @@ void countButton()
         if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
     12d4:	95 30       	cpi	r25, 0x05	; 5
     12d6:	08 f4       	brcc	.+2      	; 0x12da <countButton+0x22>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4069,6 +4287,13 @@ void countButton()
 <<<<<<< HEAD
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+    12d8:	84 c0       	rjmp	.+264    	; 0x13e2 <countButton+0x12a>
+    12da:	22 23       	and	r18, r18
+    12dc:	09 f4       	brne	.+2      	; 0x12e0 <countButton+0x28>
+    12de:	74 c0       	rjmp	.+232    	; 0x13c8 <countButton+0x110>
+    12e0:	80 c0       	rjmp	.+256    	; 0x13e2 <countButton+0x12a>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
             DONE = 2;
 
@@ -4170,6 +4395,7 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1332:	2f c0       	rjmp	.+94     	; 0x1392 <countButton+0xda>
     1334:	25 30       	cpi	r18, 0x05	; 5
     1336:	39 f1       	breq	.+78     	; 0x1386 <countButton+0xce>
@@ -4178,6 +4404,8 @@ void countButton()
     133c:	39 f1       	breq	.+78     	; 0x138c <countButton+0xd4>
     133e:	29 c0       	rjmp	.+82     	; 0x1392 <countButton+0xda>
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
@@ -4191,6 +4419,9 @@ void countButton()
     133e:	2d c0       	rjmp	.+90     	; 0x139a <countButton+0xe2>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4210,7 +4441,11 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     1344:	28 c0       	rjmp	.+80     	; 0x1396 <countButton+0xde>
+=======
+    1344:	2c c0       	rjmp	.+88     	; 0x139e <countButton+0xe6>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     1344:	2c c0       	rjmp	.+88     	; 0x139e <countButton+0xe6>
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4227,6 +4462,7 @@ void countButton()
 				//getDHT();
                 //lcd_showDHT11();
                 break;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4317,6 +4553,21 @@ void countButton()
  				_delay_ms(100);
                 turnOnLCDBacklight();
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+    134a:	29 c0       	rjmp	.+82     	; 0x139e <countButton+0xe6>
+            case 3:
+				//makePDasOutput();
+ 				lcd_init_4d();
+    134c:	0e 94 79 04 	call	0x8f2	; 0x8f2 <lcd_init_4d>
+    1350:	87 ea       	ldi	r24, 0xA7	; 167
+    1352:	91 e6       	ldi	r25, 0x61	; 97
+    1354:	01 97       	sbiw	r24, 0x01	; 1
+    1356:	f1 f7       	brne	.-4      	; 0x1354 <countButton+0x9c>
+    1358:	00 c0       	rjmp	.+0      	; 0x135a <countButton+0xa2>
+    135a:	00 00       	nop
+ 				_delay_ms(100);
+                turnOnLCDBacklight();
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
     135c:	0e 94 d2 04 	call	0x9a4	; 0x9a4 <turnOnLCDBacklight>
 				LCD_WriteTimeDate();
     1360:	0e 94 73 02 	call	0x4e6	; 0x4e6 <LCD_WriteTimeDate>
@@ -4358,6 +4609,7 @@ void countButton()
     1398:	02 c0       	rjmp	.+4      	; 0x139e <countButton+0xe6>
             default:
                 lcd_dispMenu();
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     134a:	29 c0       	rjmp	.+82     	; 0x139e <countButton+0xe6>
@@ -4417,6 +4669,8 @@ void countButton()
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
     139a:	0e 94 58 06 	call	0xcb0	; 0xcb0 <lcd_dispMenu>
     139e:	2f e3       	ldi	r18, 0x3F	; 63
     13a0:	82 e4       	ldi	r24, 0x42	; 66
@@ -4429,6 +4683,9 @@ void countButton()
     13ae:	00 00       	nop
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4440,6 +4697,7 @@ void countButton()
         _delay_ms(5000); //show time of menu result
 
 		makePDasInput(); //make LCD in deep power save mode
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4459,6 +4717,8 @@ void countButton()
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
     13b0:	0e 94 4b 07 	call	0xe96	; 0xe96 <makePDasInput>
 		pwrOn = 0;
     13b4:	10 92 78 04 	sts	0x0478, r1	; 0x800478 <pwrOn>
@@ -4472,6 +4732,9 @@ void countButton()
     13c6:	aa cf       	rjmp	.-172    	; 0x131c <countButton+0x64>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4486,9 +4749,15 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     13c0:	1c 99       	sbic	0x03, 4	; 3
     13c2:	f7 cf       	rjmp	.-18     	; 0x13b2 <countButton+0xfa>
     13c4:	92 cf       	rjmp	.-220    	; 0x12ea <countButton+0x32>
+=======
+    13c8:	1c 99       	sbic	0x03, 4	; 3
+    13ca:	f7 cf       	rjmp	.-18     	; 0x13ba <countButton+0x102>
+    13cc:	8e cf       	rjmp	.-228    	; 0x12ea <countButton+0x32>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     13c8:	1c 99       	sbic	0x03, 4	; 3
     13ca:	f7 cf       	rjmp	.-18     	; 0x13ba <countButton+0x102>
@@ -4513,6 +4782,7 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     13c6:	95 30       	cpi	r25, 0x05	; 5
     13c8:	d8 f7       	brcc	.-10     	; 0x13c0 <countButton+0x108>
     13ca:	8b cf       	rjmp	.-234    	; 0x12e2 <countButton+0x2a>
@@ -4524,6 +4794,8 @@ void countButton()
     13d6:	00 00       	nop
     13d8:	75 cf       	rjmp	.-278    	; 0x12c4 <countButton+0xc>
 =======
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
@@ -4540,6 +4812,9 @@ void countButton()
     13e0:	71 cf       	rjmp	.-286    	; 0x12c4 <countButton+0xc>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4551,6 +4826,7 @@ void countButton()
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4568,6 +4844,8 @@ void countButton()
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
     13e2:	1c 99       	sbic	0x03, 4	; 3
     13e4:	f7 cf       	rjmp	.-18     	; 0x13d4 <countButton+0x11c>
     13e6:	83 cf       	rjmp	.-250    	; 0x12ee <countButton+0x36>
@@ -4579,6 +4857,9 @@ void countButton()
     13f2:	00 00       	nop
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
@@ -4593,8 +4874,13 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     13ec:	91 e0       	ldi	r25, 0x01	; 1
     13ee:	94 cf       	rjmp	.-216    	; 0x1318 <countButton+0x60>
+=======
+    13f4:	91 e0       	ldi	r25, 0x01	; 1
+    13f6:	90 cf       	rjmp	.-224    	; 0x1318 <countButton+0x60>
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
     13f4:	91 e0       	ldi	r25, 0x01	; 1
     13f6:	90 cf       	rjmp	.-224    	; 0x1318 <countButton+0x60>
@@ -4613,6 +4899,7 @@ void countButton()
       //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
       val = tactile_Switch_port & _BV(tactile_Switch_bit);
       if (val == 0)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -4912,6 +5199,8 @@ void countButton()
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
     13f8:	1c 99       	sbic	0x03, 4	; 3
     13fa:	f6 cf       	rjmp	.-20     	; 0x13e8 <countButton+0x130>
     13fc:	7a cf       	rjmp	.-268    	; 0x12f2 <countButton+0x3a>
@@ -5205,6 +5494,9 @@ void countButton()
     15dc:	ff cf       	rjmp	.-2      	; 0x15dc <__stop_program>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
+=======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 >>>>>>> c157654a527912666fa1b3f4686432252aa6a712

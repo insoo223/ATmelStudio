@@ -123,11 +123,20 @@ void countButton()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				makePDasOutput();
 				lcd_init_4d();
                 turnOnLCDBacklight();
 				LCD_WriteTimeDate();
 				_delay_ms(3000);
+=======
+				//makePDasOutput();
+ 				lcd_init_4d();
+ 				_delay_ms(100);
+                turnOnLCDBacklight();
+				LCD_WriteTimeDate();
+				_delay_ms(5000);
+>>>>>>> c157654a527912666fa1b3f4686432252aa6a712
 =======
 				//makePDasOutput();
  				lcd_init_4d();
