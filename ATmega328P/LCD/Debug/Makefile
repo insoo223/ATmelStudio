@@ -38,18 +38,20 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../config.c \
-../DHT11_LCDdisp.c \
+../DHT11.c \
 ../DS1307.c \
-../DS1307onLCD.c \
+../LCD_DS1307_DHT11.c \
 ../globals.c \
 ../I2C.c \
 ../intrpt.c \
 ../LCD.c \
 ../LCDutil.c \
 ../main.c \
+../PowerSave.c \
 ../strFunc.c \
+../TimingDebug.c \
 ../tinudht.c \
-../util.c
+../Menu.c
 
 
 PREPROCESSING_SRCS += 
@@ -60,63 +62,71 @@ ASM_SRCS +=
 
 OBJS +=  \
 config.o \
-DHT11_LCDdisp.o \
+DHT11.o \
 DS1307.o \
-DS1307onLCD.o \
+LCD_DS1307_DHT11.o \
 globals.o \
 I2C.o \
 intrpt.o \
 LCD.o \
 LCDutil.o \
 main.o \
+PowerSave.o \
 strFunc.o \
+TimingDebug.o \
 tinudht.o \
-util.o
+Menu.o
 
 OBJS_AS_ARGS +=  \
 config.o \
-DHT11_LCDdisp.o \
+DHT11.o \
 DS1307.o \
-DS1307onLCD.o \
+LCD_DS1307_DHT11.o \
 globals.o \
 I2C.o \
 intrpt.o \
 LCD.o \
 LCDutil.o \
 main.o \
+PowerSave.o \
 strFunc.o \
+TimingDebug.o \
 tinudht.o \
-util.o
+Menu.o
 
 C_DEPS +=  \
 config.d \
-DHT11_LCDdisp.d \
+DHT11.d \
 DS1307.d \
-DS1307onLCD.d \
+LCD_DS1307_DHT11.d \
 globals.d \
 I2C.d \
 intrpt.d \
 LCD.d \
 LCDutil.d \
 main.d \
+PowerSave.d \
 strFunc.d \
+TimingDebug.d \
 tinudht.d \
-util.d
+Menu.d
 
 C_DEPS_AS_ARGS +=  \
 config.d \
-DHT11_LCDdisp.d \
+DHT11.d \
 DS1307.d \
-DS1307onLCD.d \
+LCD_DS1307_DHT11.d \
 globals.d \
 I2C.d \
 intrpt.d \
 LCD.d \
 LCDutil.d \
 main.d \
+PowerSave.d \
 strFunc.d \
+TimingDebug.d \
 tinudht.d \
-util.d
+Menu.d
 
 OUTPUT_FILE_PATH +=LCD_RTC_DS1307_DHT11.elf
 
@@ -132,6 +142,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

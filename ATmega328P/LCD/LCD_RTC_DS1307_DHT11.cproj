@@ -133,13 +133,13 @@
     <Compile Include="definesLCD.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="DHT11_LCDdisp.c">
+    <Compile Include="DHT11.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="DS1307.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="DS1307onLCD.c">
+    <Compile Include="LCD_DS1307_DHT11.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="externs.h">
@@ -163,7 +163,13 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="PowerSave.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="strFunc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TimingDebug.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tinudht.c">
@@ -172,7 +178,7 @@
     <Compile Include="tinudht.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="util.c">
+    <Compile Include="Menu.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

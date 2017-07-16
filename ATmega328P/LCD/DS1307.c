@@ -1,10 +1,4 @@
-﻿/*
- * DS1307.c
- *
- * Created: 2017-07-16 오전 11:43:30
- *  Author: insoo
- */ 
- /**************************************************************
+﻿ /**************************************************************
  Target MCU & clock speed: ATmega328P @ 1Mhz internal
  Name    : DS1307.c
  Author  : Insoo Kim (insoo@hotmail.com)
@@ -39,7 +33,7 @@ void setTime2DS1307(byte wkDay,byte month,byte day,byte year, byte ampm, byte h,
 	SetTimeDate(wkDay, month, day, year,  ampm,  h,  m,  s);
 	_delay_ms(1000);
 	
-	LCD_TimeDate();
+	LCD_WriteTimeDate();
 	_delay_ms(3000);
 }//setTime2DS1307
 
@@ -116,5 +110,110 @@ void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, by
 	I2C_WriteRegister(DS1307,SECONDS_REGISTER, s);
 	_delay_ms(10);
 }//SetTimeDate
+
 //-----------------------------------
+void adjustHour()
+{
+	uint8_t DONE=0, val;
+	uint8_t curLoop=0, preLoop=0, lapse=0;
+	char strHour[3];
+
+	while (!DONE)
+	{
+		// set cursor to start of first line
+		lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+		_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+		// display the first line of information
+		lcd_write_string_4d((uint8_t *)"Hour: ");
+		itoa(hour, strHour, 10);
+		lcd_write_string_4d((uint8_t *)strHour);
+		lcd_write_string_4d((uint8_t *)" ");
+		val = tactile_Switch_port & _BV(tactile_Switch_bit);
+		_delay_ms(100);
+		if (val == 0)
+		{
+			hour++;
+			if (hour > 23)
+			hour=0;
+			preLoop = curLoop;
+		}
+		curLoop++;
+		lapse = curLoop - preLoop;
+		if (lapse > adjustTimeInterval)
+		DONE = 1;
+		_delay_ms(halfSec/4);
+	}//while (!DONE)
+}//adjustHour
+
+//-----------------------------------
+void adjustMin()
+{
+	uint8_t DONE=0, val;
+	uint8_t curLoop=0, preLoop=0, lapse=0;
+	char strMin[3];
+
+	while (!DONE)
+	{
+		// set cursor to start of first line
+		lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+		_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+		// display the first line of information
+		lcd_write_string_4d((uint8_t *)"Min: ");
+		itoa(min, strMin, 10);
+		lcd_write_string_4d((uint8_t *)strMin);
+		lcd_write_string_4d((uint8_t *)" ");
+		val = tactile_Switch_port & _BV(tactile_Switch_bit);
+		_delay_ms(100);
+		if (val == 0)
+		{
+			min++;
+			if (min > 59)
+			min=0;
+			preLoop = curLoop;
+		}
+		curLoop++;
+		lapse = curLoop - preLoop;
+		if (lapse > adjustTimeInterval)
+		DONE = 1;
+		_delay_ms(halfSec/4);
+	}//while (!DONE)
+
+}//adjustMin
+
+//-----------------------------------
+void adjustSec()
+{
+	uint8_t DONE=0, val;
+	uint8_t curLoop=0, preLoop=0, lapse=0;
+	char strSec[3];
+
+	while (!DONE)
+	{
+		// set cursor to start of first line
+		lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+		_delay_us(DELAY_INST);                                  // 40 uS delay (sec)
+		// display the first line of information
+		lcd_write_string_4d((uint8_t *)"sec: ");
+		itoa(sec, strSec, 10);
+		lcd_write_string_4d((uint8_t *)strSec);
+		lcd_write_string_4d((uint8_t *)" ");
+		val = tactile_Switch_port & _BV(tactile_Switch_bit);
+		_delay_ms(100);
+		if (val == 0)
+		{
+			sec++;
+			if (sec > 59)
+			sec=0;
+			preLoop = curLoop;
+		}
+		curLoop++;
+		lapse = curLoop - preLoop;
+		if (lapse > adjustTimeInterval)
+		DONE = 1;
+		_delay_ms(halfSec/4);
+	}//while (!DONE)
+
+}//adjustSec
+
+
 //-----------------------------------

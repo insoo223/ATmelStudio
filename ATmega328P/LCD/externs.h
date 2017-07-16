@@ -30,7 +30,7 @@ extern uint8_t menu_str1[];
 extern uint8_t menu_str2[];
 
 extern  void getDHT();
-extern  void LCD_TimeDateTempHumid();
+extern  void LCD_WriteTimeDateTempHumid();
 extern char strTemp[3], strHumid[3];
 
 extern int8_t dht_getdata(int8_t *, int8_t *);
@@ -66,6 +66,17 @@ DS1307.c (defined at)
 extern void DS1307_GetDate(byte*, byte*, byte*);
 extern void DS1307_GetWkDay(byte*);
 extern void DS1307_GetTime(byte*, byte*, byte*);
+
+/*----------------------------
+DS1307onLCD.c (defined at)
+------------------------------*/
+extern void ShowI2Cdevices();
+extern void LCD_WriteDate();
+extern void LCD_WriteTime();
+extern void LCD_blankChar(uint8_t );
+extern void LCD_WriteTimeDate();
+extern void test_LCD_DS1307();
+
 
 extern void proceedClock();
 
@@ -115,15 +126,9 @@ extern byte I2C_ReadRegister(byte , byte );
 extern void I2C_WriteRegister(byte , byte , byte );
 extern byte I2C_FindDevice(byte );
 
-extern void ShowI2Cdevices();
-extern void LCD_WriteDate();
-extern void LCD_WriteTime();
-extern void LCD_blankChar(uint8_t );
-extern void LCD_TimeDate();
-
 extern void testTimingOnDebugPin();
 
-extern void dispNotice();
+extern void LCD_dispNotice();
 
 
 //UTIL.C

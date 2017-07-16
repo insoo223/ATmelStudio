@@ -4,11 +4,11 @@
 
 config.c
 
-DHT11_LCDdisp.c
+DHT11.c
 
 DS1307.c
 
-DS1307onLCD.c
+LCD_DS1307_DHT11.c
 
 globals.c
 
@@ -22,9 +22,13 @@ LCDutil.c
 
 main.c
 
+PowerSave.c
+
 strFunc.c
+
+TimingDebug.c
 
 tinudht.c
 
-util.c
+Menu.c
 

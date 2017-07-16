@@ -1,4 +1,4 @@
-DHT11_LCDdisp.d DHT11_LCDdisp.o: .././DHT11_LCDdisp.c \
+DHT11_LCD.d DHT11_LCD.o: .././DHT11_LCD.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \

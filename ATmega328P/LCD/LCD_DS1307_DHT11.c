@@ -1,20 +1,27 @@
-﻿/*
- * DS1307onLCD.c
- *
- * Created: 2017-07-16 오전 11:59:50
- *  Author: insoo
- */ 
+﻿/*************************************
+Target MCU & clock speed: ATmega328P @ 1Mhz internal
+Name    : LCD_DS1307_DHT11.c
+Author  : Insoo Kim (insoo@hotmail.com)
+Created : 2017-07-16 오전 11:59:50
+Updated : 
 
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
- #include <avr/io.h>
- #include <avr/interrupt.h>
- #include <avr/wdt.h>
- #include <avr/sleep.h>
- #include "externs.h"
- #include "defines.h"
- #include <util/delay.h>
+Description: RTC functions using DS1307 chip
+
+HEX size[Byte]:
+
+Ref:
+**************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/wdt.h>
+#include <avr/sleep.h>
+#include "externs.h"
+#include "defines.h"
+#include <util/delay.h>
 
 //----------------------------------
 void ShowI2Cdevices()
@@ -75,7 +82,7 @@ void LCD_WriteTime()
 }//LCD_WriteTime
 
 //----------------------------------
-void LCD_TimeDate()
+void LCD_WriteTimeDate()
 {
 	//LCD_Line(0);
 	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
@@ -86,17 +93,17 @@ void LCD_TimeDate()
 	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineTwo);
 	LCD_WriteDate();
 	LCD_blankChar(8);
-}//LCD_TimeDate
+}//LCD_WriteTimeDate
 
 //----------------------------------
-void LCD_TimeDateTempHumid()
+void LCD_WriteTimeDateTempHumid()
 {
 	//LCD_Line(0);
 	getDHT();
 	//_delay_ms(1000);
 	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
 	LCD_WriteTime();
-	LCD_blankChar(1);
+	LCD_blankChar(5);
 	lcd_write_string_4d((uint8_t *)strTemp);
 	//LCD_blankChar(1);
 	lcd_write_character_4d('C');
@@ -109,4 +116,24 @@ void LCD_TimeDateTempHumid()
 	//LCD_blankChar(1);
 	//lcd_write_character_4d('%');
 	lcd_write_character_4d(37);
-}//LCD_TimeDateTempHumid
+}//LCD_WriteTimeDateTempHumid
+
+//----------------------------------
+void test_LCD_DS1307()
+{
+	//------------test LCD DS1307
+	//ShowI2Cdevices();
+	//LCD_BCDDigits(0x37);
+	//LCD_WriteDate();
+	//LCD_WriteTimeDate();
+	//_delay_ms(1000);
+
+	//sysClockTest();
+	//lcd_dispRealClock();
+	//lcd_showDHT11();
+	//_delay_ms(1000);
+	//lcd_dispProgInfo();
+	//_delay_ms(1000);
+
+	//testTimingOnDebugPin()
+}//test_LCD_DS1307

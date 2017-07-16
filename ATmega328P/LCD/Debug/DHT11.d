@@ -1,4 +1,4 @@
-DHT11_LCDdisp.d DHT11_LCDdisp.o: .././DHT11_LCDdisp.c \
+DHT11.d DHT11.o: .././DHT11.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \
@@ -19,8 +19,7 @@ DHT11_LCDdisp.d DHT11_LCDdisp.o: .././DHT11_LCDdisp.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h \
- .././externs.h \
- C:\Users\insoo\Box\ Sync\BoxElec\DIY\ Electronics\Arduino\AVR\ C\Win_Atmel\ Studio_Codes\7.0\ATtiny13A\Library\DHT11\tinudht\tinudht.h
+ .././externs.h .././tinudht.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -70,4 +69,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././externs.h:
 
-C:\Users\insoo\Box\ Sync\BoxElec\DIY\ Electronics\Arduino\AVR\ C\Win_Atmel\ Studio_Codes\7.0\ATtiny13A\Library\DHT11\tinudht\tinudht.h:
+.././tinudht.h:

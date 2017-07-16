@@ -1,30 +1,23 @@
-﻿/*
- * LCDutil.c
- *
- * Created: 2017-07-16 오전 11:49:29
- *  Author: insoo
- */ 
+﻿/**************************************
+Target MCU & clock speed: ATmega328P @ 1Mhz internal
+Name    : LCDutil.c
+Author  : Insoo Kim (insoo@hotmail.com)
+Created : 2017-07-16 오전 11:49:29
+Dispatched from main.c file.
 
- /**************************************
- Target MCU & clock speed: ATmega328P @ 1Mhz internal
- Name    : LCDutil.c
- Author  : Insoo Kim (insoo@hotmail.com)
- Created : 2017-07-16 오전 11:49:29
-	Dispatched from main.c file.
-
- Updated : 
+Updated : 
 	
- Description: 
+Description: 
 
- HEX size[Byte]:
+HEX size[Byte]:
 
- Ref:
-    Donald Weiman    (weimandn@alfredstate.edu)
-    Summary:    4-bit data interface, busy flag not implemented.
-		Any LCD pin can be connected to any available I/O port.
-		Includes a simple write string routine.
-    http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
- *************************************/
+Ref:
+Donald Weiman    (weimandn@alfredstate.edu)
+Summary:    4-bit data interface, busy flag not implemented.
+	Any LCD pin can be connected to any available I/O port.
+	Includes a simple write string routine.
+http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
+*************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,6 +29,17 @@
 #include "externs.h"
 #include "defines.h"
 #include <util/delay.h>
+
+//-----------------------------------
+void LCD_Hex(int data)
+// displays the hex value of DATA at current LCD cursor position
+{
+	char st[8] = ""; // save enough space for result
+	itoa(data,st,16); // convert to ascii hex
+	//LCD_Message("0x"); // add prefix "0x" if desired
+	//LCD_String(st); // display it on LCD
+	lcd_write_string_4d((uint8_t *)st);
+}//LCD_Hex
 
 //-----------------------------------
 void LCD_BCDDigits(uint8_t data)
@@ -361,3 +365,37 @@ void lcd_testString()
 	lcd_write_instruction_4d(lcd_DisplayOn);
 
 }//lcd_testString
+
+//-----------------------------------
+void LCD_dispNotice()
+{
+	makePDasOutput();
+
+	lcd_init_4d();
+	_delay_us(1000);                                  // 40 uS delay (min)
+
+	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+	lcd_write_string_4d((uint8_t *)"Ready to run!");
+	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineTwo);
+	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+	lcd_write_string_4d((uint8_t *)"Now,sleep.Bye.");
+	_delay_ms(3000);
+	
+	makePDasInput();
+}//LCD_dispNotice
+
+//-----------------------------------
+void chkButtonAndToggleBacklight()
+{
+	uint8_t valSwitch;
+
+	valSwitch = tactile_Switch_port & _BV(tactile_Switch_bit);
+	_delay_ms(200);
+
+	//if switch is pressed,
+	if (valSwitch == 0)
+	//toggle backlight by allow K to touch ground
+	lcd_Backlight_port ^= _BV(lcd_Backlight_bit);
+}//chkButtonAndToggleBacklight
+

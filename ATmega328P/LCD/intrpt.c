@@ -1,19 +1,19 @@
-/**************************************************************
+/*************************************
  Target MCU & clock speed: ATmega328P @ 1Mhz internal
  Name    : intrpt.c
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : May 15, 2015
  Updated : May 17, 2015
 
- Description: Get system compile time & date and display on LCD 2*16
-    Button toggling to turn on or off the backlight of LCD
+ Description: Interrupd Service Routines are implemented
+	
 
  HEX size[Byte]:
 
  Ref:
     Donald Weiman    (weimandn@alfredstate.edu)
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
- *****************************************************************/
+ *********************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,21 +26,9 @@
 #include "defines.h"
 #include <util/delay.h>
 
-/*
-//Function prototypes of outside this code module
-extern uint8_t hour, min, sec;
-extern uint8_t year, month, date;
-extern uint8_t monthEndDate, day;
-
-extern void lcd_dispRealClock();
-extern void lcd_dispAccumulatedTime();
-extern void lcd_dispProgInfo();
-*/
-//Function prototypes of this code module
-//void proceedClock();
-
 uint8_t pwrOn = 0;
 volatile uint8_t btcnt = 0;
+//----------------------------------
 ISR(PCINT0_vect)
 {
     if ((btcnt++ % 2) == 0)
@@ -122,6 +110,7 @@ void WDT_Init(void)
     sei();
 }//WDT_Init
 
+//----------------------------------
 void initINT()
 {
     cli();
@@ -165,6 +154,7 @@ void initINT()
 
 }//initINT
 
+//----------------------------------
 /*
 Utmost(!) help to get the WDT of ATmega328p work
 http://elegantcircuits.com/2014/10/14/introduction-to-the-avr-watchdog-timer/
@@ -183,6 +173,7 @@ void check_wdt(void)
     }
 }//check_wdt
 
+//----------------------------------
 void setup_wdt(void){
 // Set up Watch Dog Timer for Inactivity
     // Enable the WD Change Bit
@@ -197,6 +188,7 @@ void setup_wdt(void){
     //WDTCSR =   _BV(WDIE) | _BV(WDP2);
 }//setup_wdt
 
+//----------------------------------
 void init_devices(void){
     //stop errant interrupts until set up
     cli(); //disable all interrupts
@@ -214,6 +206,7 @@ void init_devices(void){
     //all peripherals are now initialized
 }
 
+//----------------------------------
 void proceedClock()
 {
     //WDT interrupt occurs every 8 seconds
