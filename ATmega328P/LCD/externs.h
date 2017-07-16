@@ -29,7 +29,6 @@ extern uint8_t program_date[];
 extern uint8_t menu_str1[];
 extern uint8_t menu_str2[];
 
-extern  void getDHT();
 extern  void LCD_WriteTimeDateTempHumid();
 extern char strTemp[3], strHumid[3];
 
@@ -61,8 +60,17 @@ extern void DHT11config();
 extern void debugPinConfig();
 
 /*----------------------------
+DHT.c (defined at)
+------------------------------*/
+extern  void getDHT();
+
+/*----------------------------
 DS1307.c (defined at)
 ------------------------------*/
+//void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
+extern void SetTimeDate(byte ,byte ,byte ,byte , byte , byte , byte , byte );
+extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
+
 extern void DS1307_GetDate(byte*, byte*, byte*);
 extern void DS1307_GetWkDay(byte*);
 extern void DS1307_GetTime(byte*, byte*, byte*);
@@ -111,9 +119,6 @@ extern void lcd_write_string_4d(uint8_t *);
 extern void lcd_init_4d(void);
 
 // ------------------------
-//void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, byte m, byte s)
-extern void SetTimeDate(byte ,byte ,byte ,byte , byte , byte , byte , byte );
-extern void setTime2DS1307(byte ,byte ,byte ,byte , byte , byte , byte , byte );
 
 extern void makePDasOutput();
 extern void makePDasInput();
@@ -130,8 +135,14 @@ extern void testTimingOnDebugPin();
 
 extern void LCD_dispNotice();
 
+/*----------------------------
+PowerSave.c (defined at)
+------------------------------*/
+extern void LCD_pwrReady()
 
-//UTIL.C
+/*----------------------------
+Menu.c (defined at)
+------------------------------*/
 extern void sysClockTest();
 extern void countButton(void);
 extern void adjustHour();

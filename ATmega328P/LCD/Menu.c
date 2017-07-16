@@ -120,10 +120,12 @@ void countButton()
                 //lcd_showDHT11();
                 break;
             case 3:
-				makePDasOutput();
+				//makePDasOutput();
+ 				lcd_init_4d();
+ 				_delay_ms(100);
                 turnOnLCDBacklight();
-				//LCD_WriteTimeDate();
-				_delay_ms(500);
+				LCD_WriteTimeDate();
+				_delay_ms(5000);
                 turnOffLCDBacklight();
                 break;
             case 4:

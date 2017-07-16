@@ -24,7 +24,8 @@
 		Includes a simple write string routine.
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
 **************************************/
- 
+
+#include "definesDS1307.h"
 #include "definesIOpin.h"
 #include "definesLCD.h"
 #include "definesI2C.h"
