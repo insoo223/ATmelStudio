@@ -94,6 +94,7 @@ extern uint8_t er_ptr;
 extern void ER_Byte_LCD(uint8_t );
 extern void EW_tempHumid();
 extern void EW_Time();
+extern void EWR_dht11();
 
 /*----------------------------
 I2C.c (defined at)

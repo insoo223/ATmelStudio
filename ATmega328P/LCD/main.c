@@ -97,19 +97,12 @@ int main()
 
 	//BCD formt byte( wkDay, month, day, year,  ampm,  h,  m,  s)
 	//setTime2DS1307(0x02, 0x07, 0x18, 0x17, AM, 0x09, 0x58, 0x30 );
-	prepareWakeUpandLCDHome();
-	getDHT();
-	_delay_ms(500);
-	getDHT();
-	EW_tempHumid();
-	//EW_Time();
 
-	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
-	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
-	  ER_Byte_LCD(0);
-	  ER_Byte_LCD(1);
-
-    // endless loop
+	//EEPROM write & read test of DHT11 info
+	// implemented at "EEPROM.c"
+	//EWR_dht11();
+	EWR_ds1307();
+	// endless loop
     while(1)
     {
       // go to sleep and wait for interrupt...

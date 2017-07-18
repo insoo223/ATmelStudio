@@ -91,7 +91,8 @@ void LCD_WriteTimeDate()
 
 	//LCD_Line(1);
 	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineTwo);
-	LCD_WriteDate();
+	
+
 	LCD_blankChar(8);
 }//LCD_WriteTimeDate
 
