@@ -6016,7 +6016,6 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <part name="U$1" library="DHT11" deviceset="DHT11" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="FRAME1" library="frames" deviceset="LETTER_L" device=""/>
-<part name="P+4" library="supply1" deviceset="VCC" device=""/>
 <part name="IC2" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="DS1307" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="R7" library="adafruit" deviceset="R-US_" device="0204/5" value="10K"/>
@@ -6024,6 +6023,7 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <part name="Q1" library="special" library_urn="urn:adsk.eagle:library:367" deviceset="XTAL/S" device="" value="32.768 Khz"/>
 <part name="G1" library="battery" library_urn="urn:adsk.eagle:library:109" deviceset="CR2032H" device=""/>
 <part name="X1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="HD44780LCD" device="-1602"/>
+<part name="GND4" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6064,7 +6064,7 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <text x="-5.08" y="142.24" size="1.778" layer="91">#define DHT_INPUTPIN PB1</text>
 <text x="-30.48" y="147.32" size="1.778" layer="91">#define DHT_VCC_bit PORTB2</text>
 <text x="-10.16" y="248.92" size="1.778" layer="91">#define DS1307_VCC_bit PORTB7</text>
-<text x="-60.96" y="101.6" size="1.778" layer="91">Source code C:\Users\insoo\Box Sync\BoxElec\DIY Electronics\Arduino\AVR C\Win_Atmel Studio_Codes\7.0\ATmega328P\LCD\LCD_RTC_DS1307_DHT11  (on Box.com)</text>
+<text x="-60.96" y="101.6" size="1.778" layer="91">Source code C:\Users\insoo\Documents\GitHub\ATmelStudio\ATmega328P\Schematics  (on github.com Desktop)</text>
 </plain>
 <instances>
 <instance part="IC1" gate="G$1" x="53.34" y="193.04"/>
@@ -6073,21 +6073,20 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <instance part="R2" gate="G$1" x="93.98" y="129.54"/>
 <instance part="R3" gate="G$1" x="-15.24" y="142.24" rot="R90"/>
 <instance part="R4" gate="G$1" x="20.32" y="167.64"/>
-<instance part="R5" gate="G$1" x="0" y="218.44" rot="R270"/>
+<instance part="R5" gate="G$1" x="5.08" y="215.9" rot="R270"/>
 <instance part="R6" gate="G$1" x="-45.72" y="231.14"/>
-<instance part="C1" gate="G$1" x="27.94" y="180.34"/>
+<instance part="C1" gate="G$1" x="30.48" y="187.96"/>
 <instance part="SV1" gate="G$1" x="114.3" y="167.64" rot="MR0"/>
 <instance part="P+1" gate="VCC" x="99.06" y="134.62"/>
 <instance part="GND1" gate="1" x="99.06" y="114.3"/>
 <instance part="GND2" gate="1" x="22.86" y="190.5"/>
 <instance part="SV2" gate="G$1" x="134.62" y="167.64" rot="MR0"/>
 <instance part="JP3" gate="A" x="-2.54" y="185.42" rot="MR0"/>
-<instance part="P+2" gate="VCC" x="25.4" y="208.28"/>
+<instance part="P+2" gate="VCC" x="25.4" y="177.8"/>
 <instance part="U$1" gate="G$1" x="-15.24" y="121.92" rot="R180"/>
 <instance part="GND3" gate="1" x="-27.94" y="132.08"/>
 <instance part="FRAME1" gate="G$1" x="-60.96" y="73.66"/>
 <instance part="FRAME1" gate="G$2" x="86.36" y="73.66"/>
-<instance part="P+4" gate="VCC" x="0" y="226.06"/>
 <instance part="IC2" gate="G$1" x="-22.86" y="228.6"/>
 <instance part="GND5" gate="1" x="-22.86" y="210.82"/>
 <instance part="R7" gate="G$1" x="-48.26" y="226.06"/>
@@ -6098,6 +6097,7 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 </instance>
 <instance part="G1" gate="1" x="-12.7" y="213.36"/>
 <instance part="X1" gate="G$1" x="-27.94" y="180.34" rot="R270"/>
+<instance part="GND4" gate="1" x="-2.54" y="218.44"/>
 </instances>
 <busses>
 </busses>
@@ -6176,7 +6176,6 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <wire x1="22.86" y1="203.2" x2="22.86" y2="193.04" width="0.1524" layer="91"/>
 <junction x="22.86" y="193.04"/>
 <pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="27.94" y1="182.88" x2="27.94" y2="190.5" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="GND"/>
 <wire x1="27.94" y1="190.5" x2="30.48" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="193.04" x2="27.94" y2="193.04" width="0.1524" layer="91"/>
@@ -6193,6 +6192,11 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <pinref part="G1" gate="1" pin="-"/>
 <wire x1="-17.78" y1="213.36" x2="-22.86" y2="213.36" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="GND4" gate="1" pin="GND"/>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="-2.54" y1="220.98" x2="5.08" y2="220.98" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
@@ -6203,10 +6207,6 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <wire x1="106.68" y1="160.02" x2="106.68" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="106.68" y1="129.54" x2="99.06" y2="129.54" width="0.1524" layer="91"/>
 <junction x="99.06" y="129.54"/>
-</segment>
-<segment>
-<pinref part="R5" gate="G$1" pin="1"/>
-<pinref part="P+4" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
@@ -6252,14 +6252,11 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <segment>
 <pinref part="P+2" gate="VCC" pin="VCC"/>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="25.4" y1="205.74" x2="25.4" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="175.26" x2="25.4" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="VCC"/>
 <wire x1="25.4" y1="172.72" x2="25.4" y2="167.64" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="185.42" x2="30.48" y2="172.72" width="0.1524" layer="91"/>
-<pinref part="C1" gate="G$1" pin="2"/>
-<wire x1="30.48" y1="172.72" x2="27.94" y2="172.72" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="172.72" x2="27.94" y2="175.26" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="172.72" x2="25.4" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="172.72" x2="25.4" y2="172.72" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -6341,8 +6338,8 @@ Standard character type LCDs, available in sizes from 8x1 to 40x4!</description>
 <net name="N$19" class="0">
 <segment>
 <pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="0" y1="213.36" x2="5.08" y2="213.36" width="0.1524" layer="91"/>
-<wire x1="5.08" y1="213.36" x2="5.08" y2="198.12" width="0.1524" layer="91"/>
+<wire x1="5.08" y1="210.82" x2="5.08" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="5.08" y1="210.82" x2="5.08" y2="198.12" width="0.1524" layer="91"/>
 <pinref part="JP3" gate="A" pin="3"/>
 <wire x1="5.08" y1="198.12" x2="0" y2="198.12" width="0.1524" layer="91"/>
 </segment>
