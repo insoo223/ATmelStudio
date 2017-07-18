@@ -75,13 +75,20 @@ int main()
 	// implemented at "intrpt.c"
     initINT();
 
+	// setup ISR
+	// implemented at "I2C.c"
 	I2C_Init();
+
+	// Before adding RTC, i get pseudo-real-time from system compile time
+	// and check it as the start time of the system.
+	// This is a legacy function.
+	// implemented at "strFunc.c"
     parseCompileTime();
 	
-	//After call LCD_dispNotice(), sleep current remain rather high 680 uA
+	//After call LCD_dispReadyAndSleep(), sleep current remain rather high 680 uA
 	//	otherwise, 230 uA
 	//As of July 15, 2017, this function does not cause any further current draw than 0.2uA
-	//LCD_dispNotice(); 
+	//LCD_dispReadyAndSleep(); 
 
     //lcd_dispRealClock();
 	//lcd_dispProgInfo(); //LCD display program info
@@ -89,18 +96,24 @@ int main()
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
 	//BCD formt byte( wkDay, month, day, year,  ampm,  h,  m,  s)
-	//setTime2DS1307(0x06, 0x07, 0x15, 0x17, PM, 0x01, 0x19, 0x30 );
+	//setTime2DS1307(0x02, 0x07, 0x18, 0x17, AM, 0x09, 0x58, 0x30 );
 	prepareWakeUpandLCDHome();
 	getDHT();
 	_delay_ms(500);
 	getDHT();
 	EW_tempHumid();
+	//EW_Time();
+
+	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+	_delay_us(DELAY_INST);                                  // 40 uS delay (min)
+	  ER_Byte_LCD(0);
+	  ER_Byte_LCD(1);
+
     // endless loop
     while(1)
     {
       // go to sleep and wait for interrupt...
-      //sleep_mode();
-	  ER_Byte();
+      sleep_mode();
 	  
 	}
     return 0;

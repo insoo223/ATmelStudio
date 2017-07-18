@@ -367,7 +367,7 @@ void lcd_testString()
 }//lcd_testString
 
 //-----------------------------------
-void LCD_dispNotice()
+void LCD_dispReadyAndSleep()
 {
 	makePDasOutput();
 
@@ -383,7 +383,7 @@ void LCD_dispNotice()
 	_delay_ms(3000);
 	
 	makePDasInput();
-}//LCD_dispNotice
+}//LCD_dispReadyAndSleep
 
 //-----------------------------------
 void chkButtonAndToggleBacklight()

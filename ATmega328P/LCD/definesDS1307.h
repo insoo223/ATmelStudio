@@ -23,6 +23,9 @@
 #define RAM_BEGIN 0x08
 #define RAM_END 0x3F
 
+#define AM 0
+#define PM 1
+
 
 
 

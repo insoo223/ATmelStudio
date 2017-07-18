@@ -88,8 +88,12 @@ extern void adjustSec();
 /*----------------------------
 EEPROM.c (defined at)
 ------------------------------*/
-extern void ER_Byte();
+extern uint8_t ew_ptr;
+extern uint8_t er_ptr;
+
+extern void ER_Byte_LCD(uint8_t );
 extern void EW_tempHumid();
+extern void EW_Time();
 
 /*----------------------------
 I2C.c (defined at)
@@ -165,7 +169,7 @@ extern void lcd_dispMenu();
 extern void lcd_dispWords(uint8_t );
 extern void lcd_testString();
 
-extern void LCD_dispNotice();
+extern void LCD_dispReadyAndSleep();
 extern void chkButtonAndToggleBacklight();
 
 /*----------------------------

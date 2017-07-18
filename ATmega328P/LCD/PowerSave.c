@@ -28,8 +28,9 @@ void prepareWakeUpandLCDHome()
 {
 	makePDasOutput();
 	lcd_init_4d();
-	lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
-	_delay_us(DELAY_INST); // 40 uS delay (min)
+	//lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
+	//_delay_us(DELAY_INST); // 40 uS delay (min)
+	//lcd_write_string_4d((uint8_t *)"LCD ready!");
 }//prepareWakeUpandLCDHome
 
 //----------------------------------

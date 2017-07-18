@@ -12,3 +12,5 @@ ATmega328P/LCD/Debug/makedep.mk
 *.mk
 *.map
 *.d
+*.map
+*.map

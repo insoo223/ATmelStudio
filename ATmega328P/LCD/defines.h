@@ -50,7 +50,4 @@ datasheet: Ch.8.2.1 default clock source is 1Mhz
 typedef uint8_t byte; // I just like byte & sbyte better
 typedef int8_t sbyte;
 
-#define AM 0
-#define PM 1
-
 

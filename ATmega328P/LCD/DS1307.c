@@ -86,10 +86,10 @@ void SetTimeDate(byte wkDay,byte month,byte day,byte year, byte ampm, byte h, by
 	_delay_ms(10);
 	//I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x11); // add 0x40 for PM
 	//I2C_WriteRegister(DS1307,HOURS_REGISTER, 0x05+0x40); // add 0x40 for PM
-	if (ampm == PM)
-	I2C_WriteRegister(DS1307,HOURS_REGISTER, h+0x40); // add 0x40 for PM
+	if (ampm == AM)
+		I2C_WriteRegister(DS1307,HOURS_REGISTER, h); //
 	else
-	I2C_WriteRegister(DS1307,HOURS_REGISTER, h); // add 0x40 for PM
+		I2C_WriteRegister(DS1307,HOURS_REGISTER, h+0x40); // add 0x40 for PM
 	_delay_ms(10);
 
 	//I2C_WriteRegister(DS1307,MINUTES_REGISTER, 0x38);
