@@ -1,0 +1,8 @@
+<Box.com>
+https://app.box.com/s/gj96wy7l25npqeudmio4chhanl04kf9s
+
+<Ref>
+http://jobs.arduinoexperts.com/2013/03/02/arduino-atmega-pinout-diagrams/
+http://jobs.arduinoexperts.com/wp-content/uploads/2013/03/ARDUINO_V2.png
+
+https://www.researchgate.net/figure/269309638_fig3_Fig-4-Pinout-of-ATmega328-Microcontroller
