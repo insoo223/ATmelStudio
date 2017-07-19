@@ -1,5 +1,4 @@
 <Box.com>
-https://app.box.com/s/gj96wy7l25npqeudmio4chhanl04kf9s
 
 <Ref>
 http://jobs.arduinoexperts.com/2013/03/02/arduino-atmega-pinout-diagrams/

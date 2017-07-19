@@ -35,13 +35,13 @@ void ER_Byte_LCD(uint8_t rptr)
 {
 	uint8_t ByteOfData;
 	char strNum[3];
-	byte i;
+	uint8_t i;
 
 	//ByteOfData = eeprom_read_byte((const uint8_t*)rptr);
 	//ByteOfData = eeprom_read_byte((uint8_t*)rptr);
 	for (i=0; i<3; i++)
 	{
-			ByteOfData = eeprom_read_byte(i);
+			ByteOfData = eeprom_read_byte((uint8_t *)i);
 			//ByteOfData = eeprom_rb(rptr);
 			itoa(ByteOfData, strNum, 10);
 			lcd_write_string_4d((uint8_t*)strNum);
@@ -79,23 +79,17 @@ void EWR_dht11()
 //-----------------------------------
 void EW_Time()
 {
-	byte hours , minutes = 0, seconds = 0;
+	byte hours , minutes , seconds = 0;
 
 	DS1307_GetTime(&hours, &minutes, &seconds);
-	//_delay_ms(500);
-	//DS1307_GetTime(&hours, &minutes, &seconds);
-	 T
+
 	//eeprom_update_byte((uint8_t*)(addr++), i);
 
 	eeprom_update_byte((uint8_t*)0, hours);
-	//eeprom_update_byte((uint8_t*)0, hours);
-	//eeprom_update_byte((uint8_t*)0, 0);
 	_delay_ms(100);
 	eeprom_update_byte((uint8_t*)1, minutes);
-	//eeprom_update_byte((uint8_t*)1, 1);
 	_delay_ms(100);
 	eeprom_update_byte((uint8_t*)2, seconds);
-	//eeprom_update_byte((uint8_t*)2, 2);
 	_delay_ms(100);
 }//EW_Time
 
