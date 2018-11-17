@@ -1,0 +1,254 @@
+
+SerialMonitor-23188760.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000e8  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000002e  00800060  000000e8  0000015c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000018a  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001bc  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  000001f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000562  00000000  00000000  00000220  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000455  00000000  00000000  00000782  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000029b  00000000  00000000  00000bd7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000050  00000000  00000000  00000e74  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000002dd  00000000  00000000  00000ec4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000142  00000000  00000000  000011a1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000018  00000000  00000000  000012e3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	e8 ee       	ldi	r30, 0xE8	; 232
+  24:	f0 e0       	ldi	r31, 0x00	; 0
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	ae 38       	cpi	r26, 0x8E	; 142
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
+  32:	21 d0       	rcall	.+66     	; 0x76 <main>
+  34:	57 c0       	rjmp	.+174    	; 0xe4 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <uart_puts>:
+	#endif /* !UART_TX_ENABLED */
+}
+
+void
+uart_puts(const char *s)
+{
+  38:	cf 93       	push	r28
+  3a:	df 93       	push	r29
+  3c:	dc 01       	movw	r26, r24
+	while (*s) uart_putc(*(s++));
+  3e:	9c 91       	ld	r25, X
+  40:	99 23       	and	r25, r25
+  42:	b1 f0       	breq	.+44     	; 0x70 <TxDelay+0x18>
+  44:	11 96       	adiw	r26, 0x01	; 1
+uart_putc(char c)
+{
+	#ifdef    UART_TX_ENABLED
+	uint8_t sreg;
+
+	sreg = SREG;
+  46:	8f b7       	in	r24, 0x3f	; 63
+	cli();
+  48:	f8 94       	cli
+	PORTB |= 1 << UART_TX;
+  4a:	c3 9a       	sbi	0x18, 3	; 24
+	DDRB |= 1 << UART_TX;
+  4c:	bb 9a       	sbi	0x17, 3	; 23
+	__asm volatile(
+  4e:	c3 98       	cbi	0x18, 3	; 24
+  50:	08 b2       	in	r0, 0x18	; 24
+  52:	e3 e0       	ldi	r30, 0x03	; 3
+  54:	c2 e1       	ldi	r28, 0x12	; 18
+
+00000056 <TxLoop>:
+  56:	dc 2f       	mov	r29, r28
+
+00000058 <TxDelay>:
+  58:	da 95       	dec	r29
+  5a:	f1 f7       	brne	.-4      	; 0x58 <TxDelay>
+  5c:	90 fb       	bst	r25, 0
+  5e:	03 f8       	bld	r0, 3
+  60:	e6 95       	lsr	r30
+  62:	97 95       	ror	r25
+  64:	08 ba       	out	0x18, r0	; 24
+  66:	b9 f7       	brne	.-18     	; 0x56 <TxLoop>
+	[uart_pin] "I" (UART_TX),
+	[txdelay] "I" (TXDELAY),
+	[ch] "r" (c)
+	: "r0","r28","r29","r30"
+	);
+	SREG = sreg;
+  68:	8f bf       	out	0x3f, r24	; 63
+}
+
+void
+uart_puts(const char *s)
+{
+	while (*s) uart_putc(*(s++));
+  6a:	9d 91       	ld	r25, X+
+  6c:	91 11       	cpse	r25, r1
+  6e:	eb cf       	rjmp	.-42     	; 0x46 <__SREG__+0x7>
+  70:	df 91       	pop	r29
+  72:	cf 91       	pop	r28
+  74:	08 95       	ret
+
+00000076 <main>:
+static void uart_putc(char c);
+static void uart_puts(const char *s);
+
+int
+main(void)
+{
+  76:	cf 93       	push	r28
+  78:	df 93       	push	r29
+  7a:	cd b7       	in	r28, 0x3d	; 61
+  7c:	dd 27       	eor	r29, r29
+  7e:	c0 51       	subi	r28, 0x10	; 16
+  80:	cd bf       	out	0x3d, r28	; 61
+	char c, *p, buff[16];
+
+	uart_puts("Hello World! \r\n");
+  82:	80 e6       	ldi	r24, 0x60	; 96
+  84:	90 e0       	ldi	r25, 0x00	; 0
+  86:	d8 df       	rcall	.-80     	; 0x38 <uart_puts>
+	//uart_puts("¾È³ç ÀÎ¼ö! \r\n");
+	uart_puts("Send to Arduino Serial... \r\n");
+  88:	80 e7       	ldi	r24, 0x70	; 112
+  8a:	90 e0       	ldi	r25, 0x00	; 0
+  8c:	d5 df       	rcall	.-86     	; 0x38 <uart_puts>
+  8e:	8e 01       	movw	r16, r28
+  90:	0f 5e       	subi	r16, 0xEF	; 239
+  92:	1f 4f       	sbci	r17, 0xFF	; 255
+  94:	ce 01       	movw	r24, r28
+  96:	01 96       	adiw	r24, 0x01	; 1
+	uart_putc("\n");
+	*/
+	/* loop */
+	while (1) {
+		p = buff;
+		while((c = uart_getc()) != '\n' && (p - buff) < 16) {
+  98:	02 c0       	rjmp	.+4      	; 0x9e <main+0x28>
+			*(p++) = c;
+  9a:	40 83       	st	Z, r20
+  9c:	01 96       	adiw	r24, 0x01	; 1
+  9e:	fc 01       	movw	r30, r24
+{
+	#ifdef    UART_RX_ENABLED
+	char c;
+	uint8_t sreg;
+
+	sreg = SREG;
+  a0:	5f b7       	in	r21, 0x3f	; 63
+	cli();
+  a2:	f8 94       	cli
+	PORTB &= ~(1 << UART_RX);
+  a4:	c4 98       	cbi	0x18, 4	; 24
+	DDRB &= ~(1 << UART_RX);
+  a6:	bc 98       	cbi	0x17, 4	; 23
+	__asm volatile(
+  a8:	2a e1       	ldi	r18, 0x1A	; 26
+  aa:	40 e8       	ldi	r20, 0x80	; 128
+
+000000ac <WaitStart>:
+  ac:	b4 99       	sbic	0x16, 4	; 22
+  ae:	fe cf       	rjmp	.-4      	; 0xac <WaitStart>
+
+000000b0 <RxBit>:
+  b0:	21 50       	subi	r18, 0x01	; 1
+  b2:	f1 f7       	brne	.-4      	; 0xb0 <RxBit>
+  b4:	23 e1       	ldi	r18, 0x13	; 19
+  b6:	b4 99       	sbic	0x16, 4	; 22
+  b8:	08 94       	sec
+  ba:	47 95       	ror	r20
+  bc:	c8 f7       	brcc	.-14     	; 0xb0 <RxBit>
+
+000000be <StopBit>:
+  be:	2a 95       	dec	r18
+  c0:	f1 f7       	brne	.-4      	; 0xbe <StopBit>
+	[uart_pin] "I" (UART_RX),
+	[rxdelay] "I" (RXDELAY),
+	[rxdelay2] "I" (RXDELAY2)
+	: "r0","r18","r19"
+	);
+	SREG = sreg;
+  c2:	5f bf       	out	0x3f, r21	; 63
+	uart_putc("\n");
+	*/
+	/* loop */
+	while (1) {
+		p = buff;
+		while((c = uart_getc()) != '\n' && (p - buff) < 16) {
+  c4:	4a 30       	cpi	r20, 0x0A	; 10
+  c6:	19 f0       	breq	.+6      	; 0xce <StopBit+0x10>
+  c8:	80 17       	cp	r24, r16
+  ca:	91 07       	cpc	r25, r17
+  cc:	31 f7       	brne	.-52     	; 0x9a <main+0x24>
+			*(p++) = c;
+		}
+		*p = 0;
+  ce:	10 82       	st	Z, r1
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  d0:	83 ec       	ldi	r24, 0xC3	; 195
+  d2:	99 e0       	ldi	r25, 0x09	; 9
+  d4:	01 97       	sbiw	r24, 0x01	; 1
+  d6:	f1 f7       	brne	.-4      	; 0xd4 <StopBit+0x16>
+  d8:	00 c0       	rjmp	.+0      	; 0xda <StopBit+0x1c>
+  da:	00 00       	nop
+		_delay_ms(10);
+		uart_puts(buff);
+  dc:	ce 01       	movw	r24, r28
+  de:	01 96       	adiw	r24, 0x01	; 1
+  e0:	ab df       	rcall	.-170    	; 0x38 <uart_puts>
+	}
+  e2:	d8 cf       	rjmp	.-80     	; 0x94 <main+0x1e>
+
+000000e4 <_exit>:
+  e4:	f8 94       	cli
+
+000000e6 <__stop_program>:
+  e6:	ff cf       	rjmp	.-2      	; 0xe6 <__stop_program>

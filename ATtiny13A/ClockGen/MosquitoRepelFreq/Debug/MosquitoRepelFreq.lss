@@ -1,0 +1,151 @@
+
+MosquitoRepelFreq.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000058  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000ac  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000ac  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000dc  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000030  00000000  00000000  00000118  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000003b5  00000000  00000000  00000148  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000035c  00000000  00000000  000004fd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000001f0  00000000  00000000  00000859  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000044  00000000  00000000  00000a4c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000029a  00000000  00000000  00000a90  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000020  00000000  00000000  00000d2a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	19 d0       	rcall	.+50     	; 0x50 <main>
+  1e:	1a c0       	rjmp	.+52     	; 0x54 <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <init>:
+{
+	// OSCCAL calibrates 8 mhz internal timer speed
+	// value of 96 was used to get output of 153600 Khz at
+	// pin 5 on an osciilscope for this particular project
+	
+	OSCCAL = 0x00; // 158 Khz
+  22:	11 be       	out	0x31, r1	; 49
+	//OSCCAL = 0x3F; // 247 Khz
+	//OSCCAL = 0x7F; // 542 Khz
+	
+	//CLKPR = 0x80; // set system clock to 8mhz with no prescale
+	CLKPR = 0x08; // set system clock to 8mhz with prescale 256
+  24:	88 e0       	ldi	r24, 0x08	; 8
+  26:	86 bd       	out	0x26, r24	; 38
+	CLKPR = 0x00; // these 2 CLKPR instructions have to be run together in order
+  28:	16 bc       	out	0x26, r1	; 38
+	
+	// to set clock to 8 Mhz
+	DDRB |= (1<<PB0); //Set pin PB0 as output (pinMode(0, OUTPUT)
+  2a:	b8 9a       	sbi	0x17, 0	; 23
+	DDRB &= ~(1<<PB1); //Set pin PB1 as output (pinMode(0, INPUT)
+  2c:	b9 98       	cbi	0x17, 1	; 23
+	DDRB &= ~(1<<PB2); //Set pin PB2 as output (pinMode(0, INPUT)
+  2e:	ba 98       	cbi	0x17, 2	; 23
+	DDRB &= ~(1<<PB3); //Set pin PB3 as output (pinMode(0, INPUT)
+  30:	bb 98       	cbi	0x17, 3	; 23
+	
+	/* The Timer/Counter (TCNT0) and Output Compare Registers (OCR0A and OCR0B) are 8-bit
+	registers. Interrupt request (abbreviated to Int.Req. in the figure) signals are all visible in the
+	Timer Interrupt Flag Register (TIFR0). All interrupts are individually masked with the Timer Interrupt
+	Mask Register (TIMSK0).*/
+	TCNT0 = 0; // initialize timer counter value to 0
+  32:	12 be       	out	0x32, r1	; 50
+	mode (COM0x[1:0]) bits. The Compare Output mode bits do not affect the counting
+	sequence, while the Waveform Generation mode bits do. The COM0x[1:0] bits control whether
+	the PWM output generated should be inverted or not (inverted or non-inverted PWM). For non-
+	PWM modes the COM0x[1:0] bits control whether the output should be set, cleared, or toggled
+	at a Compare Match*/
+	TCCR0A = 0; // write 0 to timer 0 control registers
+  34:	1f bc       	out	0x2f, r1	; 47
+	
+	TCCR0B = 0;
+  36:	13 be       	out	0x33, r1	; 51
+	must be set in order to enable the output driver.
+	When OC0A is connected to the pin, the function of the COM0A[1:0] bits depends on the
+	WGM0[2:0] bit setting.
+	Table 11-2 shows the COM0A[1:0] bit functionality when the WGM0[2:0] bits are set to a normal
+	or CTC mode (non-PWM).*/
+	TCCR0A |= (1 << COM0A0); //Timer0 in toggle mode (Table 11-2 of datasheet)
+  38:	8f b5       	in	r24, 0x2f	; 47
+  3a:	80 64       	ori	r24, 0x40	; 64
+  3c:	8f bd       	out	0x2f, r24	; 47
+	Combined with the WGM02 bit found in the TCCR0B Register, these bits control the counting
+	sequence of the counter, the source for maximum (TOP) counter value, and what type of waveform
+	generation to be used, see Table 11-8 on page 73. Modes of operation supported by the
+	Timer/Counter unit are: Normal mode (counter), Clear Timer on Compare Match (CTC) mode,
+	and two types of Pulse Width Modulation (PWM) modes (see “Modes of Operation” on page 64).*/
+	TCCR0A |= (1 << WGM01); //Start timer 1 in CTC mode (Table 11-8 )
+  3e:	8f b5       	in	r24, 0x2f	; 47
+  40:	82 60       	ori	r24, 0x02	; 2
+  42:	8f bd       	out	0x2f, r24	; 47
+
+	/*Bits 2:0 – CS0[2:0]: Clock Select
+	The three Clock Select bits select the clock source to be used by the Timer/Counter.*/
+	//TCCR0B |= (1 << CS02) | (1 << CS00); // div1024, Prescaler table 11.9 (p74)
+	TCCR0B |= (1 << CS00); // Prescaler table 11.9 
+  44:	83 b7       	in	r24, 0x33	; 51
+  46:	81 60       	ori	r24, 0x01	; 1
+  48:	83 bf       	out	0x33, r24	; 51
+{
+	/*p75. The Output Compare Register A contains an 8-bit value that is continuously compared with the
+	counter value (TCNT0). A match can be used to generate an Output Compare interrupt, or to
+	generate a waveform output on the OC0A pin.*/
+	//OCR0A=106; //T = 200ms at PB0, measured by OSC
+	OCR0A=16; //f = 31Khz at PB0, measured by OSC
+  4a:	80 e1       	ldi	r24, 0x10	; 16
+  4c:	86 bf       	out	0x36, r24	; 54
+  4e:	08 95       	ret
+
+00000050 <main>:
+void mosquitoRepelentFreq();
+
+//---------------------------------------
+int main(void)
+{
+	init();
+  50:	e8 df       	rcall	.-48     	; 0x22 <init>
+    while (1) 
+    {
+    }
+  52:	ff cf       	rjmp	.-2      	; 0x52 <main+0x2>
+
+00000054 <_exit>:
+  54:	f8 94       	cli
+
+00000056 <__stop_program>:
+  56:	ff cf       	rjmp	.-2      	; 0x56 <__stop_program>

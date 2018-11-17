@@ -1,0 +1,284 @@
+
+_7Seg.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000e0  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000134  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000134  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000164  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000058  00000000  00000000  000001a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000005a4  00000000  00000000  000001f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000044c  00000000  00000000  0000079c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000031d  00000000  00000000  00000be8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  0000009c  00000000  00000000  00000f08  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000316  00000000  00000000  00000fa4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000125  00000000  00000000  000012ba  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000048  00000000  00000000  000013df  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	4d d0       	rcall	.+154    	; 0xb8 <main>
+  1e:	5e c0       	rjmp	.+188    	; 0xdc <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <blinkLED>:
+
+//-----------------------------------
+void blinkLED(uint8_t num)
+{
+	uint8_t i;
+	for (i=0; i<(2*num); i++)
+  22:	68 2f       	mov	r22, r24
+  24:	70 e0       	ldi	r23, 0x00	; 0
+  26:	66 0f       	add	r22, r22
+  28:	77 1f       	adc	r23, r23
+  2a:	16 16       	cp	r1, r22
+  2c:	17 06       	cpc	r1, r23
+  2e:	8c f4       	brge	.+34     	; 0x52 <__SREG__+0x13>
+  30:	20 e0       	ldi	r18, 0x00	; 0
+	{
+		//digitalWrite(ledPin, HIGH);
+		PORTB ^= _BV(LED_PIN);
+  32:	81 e0       	ldi	r24, 0x01	; 1
+  34:	98 b3       	in	r25, 0x18	; 24
+  36:	98 27       	eor	r25, r24
+  38:	98 bb       	out	0x18, r25	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  3a:	ef e4       	ldi	r30, 0x4F	; 79
+  3c:	f3 ec       	ldi	r31, 0xC3	; 195
+  3e:	31 97       	sbiw	r30, 0x01	; 1
+  40:	f1 f7       	brne	.-4      	; 0x3e <__SP_L__+0x1>
+  42:	00 c0       	rjmp	.+0      	; 0x44 <__SREG__+0x5>
+  44:	00 00       	nop
+
+//-----------------------------------
+void blinkLED(uint8_t num)
+{
+	uint8_t i;
+	for (i=0; i<(2*num); i++)
+  46:	2f 5f       	subi	r18, 0xFF	; 255
+  48:	42 2f       	mov	r20, r18
+  4a:	50 e0       	ldi	r21, 0x00	; 0
+  4c:	46 17       	cp	r20, r22
+  4e:	57 07       	cpc	r21, r23
+  50:	8c f3       	brlt	.-30     	; 0x34 <blinkLED+0x12>
+  52:	08 95       	ret
+
+00000054 <tuningCLK>:
+}//blinkLED
+
+void tuningCLK()
+{
+	//internal oscillator tuning
+	OSCCAL -= 28; //calibrate internal OSC as of morning July 4, 2017
+  54:	81 b7       	in	r24, 0x31	; 49
+  56:	8c 51       	subi	r24, 0x1C	; 28
+  58:	81 bf       	out	0x31, r24	; 49
+  5a:	08 95       	ret
+
+0000005c <initIO>:
+}//tuningCLK
+
+void initIO()
+{
+	//pin IO setting
+	DDRB |= _BV(LED_PIN); // make LED_PIN (PB0, pin5) an output
+  5c:	b8 9a       	sbi	0x17, 0	; 23
+	DDRB &= ~_BV(BUTTON_PIN); // make BUTTON_PIN (PB1, pin6) an input
+  5e:	b9 98       	cbi	0x17, 1	; 23
+	DDRB &= ~_BV(LM35_PIN); // make LM35_PIN (PB4, pin2) an input
+  60:	bc 98       	cbi	0x17, 4	; 23
+  62:	08 95       	ret
+
+00000064 <initADC>:
+{
+	//ADC setting
+	//Enable ADC pin input from LM35_PIN (PB3 or ADC3)
+	//ADMUX |= _BV(MUX1) | _BV(MUX0);
+	//Enable ADC pin input from LM35_PIN (PB4 or ADC2)
+	ADMUX |= _BV(MUX1);
+  64:	39 9a       	sbi	0x07, 1	; 7
+  66:	08 95       	ret
+
+00000068 <setADC_ClockSpeed>:
+}//initADC
+
+void setADC_ClockSpeed()
+{
+	//Set the prescaler to clock/128 & enable ADC
+	ADCSRA |= _BV(ADPS1) | _BV(ADPS0);
+  68:	86 b1       	in	r24, 0x06	; 6
+  6a:	83 60       	ori	r24, 0x03	; 3
+  6c:	86 b9       	out	0x06, r24	; 6
+
+	// enable ADC
+	ADCSRA |= _BV(ADEN);
+  6e:	37 9a       	sbi	0x06, 7	; 6
+  70:	08 95       	ret
+
+00000072 <adc_read>:
+
+int adc_read (void)
+{
+	//uint8_t dummy;
+	// Start the conversion
+	ADCSRA |= (1 << ADSC);
+  72:	36 9a       	sbi	0x06, 6	; 6
+
+	// Wait for it to finish - blocking
+	while (ADCSRA & (1 << ADSC));
+  74:	36 99       	sbic	0x06, 6	; 6
+  76:	fe cf       	rjmp	.-4      	; 0x74 <adc_read+0x2>
+
+	//return ADCH;
+	//dummy = ADCH;
+	return ADCL;
+  78:	84 b1       	in	r24, 0x04	; 4
+}//adc_read
+  7a:	90 e0       	ldi	r25, 0x00	; 0
+  7c:	08 95       	ret
+
+0000007e <chkTempLM35>:
+
+
+void chkTempLM35()
+{
+  7e:	cf 93       	push	r28
+	//uint8_t temp100;
+	//uint8_t mV;
+	//uint8_t K;
+	//uint8_t C;
+	  
+	rawV = adc_read ();
+  80:	f8 df       	rcall	.-16     	; 0x72 <adc_read>
+	//C= K - 273;
+	//C = mV;
+	
+	//C = (rawV) * REFVTG; //to debug
+
+	temp = (rawV >> 1) ; // arbitrary manipulation
+  82:	86 95       	lsr	r24
+	//temp += 7; // arbitrary manipulation
+	//temp100 = temp/100;
+	temp10 = temp / 10;
+  84:	6a e0       	ldi	r22, 0x0A	; 10
+  86:	1e d0       	rcall	.+60     	; 0xc4 <__udivmodqi4>
+  88:	c9 2f       	mov	r28, r25
+	temp1 = temp % 10;
+	//blinkLED(temp100);
+	//_delay_ms(500);
+	blinkLED(temp10);
+  8a:	cb df       	rcall	.-106    	; 0x22 <blinkLED>
+  8c:	2f e9       	ldi	r18, 0x9F	; 159
+  8e:	86 e8       	ldi	r24, 0x86	; 134
+  90:	91 e0       	ldi	r25, 0x01	; 1
+  92:	21 50       	subi	r18, 0x01	; 1
+  94:	80 40       	sbci	r24, 0x00	; 0
+  96:	90 40       	sbci	r25, 0x00	; 0
+  98:	e1 f7       	brne	.-8      	; 0x92 <chkTempLM35+0x14>
+  9a:	00 c0       	rjmp	.+0      	; 0x9c <chkTempLM35+0x1e>
+  9c:	00 00       	nop
+	_delay_ms(500);
+	blinkLED(temp1);
+  9e:	8c 2f       	mov	r24, r28
+  a0:	c0 df       	rcall	.-128    	; 0x22 <blinkLED>
+  a2:	2f e3       	ldi	r18, 0x3F	; 63
+  a4:	8d e0       	ldi	r24, 0x0D	; 13
+  a6:	93 e0       	ldi	r25, 0x03	; 3
+  a8:	21 50       	subi	r18, 0x01	; 1
+  aa:	80 40       	sbci	r24, 0x00	; 0
+  ac:	90 40       	sbci	r25, 0x00	; 0
+  ae:	e1 f7       	brne	.-8      	; 0xa8 <__stack+0x9>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <__stack+0x13>
+  b2:	00 00       	nop
+	_delay_ms(1000);
+
+}
+  b4:	cf 91       	pop	r28
+  b6:	08 95       	ret
+
+000000b8 <main>:
+
+//-------------------------------------------
+int main(void)
+{
+
+	tuningCLK();
+  b8:	cd df       	rcall	.-102    	; 0x54 <tuningCLK>
+	initIO();
+  ba:	d0 df       	rcall	.-96     	; 0x5c <initIO>
+	initADC();
+  bc:	d3 df       	rcall	.-90     	; 0x64 <initADC>
+	setADC_ClockSpeed();
+  be:	d4 df       	rcall	.-88     	; 0x68 <setADC_ClockSpeed>
+    for (;;) 
+	{
+		
+		//blinkLED(resultADC/10);
+		//_delay_ms(500);
+		chkTempLM35();
+  c0:	de df       	rcall	.-68     	; 0x7e <chkTempLM35>
+
+    }//for
+  c2:	fe cf       	rjmp	.-4      	; 0xc0 <main+0x8>
+
+000000c4 <__udivmodqi4>:
+  c4:	99 1b       	sub	r25, r25
+  c6:	79 e0       	ldi	r23, 0x09	; 9
+  c8:	04 c0       	rjmp	.+8      	; 0xd2 <__udivmodqi4_ep>
+
+000000ca <__udivmodqi4_loop>:
+  ca:	99 1f       	adc	r25, r25
+  cc:	96 17       	cp	r25, r22
+  ce:	08 f0       	brcs	.+2      	; 0xd2 <__udivmodqi4_ep>
+  d0:	96 1b       	sub	r25, r22
+
+000000d2 <__udivmodqi4_ep>:
+  d2:	88 1f       	adc	r24, r24
+  d4:	7a 95       	dec	r23
+  d6:	c9 f7       	brne	.-14     	; 0xca <__udivmodqi4_loop>
+  d8:	80 95       	com	r24
+  da:	08 95       	ret
+
+000000dc <_exit>:
+  dc:	f8 94       	cli
+
+000000de <__stop_program>:
+  de:	ff cf       	rjmp	.-2      	; 0xde <__stop_program>
