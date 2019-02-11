@@ -1,0 +1,45 @@
+CHANGES
+
+
+2015-03-03 (nb)
+
+Updated README, added LICENSE. Updated use of DEBUGGING.
+
+
+2015-01-01 (nb)
+
+Added "tinudht_test2" project using OWOWOD. Code reformatting, removed some LCDDDD dependency. Updated text files, added TODO file.
+
+- Added new "tinudht_test2" sub-project that uses OWOWOD for output of the measurements.
+- Source code reformatting.
+- Removed LCDDDD debugging dependency in the library.
+- Updated text files, added TODO text file.
+
+
+2015-01-01 (nb)
+
+Renamed folder "tinudht_test" to "tinudht_test1" for consistency.
+
+
+2014-07-13 (nb)
+
+Fix in "tinudht.h" - inclusion handling.
+
+
+2014-07-08 (nb)
+
+Small improvements in "tinudht_test/main.c". Added more comments in the source code. Updated README.
+
+- Changes in "tinudht_test/main.c": the delay for DHT moved outside of the main loop.
+
+
+2014-07-08 (nb)
+
+Added the "RESEARCH.txt" file to the repository.
+
+
+2014-07-08 (nb)
+
+Files added to the repository.
+
+

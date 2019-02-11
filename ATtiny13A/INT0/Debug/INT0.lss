@@ -1,0 +1,130 @@
+
+INT0.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000068  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000bc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000bc  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000ec  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  00000128  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000003af  00000000  00000000  00000160  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000344  00000000  00000000  0000050f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000001df  00000000  00000000  00000853  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000068  00000000  00000000  00000a34  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000025d  00000000  00000000  00000a9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000049  00000000  00000000  00000cf9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  00000d42  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0f c0       	rjmp	.+30     	; 0x22 <__vector_1>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	21 d0       	rcall	.+66     	; 0x60 <main>
+  1e:	22 c0       	rjmp	.+68     	; 0x64 <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <__vector_1>:
+}//main
+
+
+void toggleLED(void)
+{
+	PORTB ^= (1<<LED);	
+  22:	1f 92       	push	r1
+  24:	0f 92       	push	r0
+  26:	0f b6       	in	r0, 0x3f	; 63
+  28:	0f 92       	push	r0
+  2a:	11 24       	eor	r1, r1
+  2c:	8f 93       	push	r24
+  2e:	9f 93       	push	r25
+  30:	98 b3       	in	r25, 0x18	; 24
+  32:	88 e0       	ldi	r24, 0x08	; 8
+  34:	89 27       	eor	r24, r25
+  36:	88 bb       	out	0x18, r24	; 24
+  38:	9f 91       	pop	r25
+  3a:	8f 91       	pop	r24
+  3c:	0f 90       	pop	r0
+  3e:	0f be       	out	0x3f, r0	; 63
+  40:	0f 90       	pop	r0
+  42:	1f 90       	pop	r1
+  44:	18 95       	reti
+
+00000046 <systemInit>:
+}//toggleLED0
+
+void systemInit(void)
+{
+	// I/O
+	DDRB |= _BV(LED); //output for LED
+  46:	bb 9a       	sbi	0x17, 3	; 23
+	DDRB &= ~_BV(SW); //input for SW
+  48:	b8 98       	cbi	0x17, 0	; 23
+
+	// INT0 setup
+	GIMSK |= _BV(INT0); // enable INT0 interrupt
+  4a:	8b b7       	in	r24, 0x3b	; 59
+  4c:	80 64       	ori	r24, 0x40	; 64
+  4e:	8b bf       	out	0x3b, r24	; 59
+	MCUCR |= _BV(ISC01);	// Trigger INT0 on falling edge
+  50:	85 b7       	in	r24, 0x35	; 53
+  52:	82 60       	ori	r24, 0x02	; 2
+  54:	85 bf       	out	0x35, r24	; 53
+	MCUCR &= _BV(ISC00);	// Trigger INT0 on falling  edge
+  56:	85 b7       	in	r24, 0x35	; 53
+  58:	81 70       	andi	r24, 0x01	; 1
+  5a:	85 bf       	out	0x35, r24	; 53
+	sei();          // enable all interrupts
+  5c:	78 94       	sei
+  5e:	08 95       	ret
+
+00000060 <main>:
+}//ISR(WDT_vect)
+
+
+int main(void)
+{
+    systemInit();
+  60:	f2 df       	rcall	.-28     	; 0x46 <systemInit>
+	{
+		// go to sleep and wait for interrupt...
+		// 33 uA as of Sep 27, 2018 when sleep
+		//sleep_mode();
+
+	}//while (1) 
+  62:	ff cf       	rjmp	.-2      	; 0x62 <main+0x2>
+
+00000064 <_exit>:
+  64:	f8 94       	cli
+
+00000066 <__stop_program>:
+  66:	ff cf       	rjmp	.-2      	; 0x66 <__stop_program>

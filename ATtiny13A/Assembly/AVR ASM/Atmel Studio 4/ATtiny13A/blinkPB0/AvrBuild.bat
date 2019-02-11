@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\labels.tmp" -fI -W+ie -C V2 -o "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.hex" -d "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.obj" -e "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.eep" -m "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.map" "D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm"
