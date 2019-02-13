@@ -8,6 +8,8 @@ Name : main.c
 Author  : Insoo Kim (insoo@hotmail.com)
 Created : May 15, 2015
 Updated : 
+	Feb 13, 2019: Git cloned at E5200 PC and built successfully!
+	
 	Jan 24, 2019: Assign File Part Number as 23199817 
 		and Boxed as ATmega328p-LCD_RTC_DS1307_DHT11-23199817(Jan24,2019).zip
 		at BoxElec - DIY Electronics - Arduino - AVR C - 
@@ -38,13 +40,18 @@ Build & Upload to MCU in Windows Atmel Studio
 	도구(T) - 외부도구(E)에서 아래처럼 추가
 	제목: USBtin&Y
 
-	명령: C:\WinAVR-20100110\bin\avrdude.exe
-
-	인수: avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD_RTC_DS1307_DHT11.hex:i
+	command (명령): 
+	(2019.2.13) C:\Users\Insoo\.platformio\packages\tool-avrdude\avrdude.exe
+	C:\WinAVR-20100110\bin\avrdude.exe
+	
+	arguments (인수): 
+	(2019.2.13) -c usbtiny -P usb -p atmega328p -U flash:w:LCD_RTC_DS1307_DHT11.hex:i
+	avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD_RTC_DS1307_DHT11.hex:i
+	
 	ATtiny13용 프로젝트에선 아래 처럼.
 	avrdude  -c usbtiny -P usb -p attiny13 -U flash:w:ISR-BathBulbAC1W.hex:i
 
-	초기 디렉토리$(ProjectDir)\Debug
+	초기 디렉토리 $(ProjectDir)\Debug
 	출력 창 사용 (체크)
 
 	완료되면 도구(T) -  USBtinY(Y에 밑줄) 생성
@@ -141,7 +148,7 @@ int main()
 	//--- To use LCD while testing any of functions
 	// make it commented when in production mode
 	prepareWakeUpandLCDHome();
-
+	buzzerBeepBeep();
 	// endless loop
     while(1)
     {
