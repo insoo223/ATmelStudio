@@ -1,0 +1,107 @@
+/*
+ *   Title : nameNet.ulp
+ * Version : 0.5 alpha 2
+ *    Date : 27-Feb-2017
+ *  Author : Rachael Peterson
+ *
+ * Purpose : Provide additional methods, either by command line or context menu
+ *         : te name a net or nets based on their current connections within a
+ *         : schematic design.
+ *
+ * License : Creative Commons Attribution-ShareAlike 4.0 International
+ *         : CC BY-SA 4.0
+ *         : https://creativecommons.org/licenses/by-sa/4.0/
+ *
+ *******************************************************************************
+ *                           (c)Copyright 2017                                 *
+ *******************************************************************************
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+#usage "en: Provides tools to enhance naming of nets in a design.\n"
+       "run nameNet install - Installs the utility to the schematic context menus.\n"
+       "run nameNet oldName newName - Renames a net from oldName to newName (Case Sensitive).\n"
+
+if (argv[1] == "install") {
+   exit("edit .sch; set context wire 'Name Net...' 'run nameNet interactive';"
+        "edit .sch; set context instance 'Name Nets...' 'run nameNet component';");
+} else if (argv[1] == "interactive") {
+
+   // TBD
+   exit(0);
+
+} else if (argv[1] == "component") {
+
+   // Define variables
+
+   string cmd="SET CONFIRM YES; ";
+
+   if (schematic) {
+      schematic(S) {
+         S.sheets(SH) {
+            SH.instances(IN) {
+               IN.gate.symbol.pins(P) {
+                  if (ingroup(IN)) {
+                     SH.nets(N) {
+                        if (N.name == P.net) {
+                           if (P.direction != PIN_DIRECTION_PWR) {
+                              N.segments(SEG) {
+                                 SEG.wires(W) {
+                                    string tmp;
+                                    sprintf(tmp, "NAME %s (%f %f);", P.name,u2inch(W.x1),u2inch(W.y1));
+                                    cmd += tmp;
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   cmd += "SET CONFIRM OFF;";
+
+   exit(cmd);
+
+} else {
+
+   // Define variables
+
+   string cmd="SET CONFIRM YES; ";
+
+   if (schematic) {
+      schematic(S) {
+         S.sheets(SH) {
+            SH.nets(N) {
+               string tmp;
+               if (N.name == argv[1]) {
+                  N.segments(SEG) {
+                     SEG.wires(W) {
+                        sprintf(tmp, "NAME %s (%f %f);", argv[2],u2inch(W.x1),u2inch(W.y1));
+                        cmd += tmp;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   cmd += "SET CONFIRM OFF;";
+
+   exit(cmd);
+
+}
