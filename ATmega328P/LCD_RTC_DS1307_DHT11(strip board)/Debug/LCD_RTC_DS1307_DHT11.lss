@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000008ec  00000000  00000000  0000b370  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000bdf  00000000  00000000  0000bc5c  2**0
+ 10 .debug_str    00000b9e  00000000  00000000  0000bc5c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001f9f  00000000  00000000  0000c83b  2**0
+ 11 .debug_loc    00001f9f  00000000  00000000  0000c7fa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000003b8  00000000  00000000  0000e7da  2**0
+ 12 .debug_ranges 000003b8  00000000  00000000  0000e799  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2847,6 +2847,12 @@ void makePDasInput()
      fc2:	08 95       	ret
 
 00000fc4 <tinudht_read>:
+#define TINUDHT_RCV_DELAY 10
+#define TINUDHT_RCV_LENGTH 2
+
+// ----------------------------------------------------------------------------
+
+uint8_t tinudht_read(TinuDHT *ptinudht, uint8_t dht_pin) {
      fc4:	ef 92       	push	r14
      fc6:	ff 92       	push	r15
      fc8:	0f 93       	push	r16
@@ -2859,11 +2865,20 @@ void makePDasInput()
      fd6:	cd b7       	in	r28, 0x3d	; 61
      fd8:	de b7       	in	r29, 0x3e	; 62
      fda:	7c 01       	movw	r14, r24
+	
+	// Buffer to received data
+	uint8_t data[5];
+	// Empty the buffer
+	data[0] = data[1] = data[2] = data[3] = data[4] = 0;
      fdc:	1d 82       	std	Y+5, r1	; 0x05
      fde:	1c 82       	std	Y+4, r1	; 0x04
      fe0:	1b 82       	std	Y+3, r1	; 0x03
      fe2:	1a 82       	std	Y+2, r1	; 0x02
      fe4:	19 82       	std	Y+1, r1	; 0x01
+//	for (uint8_t i=0; i< 5; i++) data[i] = 0;	// Another way to empty the data buffer.
+
+	// Send request
+	DDRB |= (1 << dht_pin);	// Set port as output
      fe6:	84 b1       	in	r24, 0x04	; 4
      fe8:	41 e0       	ldi	r20, 0x01	; 1
      fea:	50 e0       	ldi	r21, 0x00	; 0
@@ -2875,6 +2890,7 @@ void makePDasInput()
      ff6:	e2 f7       	brpl	.-8      	; 0xff0 <tinudht_read+0x2c>
      ff8:	84 2b       	or	r24, r20
      ffa:	84 b9       	out	0x04, r24	; 4
+	PORTB &= ~(1 << dht_pin);	// Set to 0
      ffc:	95 b1       	in	r25, 0x05	; 5
      ffe:	24 2f       	mov	r18, r20
     1000:	20 95       	com	r18
@@ -2886,6 +2902,8 @@ void makePDasInput()
     100c:	f1 f7       	brne	.-4      	; 0x100a <tinudht_read+0x46>
     100e:	00 c0       	rjmp	.+0      	; 0x1010 <tinudht_read+0x4c>
     1010:	00 00       	nop
+	_delay_ms(18);	// Wait 18 ms
+	PORTB |= (1 << dht_pin);	// Set to 1
     1012:	95 b1       	in	r25, 0x05	; 5
     1014:	94 2b       	or	r25, r20
     1016:	95 b9       	out	0x05, r25	; 5
@@ -2899,14 +2917,31 @@ void makePDasInput()
     101a:	9a 95       	dec	r25
     101c:	f1 f7       	brne	.-4      	; 0x101a <tinudht_read+0x56>
     101e:	00 00       	nop
+	_delay_us(40);	// Wait 40 us
+
+	// Receive response
+	DDRB &= ~(1 << dht_pin);	// Set port as input
     1020:	84 b1       	in	r24, 0x04	; 4
     1022:	82 23       	and	r24, r18
     1024:	84 b9       	out	0x04, r24	; 4
+
+	uint8_t timeout;
+
+	// Acknowledge
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
     1026:	80 e0       	ldi	r24, 0x00	; 0
     1028:	03 c0       	rjmp	.+6      	; 0x1030 <tinudht_read+0x6c>
     102a:	81 50       	subi	r24, 0x01	; 1
+		if (timeout-- == 0)
     102c:	09 f4       	brne	.+2      	; 0x1030 <tinudht_read+0x6c>
     102e:	5a c0       	rjmp	.+180    	; 0x10e4 <tinudht_read+0x120>
+
+	uint8_t timeout;
+
+	// Acknowledge
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
     1030:	23 b1       	in	r18, 0x03	; 3
     1032:	30 e0       	ldi	r19, 0x00	; 0
     1034:	24 23       	and	r18, r20
@@ -2915,8 +2950,20 @@ void makePDasInput()
     103a:	b9 f3       	breq	.-18     	; 0x102a <tinudht_read+0x66>
     103c:	5d c0       	rjmp	.+186    	; 0x10f8 <tinudht_read+0x134>
     103e:	21 50       	subi	r18, 0x01	; 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
+		if (timeout-- == 0)
     1040:	11 f4       	brne	.+4      	; 0x1046 <tinudht_read+0x82>
     1042:	52 c0       	rjmp	.+164    	; 0x10e8 <tinudht_read+0x124>
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
     1044:	2f ef       	ldi	r18, 0xFF	; 255
     1046:	83 b1       	in	r24, 0x03	; 3
     1048:	90 e0       	ldi	r25, 0x00	; 0
@@ -2929,13 +2976,49 @@ void makePDasInput()
     1056:	a7 e0       	ldi	r26, 0x07	; 7
     1058:	03 c0       	rjmp	.+6      	; 0x1060 <tinudht_read+0x9c>
     105a:	91 50       	subi	r25, 0x01	; 1
+	for (uint8_t i = 0; i < 40; i++)
+	{
+		// Wait for start
+		timeout = TINUDHT_RCV_TIMEOUT;
+		while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+			if (timeout-- == 0)
     105c:	31 f4       	brne	.+12     	; 0x106a <tinudht_read+0xa6>
     105e:	46 c0       	rjmp	.+140    	; 0x10ec <tinudht_read+0x128>
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
     1060:	b0 e0       	ldi	r27, 0x00	; 0
+			_delay_us(TINUDHT_RCV_DELAY);
+			if (len++ == TINUDHT_RCV_TIMEOUT)
+				return TINUDHT_ERROR_TIMEOUT;
+			}
+
+		if (len >= TINUDHT_RCV_LENGTH) data[byte_index] |= (1 << bit_index);
     1062:	61 e0       	ldi	r22, 0x01	; 1
     1064:	70 e0       	ldi	r23, 0x00	; 0
+		// NOTE: The values of TINUDHT_RCV_DELAY and TINUDHT_RCV_LENGTH
+		//       may need to be adjusted if the F_CPU changes.
+		
+		if (bit_index == 0)	// next byte?
+		{
+			bit_index = 7;	// restart at MSB
     1066:	07 e0       	ldi	r16, 0x07	; 7
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
     1068:	9b 2f       	mov	r25, r27
+	// READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
+	for (uint8_t i = 0; i < 40; i++)
+	{
+		// Wait for start
+		timeout = TINUDHT_RCV_TIMEOUT;
+		while(bit_is_clear(PINB, dht_pin))	// Wait for 1
     106a:	23 b1       	in	r18, 0x03	; 3
     106c:	30 e0       	ldi	r19, 0x00	; 0
     106e:	24 23       	and	r18, r20
@@ -2948,14 +3031,32 @@ void makePDasInput()
     107c:	ea 95       	dec	r30
     107e:	f1 f7       	brne	.-4      	; 0x107c <tinudht_read+0xb8>
     1080:	00 00       	nop
+
+		// Determine the bit value
+		uint8_t len = 0;
+		while(bit_is_set(PINB, dht_pin)) {	// Wait for 0
+			_delay_us(TINUDHT_RCV_DELAY);
+			if (len++ == TINUDHT_RCV_TIMEOUT)
     1082:	9f 5f       	subi	r25, 0xFF	; 255
     1084:	a9 f1       	breq	.+106    	; 0x10f0 <tinudht_read+0x12c>
+			if (timeout-- == 0)
+				return TINUDHT_ERROR_TIMEOUT;
+
+		// Determine the bit value
+		uint8_t len = 0;
+		while(bit_is_set(PINB, dht_pin)) {	// Wait for 0
     1086:	23 b1       	in	r18, 0x03	; 3
     1088:	30 e0       	ldi	r19, 0x00	; 0
     108a:	24 23       	and	r18, r20
     108c:	35 23       	and	r19, r21
     108e:	23 2b       	or	r18, r19
     1090:	a1 f7       	brne	.-24     	; 0x107a <tinudht_read+0xb6>
+			_delay_us(TINUDHT_RCV_DELAY);
+			if (len++ == TINUDHT_RCV_TIMEOUT)
+				return TINUDHT_ERROR_TIMEOUT;
+			}
+
+		if (len >= TINUDHT_RCV_LENGTH) data[byte_index] |= (1 << bit_index);
     1092:	92 30       	cpi	r25, 0x02	; 2
     1094:	80 f0       	brcs	.+32     	; 0x10b6 <tinudht_read+0xf2>
     1096:	e1 e0       	ldi	r30, 0x01	; 1
@@ -2974,39 +3075,114 @@ void makePDasInput()
     10b0:	e2 f7       	brpl	.-8      	; 0x10aa <tinudht_read+0xe6>
     10b2:	29 2b       	or	r18, r25
     10b4:	20 83       	st	Z, r18
+		// delay =  9..29us, len = 2
+		
+		// NOTE: The values of TINUDHT_RCV_DELAY and TINUDHT_RCV_LENGTH
+		//       may need to be adjusted if the F_CPU changes.
+		
+		if (bit_index == 0)	// next byte?
     10b6:	a1 11       	cpse	r26, r1
     10b8:	03 c0       	rjmp	.+6      	; 0x10c0 <tinudht_read+0xfc>
+		{
+			bit_index = 7;	// restart at MSB
+			byte_index++;	// next byte!
     10ba:	1f 5f       	subi	r17, 0xFF	; 255
+		// NOTE: The values of TINUDHT_RCV_DELAY and TINUDHT_RCV_LENGTH
+		//       may need to be adjusted if the F_CPU changes.
+		
+		if (bit_index == 0)	// next byte?
+		{
+			bit_index = 7;	// restart at MSB
     10bc:	a0 2f       	mov	r26, r16
     10be:	01 c0       	rjmp	.+2      	; 0x10c2 <tinudht_read+0xfe>
+			byte_index++;	// next byte!
+		}
+		else bit_index--;
     10c0:	a1 50       	subi	r26, 0x01	; 1
     10c2:	81 50       	subi	r24, 0x01	; 1
+			return TINUDHT_ERROR_TIMEOUT;
+
+	uint8_t bit_index = 7;
+	uint8_t byte_index = 0;
+	// READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
+	for (uint8_t i = 0; i < 40; i++)
     10c4:	89 f6       	brne	.-94     	; 0x1068 <tinudht_read+0xa4>
+	// DEBUGGING_STRING("DT:");
+	// DEBUGGING_NUMDECP(data[2]);
+	// DEBUGGING_NUMDECP(data[3]);
+	// DEBUGGING_STRING("\n\r");
+
+	uint8_t checksum = data[0] + data[2];	// TODO: Fix this, does not work in border cases.
     10c6:	49 81       	ldd	r20, Y+1	; 0x01
     10c8:	2b 81       	ldd	r18, Y+3	; 0x03
     10ca:	92 2f       	mov	r25, r18
     10cc:	94 0f       	add	r25, r20
+	if (data[4] != checksum) return TINUDHT_ERROR_CHECKSUM;
     10ce:	3d 81       	ldd	r19, Y+5	; 0x05
     10d0:	39 13       	cpse	r19, r25
     10d2:	10 c0       	rjmp	.+32     	; 0x10f4 <tinudht_read+0x130>
+	// DEBUGGING_NUMDECP(data[4]);
+	// DEBUGGING_NUMDECP(checksum);
+	// DEBUGGING_STRING("\n\r");
+
+	// On DHT11 data[1],data[3] are always zero so not used.
+	ptinudht->humidity = data[0]; 
     10d4:	50 e0       	ldi	r21, 0x00	; 0
     10d6:	f7 01       	movw	r30, r14
     10d8:	51 83       	std	Z+1, r21	; 0x01
     10da:	40 83       	st	Z, r20
+	ptinudht->temperature = data[2]; 
     10dc:	30 e0       	ldi	r19, 0x00	; 0
     10de:	33 83       	std	Z+3, r19	; 0x03
     10e0:	22 83       	std	Z+2, r18	; 0x02
+
+	return TINUDHT_OK;
     10e2:	17 c0       	rjmp	.+46     	; 0x1112 <tinudht_read+0x14e>
+
+	// Acknowledge
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
     10e4:	8e ef       	ldi	r24, 0xFE	; 254
     10e6:	15 c0       	rjmp	.+42     	; 0x1112 <tinudht_read+0x14e>
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
     10e8:	8e ef       	ldi	r24, 0xFE	; 254
     10ea:	13 c0       	rjmp	.+38     	; 0x1112 <tinudht_read+0x14e>
+	{
+		// Wait for start
+		timeout = TINUDHT_RCV_TIMEOUT;
+		while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+			if (timeout-- == 0)
+				return TINUDHT_ERROR_TIMEOUT;
     10ec:	8e ef       	ldi	r24, 0xFE	; 254
     10ee:	11 c0       	rjmp	.+34     	; 0x1112 <tinudht_read+0x14e>
+		// Determine the bit value
+		uint8_t len = 0;
+		while(bit_is_set(PINB, dht_pin)) {	// Wait for 0
+			_delay_us(TINUDHT_RCV_DELAY);
+			if (len++ == TINUDHT_RCV_TIMEOUT)
+				return TINUDHT_ERROR_TIMEOUT;
     10f0:	8e ef       	ldi	r24, 0xFE	; 254
     10f2:	0f c0       	rjmp	.+30     	; 0x1112 <tinudht_read+0x14e>
+	// DEBUGGING_NUMDECP(data[2]);
+	// DEBUGGING_NUMDECP(data[3]);
+	// DEBUGGING_STRING("\n\r");
+
+	uint8_t checksum = data[0] + data[2];	// TODO: Fix this, does not work in border cases.
+	if (data[4] != checksum) return TINUDHT_ERROR_CHECKSUM;
     10f4:	8f ef       	ldi	r24, 0xFF	; 255
     10f6:	0d c0       	rjmp	.+26     	; 0x1112 <tinudht_read+0x14e>
+	while(bit_is_clear(PINB, dht_pin))	// Wait for 1
+		if (timeout-- == 0)
+			return TINUDHT_ERROR_TIMEOUT;
+	
+	timeout = TINUDHT_RCV_TIMEOUT;
+	while(bit_is_set(PINB, dht_pin))	// Wait for 0
     10f8:	83 b1       	in	r24, 0x03	; 3
     10fa:	90 e0       	ldi	r25, 0x00	; 0
     10fc:	02 c0       	rjmp	.+4      	; 0x1102 <tinudht_read+0x13e>
@@ -3020,6 +3196,12 @@ void makePDasInput()
     110c:	10 e0       	ldi	r17, 0x00	; 0
     110e:	a7 e0       	ldi	r26, 0x07	; 7
     1110:	a7 cf       	rjmp	.-178    	; 0x1060 <tinudht_read+0x9c>
+	// On DHT11 data[1],data[3] are always zero so not used.
+	ptinudht->humidity = data[0]; 
+	ptinudht->temperature = data[2]; 
+
+	return TINUDHT_OK;
+}//tinudht_read
     1112:	0f 90       	pop	r0
     1114:	0f 90       	pop	r0
     1116:	0f 90       	pop	r0
