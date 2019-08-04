@@ -21,42 +21,46 @@
  Limitation:
 	The WDT period can be influenced by ambient temperature. Hot weather can lengthen the period.
 	
- HEX size[Byte]: 192 out of 1024
- 
-	 avrdude.exe: AVR device initialized and ready to accept instructions
+ HEX size[Byte]: 190 out of 1024
 
-	 Reading | ################################################## | 100% 0.00s
+	avrdude.exe: AVR device initialized and ready to accept instructions
 
-	 avrdude.exe: Device signature = 0x1e9007
-	 avrdude.exe: NOTE: FLASH memory has been specified, an erase cycle will be performed
-	 To disable this feature, specify the -D option.
-	 avrdude.exe: erasing chip
-	 avrdude.exe: reading input file "ISR--23189811.hex"
-	 avrdude.exe: writing flash (192 bytes):
+	Reading | ################################################## | 100% 0.00s
 
-	 Writing | ################################################## | 100% 0.25s
+	avrdude.exe: Device signature = 0x1e9007
+	avrdude.exe: NOTE: FLASH memory has been specified, an erase cycle will be performed
+	To disable this feature, specify the -D option.
+	avrdude.exe: erasing chip
+	avrdude.exe: reading input file "ISR.hex"
+	avrdude.exe: writing flash (190 bytes):
 
-	 avrdude.exe: 192 bytes of flash written
-	 avrdude.exe: verifying flash memory against ISR--23189811.hex:
-	 avrdude.exe: load data flash data from input file ISR--23189811.hex:
-	 avrdude.exe: input file ISR--23189811.hex contains 192 bytes
-	 avrdude.exe: reading on-chip flash data:
+	Writing | ################################################## | 100% 0.25s
 
-	 Reading | ################################################## | 100% 0.17s
+	avrdude.exe: 190 bytes of flash written
+	avrdude.exe: verifying flash memory against ISR.hex:
+	avrdude.exe: load data flash data from input file ISR.hex:
+	avrdude.exe: input file ISR.hex contains 190 bytes
+	avrdude.exe: reading on-chip flash data:
 
-	 avrdude.exe: verifying ...
-	 avrdude.exe: 192 bytes of flash verified
+	Reading | ################################################## | 100% 0.17s
+
+	avrdude.exe: verifying ...
+	avrdude.exe: 190 bytes of flash verified
+
+	avrdude.exe: safemode: Fuses OK
+
+	avrdude.exe done.  Thank you. 
 
  How to upload to the target MCU
  <For Windows Atmel Studio 7.0>
 	 Select Tool -> USBtiny (USBtiny memu should be configured in the external tool menu)
 		Title: USBtin&Y
 		Command: C:\WinAVR-20100110\bin\avrdude.exe
-		Parameter: avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR--23189811.hex:i
+		Parameter: avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
 		Directory:$(ProjectDir)\Debug
  <For CMD window or DOS prompt>
-	 cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-MultiPurpose Relay PCB by Insoo-23189811\Debug"
-	 avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR--23189811.hex:i
+	 cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-Aquarium Pump Ctrl on PCB-23189830\Debug"
+	 avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
 
  Ref:
 *****************************************************************/
