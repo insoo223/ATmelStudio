@@ -117,7 +117,7 @@ ISR(WDT_vect)
 	{
 		PORTB ^= 1<<NPN_TR_PORT; //toggle on/off NPN TR
   68:	98 b3       	in	r25, 0x18	; 24
-  6a:	88 e0       	ldi	r24, 0x08	; 8
+  6a:	81 e0       	ldi	r24, 0x01	; 1
   6c:	89 27       	eor	r24, r25
   6e:	88 bb       	out	0x18, r24	; 24
 		// Reset WDT 8sec counter
@@ -166,7 +166,7 @@ int main(void) {
   a4:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
 	// Set up NPN_TR_PORT mode to output
 	DDRB = (1<<NPN_TR_PORT);
-  a8:	98 e0       	ldi	r25, 0x08	; 8
+  a8:	91 e0       	ldi	r25, 0x01	; 1
   aa:	97 bb       	out	0x17, r25	; 23
 			break;
 		case 4:
