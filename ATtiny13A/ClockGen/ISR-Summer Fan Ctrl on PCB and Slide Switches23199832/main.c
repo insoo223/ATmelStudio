@@ -6,10 +6,14 @@
  Custom Headers:
     Nothing
  Author  : Insoo Kim (insoo@hotmail.com)
- Created : May 15, 2015
- Updated : Aug 05, 2019 (On Atmel Studio 7)
+ Created : Aug 05, 2019 (On Atmel Studio 7)
+ Updated : Aug 07, 2019 
 
  Description: 
+	Aug 07, 2019 
+		Add slide switch operation
+
+	Aug 05, 2019 
 	ATtiny13A controls power up or down to a summer fan by 2n2222 NPN transistor & relay.
 	ATtiny13A sleeps in most of operation time and wake up periodically.
 	Watch Dog Timer(WDT) wakes up & sleep periodically, and its period is defined by the followings:
@@ -23,35 +27,8 @@
  Limitation:
 	The WDT period can be influenced by ambient temperature. Hot weather can lengthen the period.
 	
- HEX size[Byte]: 216 out of 1024
+ HEX size[Byte]: 354 out of 1024
  
-	 avrdude.exe: AVR device initialized and ready to accept instructions
-
-	 Reading | ################################################## | 100% 0.01s
-
-	 avrdude.exe: Device signature = 0x1e9007
-	 avrdude.exe: NOTE: FLASH memory has been specified, an erase cycle will be performed
-	 To disable this feature, specify the -D option.
-	 avrdude.exe: erasing chip
-	 avrdude.exe: reading input file "ISR.hex"
-	 avrdude.exe: writing flash (216 bytes):
-
-	 Writing | ################################################## | 100% 0.29s
-
-	 avrdude.exe: 216 bytes of flash written
-	 avrdude.exe: verifying flash memory against ISR.hex:
-	 avrdude.exe: load data flash data from input file ISR.hex:
-	 avrdude.exe: input file ISR.hex contains 216 bytes
-	 avrdude.exe: reading on-chip flash data:
-
-	 Reading | ################################################## | 100% 0.19s
-
-	 avrdude.exe: verifying ...
-	 avrdude.exe: 216 bytes of flash verified
-
-	 avrdude.exe: safemode: Fuses OK
-
-	 avrdude.exe done.  Thank you.
  How to upload to the target MCU
  <For Windows Atmel Studio 7.0>
 	 Select Tool -> USBtiny (USBtiny memu should be configured in the external tool menu)
@@ -60,7 +37,7 @@
 		Parameter: avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
 		Directory:$(ProjectDir)\Debug
  <For CMD window or DOS prompt>
-	 cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-Summer Fan Ctrl on PCB-23199831\Debug"
+	 cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-Summer Fan Ctrl on PCB and Slide Switches23199832\Debug"
 	 avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
 
  Ref:
@@ -74,40 +51,50 @@
 #define PRODUCTION_MODE
 
 #ifdef TEST_MODE
-	#define UNIT_DELAY_WDT	1 //<=== TEST VALUE in development;
-	#define SET_DELAY_UNIT	1
-	#define WAKEUP_PERIOD	1 
-	#define SYS_STOP_PERIOD	2*5-1 //system stop after turning on 5 times, i.e. about 10sec
+	uint8_t UNIT_DELAY_WDT	= 1; //<=== TEST VALUE in development;
+	uint8_t SET_DELAY_UNIT	= 1;
+	uint8_t WAKEUP_PERIOD	= 1;
+	uint8_t SYS_STOP_PERIOD	= 2*10-1; //system stop after turning on 5 times, i.e. about 10sec
 #endif
 #ifdef PRODUCTION_MODE
-	#define UNIT_DELAY_WDT	8 //<=== SELECTED VALUE in production; WDT period in seconds
-	#define SET_DELAY_UNIT	7 
-	#define WAKEUP_PERIOD	3 
+	uint8_t UNIT_DELAY_WDT	= 8; //<=== SELECTED VALUE in production; WDT period in seconds
+	uint8_t SET_DELAY_UNIT	= 7; 
+	uint8_t WAKEUP_PERIOD	= 3; 
 							// 1: 56sec (about 1min) 2:112sec 3:168sec 
 							// when SET_DELAY_UNIT is 7 of ATtiny13a at 1.2Mhz
-	#define SYS_STOP_PERIOD	2*20-1 //system stop after turning on 20 times, i.e. about 2hour
+	uint8_t SYS_STOP_PERIOD	= 2*20-1; //system stop after turning on 20 times, i.e. about 2hour
 #endif
 
 // # of UNIT_DELAY_WDT, Max 253
-//#define SET_DELAY_UNIT 2	
-//#define SET_DELAY_UNIT 15  // 2 min when UNIT_DELAY_WDT is 8
-//#define SET_DELAY_UNIT 150 // 20 min when UNIT_DELAY_WDT is 8
-//#define SET_DELAY_UNIT 225 //<=== SELECTED VALUE in production; about 30 min when UNIT_DELAY_WDT is 8
-//#define SET_DELAY_UNIT 253 // (34 min - 8 sec) when UNIT_DELAY_WDT is 8
+// SET_DELAY_UNIT 2	
+// SET_DELAY_UNIT 15  // 2 min when UNIT_DELAY_WDT is 8
+// SET_DELAY_UNIT 150 // 20 min when UNIT_DELAY_WDT is 8
+// SET_DELAY_UNIT 225 //<=== SELECTED VALUE in production; about 30 min when UNIT_DELAY_WDT is 8
+// SET_DELAY_UNIT 253 // (34 min - 8 sec) when UNIT_DELAY_WDT is 8
 
-#define NPN_TR_PORT PB3 //perf b'd with RF receive module and relay module
-//#define NPN_TR_PORT PB0 //perf b'd with relay as a single b'd
+#define NPN_TR_PORT PB0 //Insoo designed PCB(PN 23189811) with a relay & four slide switches(three for modes, one for pwr)
+#define LEFT_SW_PORT PB3 //Left-most slide switch input port
+#define MID_SW_PORT PB1 //Middle slide switch input port
+#define RITE_SW_PORT PB2 //Right-most slide switch input port
 
 uint8_t WDTtick; //sec counter of UNIT_DELAY_WDT
 uint8_t WDTtick1min; //sec counter of UNIT_DELAY_WDT * SET_DELAY_UNIT
 uint8_t WDTtick3min; //sec counter of UNIT_DELAY_WDT * SET_DELAY_UNIT * WAKEUP_PERIOD
+uint8_t leftSWstatus;
 
 ISR(WDT_vect) 
 {
 	// --------- INCREASE WDT TICK COUNT ----------------------
 	// increase WDTtick every UNIT_DELAY_WDT sec
 	++WDTtick;
-
+	//check LEFT switch on PB
+	if (PINB & 0x08)
+		WAKEUP_PERIOD = 1;
+	//check Mid switch on PB
+	if (PINB & 0x02)
+		WAKEUP_PERIOD = 2;
+	if (PINB & 0x04)
+		WAKEUP_PERIOD = 3;
 	// On every SET_DELAY_UNIT,
 	//  reset WDTtick count and increase 1min count
 	if ((WDTtick >= SET_DELAY_UNIT) && (WDTtick1min < WAKEUP_PERIOD))
@@ -144,8 +131,13 @@ ISR(WDT_vect)
 int main(void) {
 	WDTtick=0;
 	WDTtick1min=0;
+
 	// Set up NPN_TR_PORT mode to output
 	DDRB = (1<<NPN_TR_PORT);
+	// Set up slide switches mode to intput
+	DDRB &= ~(1<<LEFT_SW_PORT);
+	DDRB &= ~(1<<MID_SW_PORT);
+	DDRB &= ~(1<<RITE_SW_PORT);
 
 	// temporarily prescale timer to UNIT_DELAY_WDT seconds so we can measure current
 	switch (UNIT_DELAY_WDT)
