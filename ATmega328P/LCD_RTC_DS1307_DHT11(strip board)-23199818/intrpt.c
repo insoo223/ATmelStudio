@@ -15,7 +15,11 @@
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
  *********************************/
 
+<<<<<<< HEAD
 #include <stdio.h>
+=======
+  #include <stdio.h>
+>>>>>>> 638ff2a3eb2130966f947a85662ff9203998d75b
 #include <stdlib.h>
 #include <string.h>
 #include <avr/io.h>
@@ -112,12 +116,20 @@ ISR(PCINT2_vect)
 ISR(WDT_vect)
 {
     //PORTB |= _BV(PB4);
+<<<<<<< HEAD
     //proceedClock();
     //lcd_dispWords(wd%MAXWORDCNT);
     //wd++;
     //lcd_dispRealClock();
     //PORTB &= ~_BV(PB4);
 	LCD_WriteTimeDateTempHumid();
+=======
+    proceedClock();
+    lcd_dispWords(wd%MAXWORDCNT);
+    wd++;
+    //lcd_dispRealClock();
+    //PORTB &= ~_BV(PB4);
+>>>>>>> 638ff2a3eb2130966f947a85662ff9203998d75b
 }//ISR(WDT_vect)
 
 //-----------------------------------
@@ -137,8 +149,12 @@ void WDT_Init(void)
 
     //reset watchdog
     wdt_reset();
+<<<<<<< HEAD
     //wdt_enable(WDTO_500MS); 
 	wdt_enable(WDTO_8S); 
+=======
+    wdt_enable(WDTO_500MS);
+>>>>>>> 638ff2a3eb2130966f947a85662ff9203998d75b
     //Enable global interrupts
     sei();
 }//WDT_Init
@@ -186,7 +202,11 @@ void initINT()
 	//Following two sentences are in need, 
 	// to make when WDT occurs, English Word round-robin display
     //check_wdt(); 
+<<<<<<< HEAD
     setup_wdt(); 
+=======
+    //setup_wdt(); 
+>>>>>>> 638ff2a3eb2130966f947a85662ff9203998d75b
 
     //set prescale timer
     //DS: ch10.9.2 table10.2
