@@ -15,7 +15,7 @@
     http://web.alfredstate.edu/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
  *********************************/
 
-  #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <avr/io.h>
@@ -112,11 +112,12 @@ ISR(PCINT2_vect)
 ISR(WDT_vect)
 {
     //PORTB |= _BV(PB4);
-    proceedClock();
-    lcd_dispWords(wd%MAXWORDCNT);
-    wd++;
+    //proceedClock();
+    //lcd_dispWords(wd%MAXWORDCNT);
+    //wd++;
     //lcd_dispRealClock();
     //PORTB &= ~_BV(PB4);
+	LCD_WriteTimeDateTempHumid();
 }//ISR(WDT_vect)
 
 //-----------------------------------
@@ -136,7 +137,8 @@ void WDT_Init(void)
 
     //reset watchdog
     wdt_reset();
-    wdt_enable(WDTO_500MS);
+    //wdt_enable(WDTO_500MS); 
+	wdt_enable(WDTO_8S); 
     //Enable global interrupts
     sei();
 }//WDT_Init
@@ -184,7 +186,7 @@ void initINT()
 	//Following two sentences are in need, 
 	// to make when WDT occurs, English Word round-robin display
     //check_wdt(); 
-    //setup_wdt(); 
+    setup_wdt(); 
 
     //set prescale timer
     //DS: ch10.9.2 table10.2

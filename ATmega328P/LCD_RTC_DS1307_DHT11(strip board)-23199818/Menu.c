@@ -123,7 +123,7 @@ void countButton()
 				lcd_init_4d();
                 turnOnLCDBacklight();
 				LCD_WriteTimeDate();
-				_delay_ms(3000);
+				_delay_ms(6000);
                 turnOffLCDBacklight();
                 break;
             case 4:
