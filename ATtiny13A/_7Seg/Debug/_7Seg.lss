@@ -3,282 +3,608 @@ _7Seg.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000e0  00000000  00000000  00000054  2**1
+  0 .text         000002ee  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000134  2**0
+  1 .data         00000004  00800060  000002ee  00000382  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  00000134  2**0
+  2 .bss          00000009  00800064  00800064  00000386  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000386  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000164  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003b8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000058  00000000  00000000  000001a0  2**0
+  5 .debug_aranges 00000070  00000000  00000000  000003f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000005a4  00000000  00000000  000001f8  2**0
+  6 .debug_info   000006d5  00000000  00000000  00000464  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000044c  00000000  00000000  0000079c  2**0
+  7 .debug_abbrev 00000462  00000000  00000000  00000b39  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000031d  00000000  00000000  00000be8  2**0
+  8 .debug_line   0000045d  00000000  00000000  00000f9b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000009c  00000000  00000000  00000f08  2**2
+  9 .debug_frame  00000154  00000000  00000000  000013f8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000316  00000000  00000000  00000fa4  2**0
+ 10 .debug_str    0000038e  00000000  00000000  0000154c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000125  00000000  00000000  000012ba  2**0
+ 11 .debug_loc    000002c7  00000000  00000000  000018da  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000048  00000000  00000000  000013df  2**0
+ 12 .debug_ranges 00000060  00000000  00000000  00001ba1  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
-   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
-   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
-   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
-   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
-   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
-   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
-   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
-  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
-  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	08 c1       	rjmp	.+528    	; 0x216 <__vector_2>
+   6:	7d c0       	rjmp	.+250    	; 0x102 <__vector_3>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
 
 00000014 <__ctors_end>:
   14:	11 24       	eor	r1, r1
   16:	1f be       	out	0x3f, r1	; 63
   18:	cf e9       	ldi	r28, 0x9F	; 159
   1a:	cd bf       	out	0x3d, r28	; 61
-  1c:	4d d0       	rcall	.+154    	; 0xb8 <main>
-  1e:	5e c0       	rjmp	.+188    	; 0xdc <_exit>
 
-00000020 <__bad_interrupt>:
-  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	ee ee       	ldi	r30, 0xEE	; 238
+  24:	f2 e0       	ldi	r31, 0x02	; 2
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	a4 36       	cpi	r26, 0x64	; 100
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
 
-00000022 <blinkLED>:
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a4 e6       	ldi	r26, 0x64	; 100
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	ad 36       	cpi	r26, 0x6D	; 109
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	47 d0       	rcall	.+142    	; 0xd2 <main>
+  44:	52 c1       	rjmp	.+676    	; 0x2ea <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <blinkLED>:
 
 //-----------------------------------
 void blinkLED(uint8_t num)
 {
 	uint8_t i;
 	for (i=0; i<(2*num); i++)
-  22:	68 2f       	mov	r22, r24
-  24:	70 e0       	ldi	r23, 0x00	; 0
-  26:	66 0f       	add	r22, r22
-  28:	77 1f       	adc	r23, r23
-  2a:	16 16       	cp	r1, r22
-  2c:	17 06       	cpc	r1, r23
-  2e:	8c f4       	brge	.+34     	; 0x52 <__SREG__+0x13>
-  30:	20 e0       	ldi	r18, 0x00	; 0
+  48:	68 2f       	mov	r22, r24
+  4a:	70 e0       	ldi	r23, 0x00	; 0
+  4c:	66 0f       	add	r22, r22
+  4e:	77 1f       	adc	r23, r23
+  50:	16 16       	cp	r1, r22
+  52:	17 06       	cpc	r1, r23
+  54:	8c f4       	brge	.+34     	; 0x78 <blinkLED+0x30>
+  56:	20 e0       	ldi	r18, 0x00	; 0
 	{
-		//digitalWrite(ledPin, HIGH);
-		PORTB ^= _BV(LED_PIN);
-  32:	81 e0       	ldi	r24, 0x01	; 1
-  34:	98 b3       	in	r25, 0x18	; 24
-  36:	98 27       	eor	r25, r24
-  38:	98 bb       	out	0x18, r25	; 24
+		//digitalWrite(LED_PIN, HIGH);
+		PORTB ^= _BV(LED_PIN) | _BV(SPK_PIN);
+  58:	89 e0       	ldi	r24, 0x09	; 9
+  5a:	98 b3       	in	r25, 0x18	; 24
+  5c:	98 27       	eor	r25, r24
+  5e:	98 bb       	out	0x18, r25	; 24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  3a:	ef e4       	ldi	r30, 0x4F	; 79
-  3c:	f3 ec       	ldi	r31, 0xC3	; 195
-  3e:	31 97       	sbiw	r30, 0x01	; 1
-  40:	f1 f7       	brne	.-4      	; 0x3e <__SP_L__+0x1>
-  42:	00 c0       	rjmp	.+0      	; 0x44 <__SREG__+0x5>
-  44:	00 00       	nop
+  60:	ef e4       	ldi	r30, 0x4F	; 79
+  62:	f3 ec       	ldi	r31, 0xC3	; 195
+  64:	31 97       	sbiw	r30, 0x01	; 1
+  66:	f1 f7       	brne	.-4      	; 0x64 <blinkLED+0x1c>
+  68:	00 c0       	rjmp	.+0      	; 0x6a <blinkLED+0x22>
+  6a:	00 00       	nop
 
 //-----------------------------------
 void blinkLED(uint8_t num)
 {
 	uint8_t i;
 	for (i=0; i<(2*num); i++)
-  46:	2f 5f       	subi	r18, 0xFF	; 255
-  48:	42 2f       	mov	r20, r18
-  4a:	50 e0       	ldi	r21, 0x00	; 0
-  4c:	46 17       	cp	r20, r22
-  4e:	57 07       	cpc	r21, r23
-  50:	8c f3       	brlt	.-30     	; 0x34 <blinkLED+0x12>
-  52:	08 95       	ret
+  6c:	2f 5f       	subi	r18, 0xFF	; 255
+  6e:	42 2f       	mov	r20, r18
+  70:	50 e0       	ldi	r21, 0x00	; 0
+  72:	46 17       	cp	r20, r22
+  74:	57 07       	cpc	r21, r23
+  76:	8c f3       	brlt	.-30     	; 0x5a <blinkLED+0x12>
+  78:	08 95       	ret
 
-00000054 <tuningCLK>:
+0000007a <blinkStuff>:
 }//blinkLED
+
+void blinkStuff(uint8_t pinNum, uint8_t num)
+{
+	uint8_t i;
+	for (i=0; i<(2*num); i++)
+  7a:	70 e0       	ldi	r23, 0x00	; 0
+  7c:	66 0f       	add	r22, r22
+  7e:	77 1f       	adc	r23, r23
+  80:	16 16       	cp	r1, r22
+  82:	17 06       	cpc	r1, r23
+  84:	ac f4       	brge	.+42     	; 0xb0 <__stack+0x11>
+	{
+		//digitalWrite(LED_PIN, HIGH);
+		PORTB ^= _BV(pinNum);
+  86:	41 e0       	ldi	r20, 0x01	; 1
+  88:	01 c0       	rjmp	.+2      	; 0x8c <blinkStuff+0x12>
+  8a:	44 0f       	add	r20, r20
+  8c:	8a 95       	dec	r24
+  8e:	ea f7       	brpl	.-6      	; 0x8a <blinkStuff+0x10>
+  90:	90 e0       	ldi	r25, 0x00	; 0
+  92:	88 b3       	in	r24, 0x18	; 24
+  94:	84 27       	eor	r24, r20
+  96:	88 bb       	out	0x18, r24	; 24
+  98:	ef e4       	ldi	r30, 0x4F	; 79
+  9a:	f3 ec       	ldi	r31, 0xC3	; 195
+  9c:	31 97       	sbiw	r30, 0x01	; 1
+  9e:	f1 f7       	brne	.-4      	; 0x9c <blinkStuff+0x22>
+  a0:	00 c0       	rjmp	.+0      	; 0xa2 <__stack+0x3>
+  a2:	00 00       	nop
+}//blinkLED
+
+void blinkStuff(uint8_t pinNum, uint8_t num)
+{
+	uint8_t i;
+	for (i=0; i<(2*num); i++)
+  a4:	9f 5f       	subi	r25, 0xFF	; 255
+  a6:	29 2f       	mov	r18, r25
+  a8:	30 e0       	ldi	r19, 0x00	; 0
+  aa:	26 17       	cp	r18, r22
+  ac:	37 07       	cpc	r19, r23
+  ae:	8c f3       	brlt	.-30     	; 0x92 <blinkStuff+0x18>
+  b0:	08 95       	ret
+
+000000b2 <tuningCLK>:
+}//blinkStuff
 
 void tuningCLK()
 {
 	//internal oscillator tuning
 	OSCCAL -= 28; //calibrate internal OSC as of morning July 4, 2017
-  54:	81 b7       	in	r24, 0x31	; 49
-  56:	8c 51       	subi	r24, 0x1C	; 28
-  58:	81 bf       	out	0x31, r24	; 49
-  5a:	08 95       	ret
+  b2:	81 b7       	in	r24, 0x31	; 49
+  b4:	8c 51       	subi	r24, 0x1C	; 28
+  b6:	81 bf       	out	0x31, r24	; 49
 
-0000005c <initIO>:
+	//CLKPR = _BV(CLKPCE) | _BV(CLKPS3);
+	//CLKPR = 0x00;
+	CLKPR = 0x88; // DIV256 system clock
+  b8:	88 e8       	ldi	r24, 0x88	; 136
+  ba:	86 bd       	out	0x26, r24	; 38
+	CLKPR = 0x00; // these 2 CLKPR instructions have to be run together in order
+  bc:	16 bc       	out	0x26, r1	; 38
+  be:	08 95       	ret
+
+000000c0 <initIO>:
 }//tuningCLK
 
 void initIO()
 {
 	//pin IO setting
 	DDRB |= _BV(LED_PIN); // make LED_PIN (PB0, pin5) an output
-  5c:	b8 9a       	sbi	0x17, 0	; 23
-	DDRB &= ~_BV(BUTTON_PIN); // make BUTTON_PIN (PB1, pin6) an input
-  5e:	b9 98       	cbi	0x17, 1	; 23
-	DDRB &= ~_BV(LM35_PIN); // make LM35_PIN (PB4, pin2) an input
-  60:	bc 98       	cbi	0x17, 4	; 23
-  62:	08 95       	ret
+  c0:	b8 9a       	sbi	0x17, 0	; 23
+	DDRB |= _BV(SPK_PIN); // make SPK_PIN (PB3, pin2) an output
+  c2:	bb 9a       	sbi	0x17, 3	; 23
+	DDRB &= ~_BV(BUTTON_PIN); // make BUTTON_PIN (PB4, pin3) an input
+  c4:	bc 98       	cbi	0x17, 4	; 23
+  c6:	08 95       	ret
 
-00000064 <initADC>:
+000000c8 <initINTR_PinChange>:
+
+void initINTR_PinChange()
 {
-	//ADC setting
-	//Enable ADC pin input from LM35_PIN (PB3 or ADC3)
-	//ADMUX |= _BV(MUX1) | _BV(MUX0);
-	//Enable ADC pin input from LM35_PIN (PB4 or ADC2)
-	ADMUX |= _BV(MUX1);
-  64:	39 9a       	sbi	0x07, 1	; 7
-  66:	08 95       	ret
+	//PC interrupt setting
+	// Enable pin change interrupt for BUTTON_PIN
+	PCMSK |= _BV(PCINT4);
+  c8:	ac 9a       	sbi	0x15, 4	; 21
+	// enable PC(Pin Change) interrupt
+	GIMSK |= _BV(PCIE);  //Enable PC interrupt
+  ca:	8b b7       	in	r24, 0x3b	; 59
+  cc:	80 62       	ori	r24, 0x20	; 32
+  ce:	8b bf       	out	0x3b, r24	; 59
+  d0:	08 95       	ret
 
-00000068 <setADC_ClockSpeed>:
-}//initADC
-
-void setADC_ClockSpeed()
-{
-	//Set the prescaler to clock/128 & enable ADC
-	ADCSRA |= _BV(ADPS1) | _BV(ADPS0);
-  68:	86 b1       	in	r24, 0x06	; 6
-  6a:	83 60       	ori	r24, 0x03	; 3
-  6c:	86 b9       	out	0x06, r24	; 6
-
-	// enable ADC
-	ADCSRA |= _BV(ADEN);
-  6e:	37 9a       	sbi	0x06, 7	; 6
-  70:	08 95       	ret
-
-00000072 <adc_read>:
-
-int adc_read (void)
-{
-	//uint8_t dummy;
-	// Start the conversion
-	ADCSRA |= (1 << ADSC);
-  72:	36 9a       	sbi	0x06, 6	; 6
-
-	// Wait for it to finish - blocking
-	while (ADCSRA & (1 << ADSC));
-  74:	36 99       	sbic	0x06, 6	; 6
-  76:	fe cf       	rjmp	.-4      	; 0x74 <adc_read+0x2>
-
-	//return ADCH;
-	//dummy = ADCH;
-	return ADCL;
-  78:	84 b1       	in	r24, 0x04	; 4
-}//adc_read
-  7a:	90 e0       	ldi	r25, 0x00	; 0
-  7c:	08 95       	ret
-
-0000007e <chkTempLM35>:
-
-
-void chkTempLM35()
-{
-  7e:	cf 93       	push	r28
-	//uint8_t temp100;
-	//uint8_t mV;
-	//uint8_t K;
-	//uint8_t C;
-	  
-	rawV = adc_read ();
-  80:	f8 df       	rcall	.-16     	; 0x72 <adc_read>
-	//C= K - 273;
-	//C = mV;
-	
-	//C = (rawV) * REFVTG; //to debug
-
-	temp = (rawV >> 1) ; // arbitrary manipulation
-  82:	86 95       	lsr	r24
-	//temp += 7; // arbitrary manipulation
-	//temp100 = temp/100;
-	temp10 = temp / 10;
-  84:	6a e0       	ldi	r22, 0x0A	; 10
-  86:	1e d0       	rcall	.+60     	; 0xc4 <__udivmodqi4>
-  88:	c9 2f       	mov	r28, r25
-	temp1 = temp % 10;
-	//blinkLED(temp100);
-	//_delay_ms(500);
-	blinkLED(temp10);
-  8a:	cb df       	rcall	.-106    	; 0x22 <blinkLED>
-  8c:	2f e9       	ldi	r18, 0x9F	; 159
-  8e:	86 e8       	ldi	r24, 0x86	; 134
-  90:	91 e0       	ldi	r25, 0x01	; 1
-  92:	21 50       	subi	r18, 0x01	; 1
-  94:	80 40       	sbci	r24, 0x00	; 0
-  96:	90 40       	sbci	r25, 0x00	; 0
-  98:	e1 f7       	brne	.-8      	; 0x92 <chkTempLM35+0x14>
-  9a:	00 c0       	rjmp	.+0      	; 0x9c <chkTempLM35+0x1e>
-  9c:	00 00       	nop
-	_delay_ms(500);
-	blinkLED(temp1);
-  9e:	8c 2f       	mov	r24, r28
-  a0:	c0 df       	rcall	.-128    	; 0x22 <blinkLED>
-  a2:	2f e3       	ldi	r18, 0x3F	; 63
-  a4:	8d e0       	ldi	r24, 0x0D	; 13
-  a6:	93 e0       	ldi	r25, 0x03	; 3
-  a8:	21 50       	subi	r18, 0x01	; 1
-  aa:	80 40       	sbci	r24, 0x00	; 0
-  ac:	90 40       	sbci	r25, 0x00	; 0
-  ae:	e1 f7       	brne	.-8      	; 0xa8 <__stack+0x9>
-  b0:	00 c0       	rjmp	.+0      	; 0xb2 <__stack+0x13>
-  b2:	00 00       	nop
-	_delay_ms(1000);
-
-}
-  b4:	cf 91       	pop	r28
-  b6:	08 95       	ret
-
-000000b8 <main>:
+000000d2 <main>:
+}//ISR(TIM0_OVF_vect)
 
 //-------------------------------------------
 int main(void)
 {
-
 	tuningCLK();
-  b8:	cd df       	rcall	.-102    	; 0x54 <tuningCLK>
+  d2:	ef df       	rcall	.-34     	; 0xb2 <tuningCLK>
 	initIO();
-  ba:	d0 df       	rcall	.-96     	; 0x5c <initIO>
-	initADC();
-  bc:	d3 df       	rcall	.-90     	; 0x64 <initADC>
-	setADC_ClockSpeed();
-  be:	d4 df       	rcall	.-88     	; 0x68 <setADC_ClockSpeed>
+  d4:	f5 df       	rcall	.-22     	; 0xc0 <initIO>
+	initINTR_PinChange(); 
+  d6:	f8 df       	rcall	.-16     	; 0xc8 <initINTR_PinChange>
+
+	sei();
+  d8:	78 94       	sei
+
+	// Use the Power Down sleep mode
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  da:	85 b7       	in	r24, 0x35	; 53
+  dc:	87 7e       	andi	r24, 0xE7	; 231
+  de:	80 61       	ori	r24, 0x10	; 16
+  e0:	85 bf       	out	0x35, r24	; 53
+	//set_sleep_mode(SLEEP_MODE_ADC);
+	//set_sleep_mode(SLEEP_MODE_IDLE);
+
+	sleep_enable();
+  e2:	85 b7       	in	r24, 0x35	; 53
+  e4:	80 62       	ori	r24, 0x20	; 32
+  e6:	85 bf       	out	0x35, r24	; 53
+
     for (;;) 
 	{
-		
-		//blinkLED(resultADC/10);
-		//_delay_ms(500);
-		chkTempLM35();
-  c0:	de df       	rcall	.-68     	; 0x7e <chkTempLM35>
-
+        // go to sleep and wait for interrupt...
+        //sleep_mode();
+		sleep_cpu();
+  e8:	88 95       	sleep
     }//for
-  c2:	fe cf       	rjmp	.-4      	; 0xc0 <main+0x8>
+  ea:	fe cf       	rjmp	.-4      	; 0xe8 <main+0x16>
 
-000000c4 <__udivmodqi4>:
-  c4:	99 1b       	sub	r25, r25
-  c6:	79 e0       	ldi	r23, 0x09	; 9
-  c8:	04 c0       	rjmp	.+8      	; 0xd2 <__udivmodqi4_ep>
+000000ec <initINTR_TMR>:
+	//TMR0 interrupt setting
+	// prescale timer to 1/64th the clock rate
+	//TCCR0B |= (1<<CS01) | (1<<CS00);
 
-000000ca <__udivmodqi4_loop>:
-  ca:	99 1f       	adc	r25, r25
-  cc:	96 17       	cp	r25, r22
-  ce:	08 f0       	brcs	.+2      	; 0xd2 <__udivmodqi4_ep>
-  d0:	96 1b       	sub	r25, r22
+	// prescale timer to 1/1024th the clock rate
+	TCCR0B |= (1<<CS02) | (1<<CS00);
+  ec:	83 b7       	in	r24, 0x33	; 51
+  ee:	85 60       	ori	r24, 0x05	; 5
+  f0:	83 bf       	out	0x33, r24	; 51
 
-000000d2 <__udivmodqi4_ep>:
-  d2:	88 1f       	adc	r24, r24
-  d4:	7a 95       	dec	r23
-  d6:	c9 f7       	brne	.-14     	; 0xca <__udivmodqi4_loop>
-  d8:	80 95       	com	r24
-  da:	08 95       	ret
+	// enable timer overflow interrupt
+	TIMSK0 |=1<<TOIE0;
+  f2:	89 b7       	in	r24, 0x39	; 57
+  f4:	82 60       	ori	r24, 0x02	; 2
+  f6:	89 bf       	out	0x39, r24	; 57
+  f8:	08 95       	ret
 
-000000dc <_exit>:
-  dc:	f8 94       	cli
+000000fa <disableINTR_TMR>:
 
-000000de <__stop_program>:
-  de:	ff cf       	rjmp	.-2      	; 0xde <__stop_program>
+void disableINTR_TMR()
+{
+	//TMR0 interrupt setting
+	// disable timer overflow interrupt
+	TIMSK0 &= ~_BV(TOIE0);
+  fa:	89 b7       	in	r24, 0x39	; 57
+  fc:	8d 7f       	andi	r24, 0xFD	; 253
+  fe:	89 bf       	out	0x39, r24	; 57
+ 100:	08 95       	ret
+
+00000102 <__vector_3>:
+
+}//ISR(PCINT0_vect)
+
+//-----------------------------------
+ISR(TIM0_OVF_vect)
+{
+ 102:	1f 92       	push	r1
+ 104:	0f 92       	push	r0
+ 106:	0f b6       	in	r0, 0x3f	; 63
+ 108:	0f 92       	push	r0
+ 10a:	11 24       	eor	r1, r1
+ 10c:	2f 93       	push	r18
+ 10e:	3f 93       	push	r19
+ 110:	4f 93       	push	r20
+ 112:	5f 93       	push	r21
+ 114:	6f 93       	push	r22
+ 116:	7f 93       	push	r23
+ 118:	8f 93       	push	r24
+ 11a:	9f 93       	push	r25
+ 11c:	af 93       	push	r26
+ 11e:	bf 93       	push	r27
+ 120:	ef 93       	push	r30
+ 122:	ff 93       	push	r31
+
+	//if (++timer_overflow_count > 60)
+	if (++timer_overflow_count > 3)
+ 124:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <timer_overflow_count>
+ 128:	8f 5f       	subi	r24, 0xFF	; 255
+ 12a:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <timer_overflow_count>
+ 12e:	84 30       	cpi	r24, 0x04	; 4
+ 130:	08 f4       	brcc	.+2      	; 0x134 <__vector_3+0x32>
+ 132:	4c c0       	rjmp	.+152    	; 0x1cc <__vector_3+0xca>
+	//if (++timer_overflow_count > 1)
+	{   // with 1024/256/64 prescaler, a timer overflow occurs 4.6/18/73 times per second accordingly.
+		timer_overflow_count = 0;
+ 134:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <timer_overflow_count>
+		secInt++;
+ 138:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <secInt>
+ 13c:	8f 5f       	subi	r24, 0xFF	; 255
+ 13e:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <secInt>
+		if (secInt > 1)
+ 142:	82 30       	cpi	r24, 0x02	; 2
+ 144:	50 f0       	brcs	.+20     	; 0x15a <__vector_3+0x58>
+			if (!noticed )
+ 146:	80 91 69 00 	lds	r24, 0x0069	; 0x800069 <noticed>
+ 14a:	81 11       	cpse	r24, r1
+ 14c:	06 c0       	rjmp	.+12     	; 0x15a <__vector_3+0x58>
+			{
+				blinkStuff(LED_PIN, cntButton);
+ 14e:	60 91 6c 00 	lds	r22, 0x006C	; 0x80006c <cntButton>
+ 152:	93 df       	rcall	.-218    	; 0x7a <blinkStuff>
+				noticed = 1;
+ 154:	81 e0       	ldi	r24, 0x01	; 1
+ 156:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <noticed>
+			}
+
+		if (secInt == 60)
+ 15a:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <secInt>
+ 15e:	8c 33       	cpi	r24, 0x3C	; 60
+ 160:	59 f4       	brne	.+22     	; 0x178 <__vector_3+0x76>
+		{
+			minInt++;
+ 162:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <minInt>
+ 166:	8f 5f       	subi	r24, 0xFF	; 255
+ 168:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <minInt>
+			secInt=0;
+ 16c:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <secInt>
+			blinkStuff(LED_PIN, cntButton);
+ 170:	60 91 6c 00 	lds	r22, 0x006C	; 0x80006c <cntButton>
+ 174:	80 e0       	ldi	r24, 0x00	; 0
+ 176:	81 df       	rcall	.-254    	; 0x7a <blinkStuff>
+		}
+		if (intDrivenAlmEn == 1)
+ 178:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <__data_end>
+ 17c:	81 30       	cpi	r24, 0x01	; 1
+ 17e:	31 f5       	brne	.+76     	; 0x1cc <__vector_3+0xca>
+			//if(minInt == intDrivenAlmPeriod)
+			//if(secInt == intDrivenAlmPeriod)
+			//if(secInt == alarmPeriod[(cntButton-1)%3])
+			if(minInt == alarmPeriod[(cntButton-1)%3])
+ 180:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <cntButton>
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	01 97       	sbiw	r24, 0x01	; 1
+ 188:	63 e0       	ldi	r22, 0x03	; 3
+ 18a:	70 e0       	ldi	r23, 0x00	; 0
+ 18c:	87 d0       	rcall	.+270    	; 0x29c <__divmodhi4>
+ 18e:	fc 01       	movw	r30, r24
+ 190:	e0 5a       	subi	r30, 0xA0	; 160
+ 192:	ff 4f       	sbci	r31, 0xFF	; 255
+ 194:	90 81       	ld	r25, Z
+ 196:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <minInt>
+ 19a:	98 13       	cpse	r25, r24
+ 19c:	17 c0       	rjmp	.+46     	; 0x1cc <__vector_3+0xca>
+			{
+				blinkLED(3);
+ 19e:	83 e0       	ldi	r24, 0x03	; 3
+ 1a0:	53 df       	rcall	.-346    	; 0x48 <blinkLED>
+				cntButton=0;
+ 1a2:	10 92 6c 00 	sts	0x006C, r1	; 0x80006c <cntButton>
+				lapseStart=0;
+ 1a6:	10 92 6a 00 	sts	0x006A, r1	; 0x80006a <lapseStart>
+				lapseTime=0;
+ 1aa:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <lapseTime>
+				secInt=0;
+ 1ae:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <secInt>
+				minInt=0; 
+ 1b2:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <minInt>
+				intDrivenAlmEn=0;
+ 1b6:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <__data_end>
+				noticed = 0;
+ 1ba:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <noticed>
+
+				cli();
+ 1be:	f8 94       	cli
+				disableINTR_TMR();
+ 1c0:	9c df       	rcall	.-200    	; 0xfa <disableINTR_TMR>
+				set_sleep_mode(SLEEP_MODE_PWR_DOWN); // 0.1 uA 
+ 1c2:	85 b7       	in	r24, 0x35	; 53
+ 1c4:	87 7e       	andi	r24, 0xE7	; 231
+ 1c6:	80 61       	ori	r24, 0x10	; 16
+ 1c8:	85 bf       	out	0x35, r24	; 53
+				sei();
+ 1ca:	78 94       	sei
+			}
+	}
+}//ISR(TIM0_OVF_vect)
+ 1cc:	ff 91       	pop	r31
+ 1ce:	ef 91       	pop	r30
+ 1d0:	bf 91       	pop	r27
+ 1d2:	af 91       	pop	r26
+ 1d4:	9f 91       	pop	r25
+ 1d6:	8f 91       	pop	r24
+ 1d8:	7f 91       	pop	r23
+ 1da:	6f 91       	pop	r22
+ 1dc:	5f 91       	pop	r21
+ 1de:	4f 91       	pop	r20
+ 1e0:	3f 91       	pop	r19
+ 1e2:	2f 91       	pop	r18
+ 1e4:	0f 90       	pop	r0
+ 1e6:	0f be       	out	0x3f, r0	; 63
+ 1e8:	0f 90       	pop	r0
+ 1ea:	1f 90       	pop	r1
+ 1ec:	18 95       	reti
+
+000001ee <chkButtonCnt>:
+
+}//disableINTR_TMR
+
+void chkButtonCnt()
+{
+	lapseTime = secInt - lapseStart;
+ 1ee:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <secInt>
+ 1f2:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <lapseStart>
+ 1f6:	28 2f       	mov	r18, r24
+ 1f8:	29 1b       	sub	r18, r25
+ 1fa:	20 93 6b 00 	sts	0x006B, r18	; 0x80006b <lapseTime>
+	if (lapseTime <= BUTTONCNT_TIMELIMIT)
+ 1fe:	90 91 6b 00 	lds	r25, 0x006B	; 0x80006b <lapseTime>
+ 202:	92 30       	cpi	r25, 0x02	; 2
+ 204:	38 f4       	brcc	.+14     	; 0x214 <chkButtonCnt+0x26>
+	{
+		cntButton++;
+ 206:	90 91 6c 00 	lds	r25, 0x006C	; 0x80006c <cntButton>
+ 20a:	9f 5f       	subi	r25, 0xFF	; 255
+ 20c:	90 93 6c 00 	sts	0x006C, r25	; 0x80006c <cntButton>
+		lapseStart = secInt;
+ 210:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <lapseStart>
+ 214:	08 95       	ret
+
+00000216 <__vector_2>:
+uint8_t secInt=0, minInt=0;
+uint8_t intDrivenAlmEn=0, intDrivenAlmPeriod = 10;
+volatile unsigned char  cntButton, lapseTime, lapseStart;
+
+ISR(PCINT0_vect)
+{
+ 216:	1f 92       	push	r1
+ 218:	0f 92       	push	r0
+ 21a:	0f b6       	in	r0, 0x3f	; 63
+ 21c:	0f 92       	push	r0
+ 21e:	11 24       	eor	r1, r1
+ 220:	2f 93       	push	r18
+ 222:	3f 93       	push	r19
+ 224:	4f 93       	push	r20
+ 226:	5f 93       	push	r21
+ 228:	6f 93       	push	r22
+ 22a:	7f 93       	push	r23
+ 22c:	8f 93       	push	r24
+ 22e:	9f 93       	push	r25
+ 230:	af 93       	push	r26
+ 232:	bf 93       	push	r27
+ 234:	ef 93       	push	r30
+ 236:	ff 93       	push	r31
+	if (++done % 2 == 0)
+ 238:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <done>
+ 23c:	8f 5f       	subi	r24, 0xFF	; 255
+ 23e:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <done>
+ 242:	80 fd       	sbrc	r24, 0
+ 244:	14 c0       	rjmp	.+40     	; 0x26e <__vector_2+0x58>
+	{
+		//PORTB ^= _BV(LED_PIN);
+		timer_overflow_count = 0;
+ 246:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <timer_overflow_count>
+		secInt = 0;
+ 24a:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <secInt>
+		minInt = 0;
+ 24e:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <minInt>
+		intDrivenAlmEn=1;
+ 252:	81 e0       	ldi	r24, 0x01	; 1
+ 254:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__data_end>
+		lapseStart = 0;
+ 258:	10 92 6a 00 	sts	0x006A, r1	; 0x80006a <lapseStart>
+		lapseTime = 0;
+ 25c:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <lapseTime>
+
+		cli();
+ 260:	f8 94       	cli
+		initINTR_TMR();
+ 262:	44 df       	rcall	.-376    	; 0xec <initINTR_TMR>
+		set_sleep_mode(SLEEP_MODE_IDLE); // 500 uA
+ 264:	85 b7       	in	r24, 0x35	; 53
+ 266:	87 7e       	andi	r24, 0xE7	; 231
+ 268:	85 bf       	out	0x35, r24	; 53
+		sei();
+ 26a:	78 94       	sei
+		chkButtonCnt();
+ 26c:	c0 df       	rcall	.-128    	; 0x1ee <chkButtonCnt>
+ 26e:	8f e4       	ldi	r24, 0x4F	; 79
+ 270:	93 ec       	ldi	r25, 0xC3	; 195
+ 272:	01 97       	sbiw	r24, 0x01	; 1
+ 274:	f1 f7       	brne	.-4      	; 0x272 <__vector_2+0x5c>
+ 276:	00 c0       	rjmp	.+0      	; 0x278 <__vector_2+0x62>
+ 278:	00 00       	nop
+		//blinkLED(1);
+	}
+	_delay_ms(200); //debounce
+
+}//ISR(PCINT0_vect)
+ 27a:	ff 91       	pop	r31
+ 27c:	ef 91       	pop	r30
+ 27e:	bf 91       	pop	r27
+ 280:	af 91       	pop	r26
+ 282:	9f 91       	pop	r25
+ 284:	8f 91       	pop	r24
+ 286:	7f 91       	pop	r23
+ 288:	6f 91       	pop	r22
+ 28a:	5f 91       	pop	r21
+ 28c:	4f 91       	pop	r20
+ 28e:	3f 91       	pop	r19
+ 290:	2f 91       	pop	r18
+ 292:	0f 90       	pop	r0
+ 294:	0f be       	out	0x3f, r0	; 63
+ 296:	0f 90       	pop	r0
+ 298:	1f 90       	pop	r1
+ 29a:	18 95       	reti
+
+0000029c <__divmodhi4>:
+ 29c:	97 fb       	bst	r25, 7
+ 29e:	07 2e       	mov	r0, r23
+ 2a0:	16 f4       	brtc	.+4      	; 0x2a6 <__divmodhi4+0xa>
+ 2a2:	00 94       	com	r0
+ 2a4:	06 d0       	rcall	.+12     	; 0x2b2 <__divmodhi4_neg1>
+ 2a6:	77 fd       	sbrc	r23, 7
+ 2a8:	08 d0       	rcall	.+16     	; 0x2ba <__divmodhi4_neg2>
+ 2aa:	0b d0       	rcall	.+22     	; 0x2c2 <__udivmodhi4>
+ 2ac:	07 fc       	sbrc	r0, 7
+ 2ae:	05 d0       	rcall	.+10     	; 0x2ba <__divmodhi4_neg2>
+ 2b0:	3e f4       	brtc	.+14     	; 0x2c0 <__divmodhi4_exit>
+
+000002b2 <__divmodhi4_neg1>:
+ 2b2:	90 95       	com	r25
+ 2b4:	81 95       	neg	r24
+ 2b6:	9f 4f       	sbci	r25, 0xFF	; 255
+ 2b8:	08 95       	ret
+
+000002ba <__divmodhi4_neg2>:
+ 2ba:	70 95       	com	r23
+ 2bc:	61 95       	neg	r22
+ 2be:	7f 4f       	sbci	r23, 0xFF	; 255
+
+000002c0 <__divmodhi4_exit>:
+ 2c0:	08 95       	ret
+
+000002c2 <__udivmodhi4>:
+ 2c2:	aa 1b       	sub	r26, r26
+ 2c4:	bb 1b       	sub	r27, r27
+ 2c6:	51 e1       	ldi	r21, 0x11	; 17
+ 2c8:	07 c0       	rjmp	.+14     	; 0x2d8 <__udivmodhi4_ep>
+
+000002ca <__udivmodhi4_loop>:
+ 2ca:	aa 1f       	adc	r26, r26
+ 2cc:	bb 1f       	adc	r27, r27
+ 2ce:	a6 17       	cp	r26, r22
+ 2d0:	b7 07       	cpc	r27, r23
+ 2d2:	10 f0       	brcs	.+4      	; 0x2d8 <__udivmodhi4_ep>
+ 2d4:	a6 1b       	sub	r26, r22
+ 2d6:	b7 0b       	sbc	r27, r23
+
+000002d8 <__udivmodhi4_ep>:
+ 2d8:	88 1f       	adc	r24, r24
+ 2da:	99 1f       	adc	r25, r25
+ 2dc:	5a 95       	dec	r21
+ 2de:	a9 f7       	brne	.-22     	; 0x2ca <__udivmodhi4_loop>
+ 2e0:	80 95       	com	r24
+ 2e2:	90 95       	com	r25
+ 2e4:	bc 01       	movw	r22, r24
+ 2e6:	cd 01       	movw	r24, r26
+ 2e8:	08 95       	ret
+
+000002ea <_exit>:
+ 2ea:	f8 94       	cli
+
+000002ec <__stop_program>:
+ 2ec:	ff cf       	rjmp	.-2      	; 0x2ec <__stop_program>

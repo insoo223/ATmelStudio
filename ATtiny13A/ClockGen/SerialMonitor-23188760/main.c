@@ -89,6 +89,7 @@ main(void)
 		p = buff;
 		while((c = uart_getc()) != '\n' && (p - buff) < 16) {
 			*(p++) = c;
+			//*(p++) = 'k';
 		}
 		*p = 0;
 		_delay_ms(10);

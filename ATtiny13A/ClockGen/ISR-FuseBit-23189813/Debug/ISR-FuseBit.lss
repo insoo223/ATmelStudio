@@ -1,0 +1,161 @@
+
+ISR-FuseBit.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000007c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000f0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  00800060  00800060  000000f0  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000000f0  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000120  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000040  00000000  00000000  0000015c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000049d  00000000  00000000  0000019c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000003e2  00000000  00000000  00000639  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000025f  00000000  00000000  00000a1b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000074  00000000  00000000  00000c7c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000329  00000000  00000000  00000cf0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000003c  00000000  00000000  00001019  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000030  00000000  00000000  00001055  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
+   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
+   6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
+   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
+   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
+   c:	11 c0       	rjmp	.+34     	; 0x30 <__bad_interrupt>
+   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
+  10:	10 c0       	rjmp	.+32     	; 0x32 <__vector_8>
+  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_clear_bss>:
+  1c:	20 e0       	ldi	r18, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+
+00000024 <.do_clear_bss_loop>:
+  24:	1d 92       	st	X+, r1
+
+00000026 <.do_clear_bss_start>:
+  26:	a1 36       	cpi	r26, 0x61	; 97
+  28:	b2 07       	cpc	r27, r18
+  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
+  2c:	1b d0       	rcall	.+54     	; 0x64 <main>
+  2e:	24 c0       	rjmp	.+72     	; 0x78 <_exit>
+
+00000030 <__bad_interrupt>:
+  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+
+00000032 <__vector_8>:
+void WDTsetup(void);
+void toggleLED0(void);
+
+//-------- interrupt service routines --------
+ISR(WDT_vect)
+{
+  32:	1f 92       	push	r1
+  34:	0f 92       	push	r0
+  36:	0f b6       	in	r0, 0x3f	; 63
+  38:	0f 92       	push	r0
+  3a:	11 24       	eor	r1, r1
+  3c:	8f 93       	push	r24
+	// --------- INCREASE WDT TICK COUNT ----------------------
+	// increase WDTtick every UNIT_DELAY_WDT sec
+	++WDTtick;
+  3e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  42:	8f 5f       	subi	r24, 0xFF	; 255
+  44:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+	//toggleLED0();
+}//ISR(WDT_vect)
+  48:	8f 91       	pop	r24
+  4a:	0f 90       	pop	r0
+  4c:	0f be       	out	0x3f, r0	; 63
+  4e:	0f 90       	pop	r0
+  50:	1f 90       	pop	r1
+  52:	18 95       	reti
+
+00000054 <toggleLED0>:
+	}//while (1) 
+}//main
+
+void toggleLED0(void)
+{
+	PORTB ^= (1<<LED0);	
+  54:	98 b3       	in	r25, 0x18	; 24
+  56:	81 e0       	ldi	r24, 0x01	; 1
+  58:	89 27       	eor	r24, r25
+  5a:	88 bb       	out	0x18, r24	; 24
+  5c:	08 95       	ret
+
+0000005e <systemInit>:
+}//toggleLED0
+
+void systemInit(void)
+{
+	DDRB |= (1<<LED0); //output for LEDs
+  5e:	b8 9a       	sbi	0x17, 0	; 23
+	PORTB &= ~(1<<LED0); //off LED
+  60:	c0 98       	cbi	0x18, 0	; 24
+  62:	08 95       	ret
+
+00000064 <main>:
+static __inline__ void clock_prescale_set(clock_div_t) __attribute__((__always_inline__));
+
+void clock_prescale_set(clock_div_t __x)
+{
+    uint8_t __tmp = _BV(CLKPCE);
+    __asm__ __volatile__ (
+  64:	98 e0       	ldi	r25, 0x08	; 8
+  66:	80 e8       	ldi	r24, 0x80	; 128
+  68:	0f b6       	in	r0, 0x3f	; 63
+  6a:	f8 94       	cli
+  6c:	86 bd       	out	0x26, r24	; 38
+  6e:	96 bd       	out	0x26, r25	; 38
+  70:	0f be       	out	0x3f, r0	; 63
+int main(void)
+{
+	//CLKPR |= _BV(CLKPCE);
+	//CLKPR |= _BV(CLKPCE) | _BV(CLKPS3);
+	clock_prescale_set(clock_div_256);
+    systemInit();
+  72:	f5 df       	rcall	.-22     	; 0x5e <systemInit>
+	//blinkLEDcnt(10);
+	while (1) 
+	{
+		// go to sleep and wait for interrupt...
+		//sleep_mode();
+		toggleLED0();
+  74:	ef df       	rcall	.-34     	; 0x54 <toggleLED0>
+		//_delay_ms(50);
+
+	}//while (1) 
+  76:	fe cf       	rjmp	.-4      	; 0x74 <main+0x10>
+
+00000078 <_exit>:
+  78:	f8 94       	cli
+
+0000007a <__stop_program>:
+  7a:	ff cf       	rjmp	.-2      	; 0x7a <__stop_program>

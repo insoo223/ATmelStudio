@@ -6,14 +6,12 @@ main.c
 Custom Headers:
     Nothing
  Author  : Insoo Kim (insoo@hotmail.com)
- Created : Sep 06, 2018 (On Atmel Studio 7)
- Updated : Sep 06, 2018 (On Atmel Studio 7)
+ Created : Sep 11, 2018 (On Atmel Studio 7)
+ Updated : Sep 13, 2018 (On Atmel Studio 7)
 
  Description: 
-	A simple tone generator for ATtiny13A.
+	software serial for ATtiny13A.
 	 
-	The timer and counter control by ATtiny13A is reviewed while reading its datasheet.
-	And here i try to test based on my understanding.
 
 
  HEX size[Byte]: 864 out of 1024
@@ -27,9 +25,9 @@ cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\TMRCNT-Sound-
 avrdude -c usbtiny -P usb -p attiny13 -U flash:w:TMRCNT-Sound-23188757.hex:i
 
  Ref:
- http://blog.podkalicki.com/attiny13-tone-generator/
+ 
  Codes: 
- https://raw.githubusercontent.com/lpodkalicki/blog/master/avr/attiny13/007_tone_generator/main.c
+ 
 
 *****************************************************************/
 
@@ -39,254 +37,149 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:TMRCNT-Sound-23188757.hex:i
  * Simple tone generator.
  */
 
-#define F_CPU 1200000
-
 #include <avr/io.h>
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
-#define	BUZZER_PIN	PB0
+#define    UART_RX_ENABLED        (1) // Enable UART RX
+#define    UART_TX_ENABLED        (1) // Enable UART TX
 
+#define        F_CPU           (1200000UL) // 1.2 MHz
 
-#define	N_1	(_BV(CS00))
-#define	N_8	(_BV(CS01))
-#define	N_64	(_BV(CS01)|_BV(CS00))
-#define	N_256	(_BV(CS02))
-#define	N_1024	(_BV(CS02)|_BV(CS00))
+#if defined(UART_TX_ENABLED) && !defined(UART_TX)
+#define        UART_TX         PB3 // Use PB3 as TX pin
+#endif  /* !UART_TX */
 
-typedef struct s_note {
-	uint8_t OCRxn; // 0..255
-	uint8_t N;
-} note_t;
+#if defined(UART_RX_ENABLED) && !defined(UART_RX)
+#define        UART_RX         PB4 // Use PB4 as RX pin
+#endif  /* !UART_RX */
 
-typedef struct s_octave {
-	note_t note_C;
-	note_t note_CS;
-	note_t note_D;
-	note_t note_DS;
-	note_t note_E;
-	note_t note_F;
-	note_t note_FS;
-	note_t note_G;
-	note_t note_GS;
-	note_t note_A;
-	note_t note_AS;
-	note_t note_B;
-} octave_t;
+#if (defined(UART_TX_ENABLED) || defined(UART_RX_ENABLED)) && !defined(UART_BAUDRATE)
+#define        UART_BAUDRATE   (19200)
+#endif  /* !UART_BAUDRATE */
 
-/*
- All calculations below are prepared for ATtiny13 default clock source (1.2MHz)
+#define    TXDELAY             (int)(((F_CPU/UART_BAUDRATE)-7 +1.5)/3)
+#define RXDELAY             (int)(((F_CPU/UART_BAUDRATE)-5 +1.5)/3)
+#define RXDELAY2            (int)((RXDELAY*1.5)-2.5)
+#define RXROUNDED           (((F_CPU/UART_BAUDRATE)-5 +2)/3)
+#if RXROUNDED > 127
+# error Low baud rates unsupported - use higher UART_BAUDRATE
+#endif
 
- F = F_CPU / (2 * N * (1 + OCRnx)),
-
- where:
- - F is a calculated PWM frequency
- - F_CPU is a clock source (1.2MHz)
- - the N variable represents the prescale factor (1, 8, 64, 256, or 1024).
-*/
-
-PROGMEM const octave_t octaves[8] = {
-	{ // octave 0
-	.note_C = {142, N_256}, // 16.35 Hz
-	.note_CS = {134, N_256}, // 17.32 Hz
-	.note_D = {127, N_256}, // 18.35 Hz
-	.note_DS = {120, N_256}, // 19.45 Hz
-	.note_E = {113, N_256}, // 20.60 Hz
-	.note_F = {106, N_256}, // 21.83 Hz
-	.note_FS = {100, N_256}, // 23.12 Hz
-	.note_G = {95, N_256}, // 24.50 Hz
-	.note_GS = {89, N_256}, // 25.96 Hz
-	.note_A = {84, N_256}, // 27.50 Hz
-	.note_AS = {79, N_256}, // 29.14 Hz
-	.note_B = {75, N_256} // 30.87 Hz
-	},
-	{ // octave 1
-	.note_C = {71, N_256}, // 32.70 Hz
-	.note_CS = {67, N_256}, // 34.65 Hz
-	.note_D = {63, N_256}, // 36.71 Hz
-	.note_DS = {59, N_256}, // 38.89 Hz
-	.note_E = {56, N_256}, // 41.20 Hz
-	.note_F = {53, N_256}, // 43.65 Hz
-	.note_FS = {50, N_256}, // 46.25 Hz
-	.note_G = {47, N_256}, // 49.00 Hz
-	.note_GS = {44, N_256}, // 51.91 Hz
-	.note_A = {42, N_256}, // 55.00 Hz
-	.note_AS = {39, N_256}, // 58.27 Hz
-	.note_B = {37, N_256} // 61.74 Hz
-	},
-	{ // octave 2
-	.note_C = {142, N_64}, // 65.41 Hz
-	.note_CS = {134, N_64}, // 69.30 Hz
-	.note_D = {127, N_64}, // 73.42 Hz
-	.note_DS = {120, N_64}, // 77.78 Hz
-	.note_E = {113, N_64}, // 82.41 Hz
-	.note_F = {106, N_64}, // 87.31 Hz
-	.note_FS = {100, N_64}, // 92.50 Hz
-	.note_G = {95, N_64}, // 98.00 Hz
-	.note_GS = {89, N_64}, // 103.83 Hz
-	.note_A = {84, N_64}, // 110.00 Hz
-	.note_AS = {79, N_64}, // 116.54 Hz
-	.note_B = {75, N_64} // 123.47 Hz
-	},
-	{ // octave 3
-	.note_C = {71, N_64}, // 130.81 Hz
-	.note_CS = {67, N_64}, // 138.59 Hz
-	.note_D = {63, N_64}, // 146.83 Hz
-	.note_DS = {59, N_64}, // 155.56 Hz
-	.note_E = {56, N_64}, // 164.81 Hz
-	.note_F = {53, N_64}, // 174.61 Hz
-	.note_FS = {50, N_64}, // 185.00 Hz
-	.note_G = {47, N_64}, // 196.00 Hz
-	.note_GS = {44, N_64}, // 207.65 Hz
-	.note_A = {42, N_64}, // 220.00 Hz
-	.note_AS = {39, N_64}, // 233.08 Hz
-	.note_B = {37, N_64} // 246.94 Hz
-	},
-	{ // octave 4
-	.note_C = {35, N_64}, // 261.63 Hz
-	.note_CS = {33, N_64}, // 277.18 Hz
-	.note_D = {31, N_64}, // 293.66 Hz
-	.note_DS = {29, N_64}, // 311.13 Hz
-	.note_E = {27, N_64}, // 329.63 Hz
-	.note_F = {26, N_64}, // 349.23 Hz
-	.note_FS = {24, N_64}, // 369.99 Hz
-	.note_G = {23, N_64}, // 392.00 Hz
-	.note_GS = {22, N_64}, // 415.30 Hz
-	.note_A = {20, N_64}, // 440.00 Hz
-	.note_AS = {19, N_64}, // 466.16 Hz
-	.note_B = {18, N_64} // 493.88 Hz
-	},
-	{  // octave 5
-	.note_C = {142, N_8}, // 523.25 Hz
-	.note_CS = {134, N_8}, // 554.37 Hz
-	.note_D = {127, N_8}, // 587.33 Hz
-	.note_DS = {120, N_8}, // 622.25 Hz
-	.note_E = {113, N_8}, // 659.25 Hz
-	.note_F = {106, N_8}, // 349.23 Hz
-	.note_FS = {100, N_8}, // 369.99 Hz
-	.note_G = {95, N_8}, // 392.00 Hz
-	.note_GS = {89, N_8}, // 415.30 Hz
-	.note_A = {84, N_8}, // 440.00 Hz
-	.note_AS = {79, N_8}, // 466.16 Hz
-	.note_B = {75, N_8} // 493.88 Hz
-	},
-	{  // octave 6
-	.note_C = {71, N_8}, // 1046.50 Hz
-	.note_CS = {67, N_8}, // 1108.73 Hz
-	.note_D = {63, N_8}, // 1174.66 Hz
-	.note_DS = {59, N_8}, // 1244.51 Hz
-	.note_E = {56, N_8}, // 1318.51 Hz
-	.note_F = {53, N_8}, // 1396.91 Hz
-	.note_FS = {50, N_8}, // 1479.98 Hz
-	.note_G = {47, N_8}, // 1567.98 Hz
-	.note_GS = {44, N_8}, // 1661.22 Hz
-	.note_A = {42, N_8}, // 1760.00 Hz
-	.note_AS = {39, N_8}, // 1864.66 Hz
-	.note_B = {37, N_8} // 1975.53 Hz
-	},
-	{  // octave 7
-	.note_C = {35, N_8}, // 2093.00 Hz
-	.note_CS = {33, N_8}, // 2217.46 Hz
-	.note_D = {31, N_8}, // 2349.32 Hz
-	.note_DS = {29, N_8}, // 2489.02 Hz
-	.note_E = {27, N_8}, // 2637.02 Hz
-	.note_F = {26, N_8}, // 2793.83 Hz
-	.note_FS = {24, N_8}, // 2959.96 Hz
-	.note_G = {23, N_8}, // 3135.96 Hz
-	.note_GS = {22, N_8}, // 3322.44 Hz
-	.note_A = {20, N_8}, // 3520.00 Hz
-	.note_AS = {19, N_8}, // 3729.31 Hz
-	.note_B = {18, N_8} // 3951.07 Hz
-	}
-};
-
-static void
-tone(uint8_t octave, uint8_t note)
-{
-	uint32_t ret;
-	note_t *val;
-	ret = pgm_read_word_near((uint8_t *)&octaves + sizeof(octave_t) * octave + sizeof(note_t) * note);
-	val = (note_t *)&ret;
-	TCCR0B = (TCCR0B & ~((1<<CS02)|(1<<CS01)|(1<<CS00))) | val->N; // set prescaler
-  	OCR0A = val->OCRxn - 1; // set the OCRnx
-}
-
-static void
-stop(void)
-{
-
-	TCCR0B &= ~((1<<CS02)|(1<<CS01)|(1<<CS00)); // stop the timer
-}
+static char uart_getc();
+static void uart_putc(char c);
+static void uart_puts(const char *s);
 
 int
 main(void)
 {
-	uint8_t i, j;
+	char c, *p, buff[16];
 
-	/* setup */
-	DDRB |= _BV(BUZZER_PIN); // set BUZZER pin as OUTPUT
-	TCCR0A |= _BV(WGM01); // set timer mode to CTC
-	TCCR0A |= _BV(COM0A0); // connect PWM pin to Channel A of Timer0
-
-	/* Walk throwgh all octaves */
-	for (i = 0; i < 8; ++i) {
-		for (j = 0; j < 12; ++j) {
-			tone(i, j);
-			_delay_ms(80);
-		}
-	}
-
-	stop();
-	_delay_ms(1500);
-
-
+	uart_puts("Hello World! \r\n");
+	uart_puts("¾È³ç ÀÎ¼ö! \r\n");
+	/*
+	uart_putc("K");
+	uart_putc("I");
+	uart_putc("M");
+	uart_putc("\n");
+	*/
 	/* loop */
 	while (1) {
-		/* Polish song "Wlaz©© kotek na p©©otek" in loop */
-		tone(4, 7); // G
-		_delay_ms(500);
-		tone(4, 4); // E
-		_delay_ms(500);
-		tone(4, 4); // E
-		_delay_ms(500);
-		tone(4, 5); // F
-		_delay_ms(500);
-		tone(4, 2); // D
-		_delay_ms(500);
-		tone(4, 2); // D
-		_delay_ms(500);
-		tone(4, 0); // C
-		_delay_ms(200);
-		tone(4, 4); // E
-		_delay_ms(300);
-		tone(4, 7); // G
-		_delay_ms(1000);
-
-		stop();
-		_delay_ms(2000);
-
-		tone(4, 7); // G
-		_delay_ms(500);
-		tone(4, 4); // E
-		_delay_ms(500);
-		tone(4, 4); // E
-		_delay_ms(500);
-		tone(4, 5); // F
-		_delay_ms(500);
-		tone(4, 2); // D
-		_delay_ms(500);
-		tone(4, 2); // D
-		_delay_ms(500);
-		tone(4, 0); // C
-		_delay_ms(200);
-		tone(4, 4); // E
-		_delay_ms(300);
-		tone(4, 0); // C
-		_delay_ms(1000);
-
-		stop();
-		_delay_ms(5000);
+		p = buff;
+		while((c = uart_getc()) != '\n' && (p - buff) < 16) {
+			*(p++) = c;
+		}
+		*p = 0;
+		_delay_ms(10);
+		uart_puts(buff);
 	}
+}
 
+char
+uart_getc(void)
+{
+	#ifdef    UART_RX_ENABLED
+	char c;
+	uint8_t sreg;
+
+	sreg = SREG;
+	cli();
+	PORTB &= ~(1 << UART_RX);
+	DDRB &= ~(1 << UART_RX);
+	__asm volatile(
+	" ldi r18, %[rxdelay2] \n\t" // 1.5 bit delay
+	" ldi %0, 0x80 \n\t" // bit shift counter
+	"WaitStart: \n\t"
+	" sbic %[uart_port]-2, %[uart_pin] \n\t" // wait for start edge
+	" rjmp WaitStart \n\t"
+	"RxBit: \n\t"
+	// 6 cycle loop + delay - total = 5 + 3*r22
+	// delay (3 cycle * r18) -1 and clear carry with subi
+	" subi r18, 1 \n\t"
+	" brne RxBit \n\t"
+	" ldi r18, %[rxdelay] \n\t"
+	" sbic %[uart_port]-2, %[uart_pin] \n\t" // check UART PIN
+	" sec \n\t"
+	" ror %0 \n\t"
+	" brcc RxBit \n\t"
+	"StopBit: \n\t"
+	" dec r18 \n\t"
+	" brne StopBit \n\t"
+	: "=r" (c)
+	: [uart_port] "I" (_SFR_IO_ADDR(PORTB)),
+	[uart_pin] "I" (UART_RX),
+	[rxdelay] "I" (RXDELAY),
+	[rxdelay2] "I" (RXDELAY2)
+	: "r0","r18","r19"
+	);
+	SREG = sreg;
+	return c;
+	#else
+	return (-1);
+	#endif /* !UART_RX_ENABLED */
+}
+
+void
+uart_putc(char c)
+{
+	#ifdef    UART_TX_ENABLED
+	uint8_t sreg;
+
+	sreg = SREG;
+	cli();
+	PORTB |= 1 << UART_TX;
+	DDRB |= 1 << UART_TX;
+	__asm volatile(
+	" cbi %[uart_port], %[uart_pin] \n\t" // start bit
+	" in r0, %[uart_port] \n\t"
+	" ldi r30, 3 \n\t" // stop bit + idle state
+	" ldi r28, %[txdelay] \n\t"
+	"TxLoop: \n\t"
+	// 8 cycle loop + delay - total = 7 + 3*r22
+	" mov r29, r28 \n\t"
+	"TxDelay: \n\t"
+	// delay (3 cycle * delayCount) - 1
+	" dec r29 \n\t"
+	" brne TxDelay \n\t"
+	" bst %[ch], 0 \n\t"
+	" bld r0, %[uart_pin] \n\t"
+	" lsr r30 \n\t"
+	" ror %[ch] \n\t"
+	" out %[uart_port], r0 \n\t"
+	" brne TxLoop \n\t"
+	:
+	: [uart_port] "I" (_SFR_IO_ADDR(PORTB)),
+	[uart_pin] "I" (UART_TX),
+	[txdelay] "I" (TXDELAY),
+	[ch] "r" (c)
+	: "r0","r28","r29","r30"
+	);
+	SREG = sreg;
+	#endif /* !UART_TX_ENABLED */
+}
+
+void
+uart_puts(const char *s)
+{
+	while (*s) uart_putc(*(s++));
 }

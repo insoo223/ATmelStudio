@@ -1,0 +1,31 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.42</VERSION>
+ <DEVICE>ATtiny13</DEVICE>
+ <WORKING_DIR>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files\Atmel\AVR Tools\AvrAssembler2\Appnotes\tn13def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <main><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>71</LINE></main>
+  <extINT0><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>50</LINE></extINT0>
+  <ledON><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>62</LINE></ledON>
+  <endINT0><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>64</LINE></endINT0>
+  <setupPORTB><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>93</LINE></setupPORTB>
+  <setupINT0><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>98</LINE></setupINT0>
+  <setupSleep><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>85</LINE></setupSleep>
+  <loop><FILE>D:\InsooDocs\ATmelStudio4\ATtiny13A\blinkPB0\blinkPB0.asm</FILE><LINE>81</LINE></loop>
+ </LABELS>
+</ASSEMBLER_INFO>

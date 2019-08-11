@@ -1,0 +1,47 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.6</VERSION>
+ <DEVICE>"ATtiny13A"</DEVICE>
+ <WORKING_DIR>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATtiny_DFP\1.3.172\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\tn13adef.inc</FILE>
+  <FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\tn13Adef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\Debug\NikonRemote.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>NikonRemote.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>NikonRemote.map</FILE>
+  <FILE>NikonRemote.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <reset><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>85</LINE></reset>
+  <startup><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>125</LINE></startup>
+  <delay130><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>99</LINE></delay130>
+  <delay130_led_on><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>108</LINE></delay130_led_on>
+  <delay130_led_off><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>113</LINE></delay130_led_off>
+  <delay130_loop><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>117</LINE></delay130_loop>
+  <mainloop><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>143</LINE></mainloop>
+  <startpulse><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>147</LINE></startpulse>
+  <startpause><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>157</LINE></startpause>
+  <pulse1><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>174</LINE></pulse1>
+  <pause1><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>184</LINE></pause1>
+  <pause1b><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>190</LINE></pause1b>
+  <pulse2><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>206</LINE></pulse2>
+  <pause2><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>220</LINE></pause2>
+  <pulse3><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>228</LINE></pulse3>
+  <ContinueToSleep><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>274</LINE></ContinueToSleep>
+  <longpause><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>247</LINE></longpause>
+  <longpause1><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>249</LINE></longpause1>
+  <longpause2><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>260</LINE></longpause2>
+  <longpause3><FILE>C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\NikonRemote\NikonRemote\main.asm</FILE><LINE>268</LINE></longpause3>
+ </LABELS>
+</ASSEMBLER_INFO>
