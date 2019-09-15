@@ -1278,12 +1278,12 @@ void I2C_Start (byte slaveAddr)
      6ce:	08 95       	ret
 
 000006d0 <__vector_1>:
+    MCUCR = 0x00;
+    EICRA = 0x00; //extended ext ints
     EIMSK = 0x00;
 
     TIMSK0 = 0x02; //timer 0 interrupt sources
 
-    PRR = 0x00; //power controller
-    sei(); //re-enable interrupts
      6d0:	1f 92       	push	r1
      6d2:	0f 92       	push	r0
      6d4:	0f b6       	in	r0, 0x3f	; 63
@@ -1410,124 +1410,124 @@ void I2C_Start (byte slaveAddr)
      7dc:	08 95       	ret
 
 000007de <proceedClock>:
+    //all peripherals are now initialized
+}
 
 //----------------------------------
 void proceedClock()
 {
-    //WDT interrupt occurs every 8 seconds
-    sec += 8;
      7de:	80 91 1c 04 	lds	r24, 0x041C	; 0x80041c <sec>
      7e2:	88 5f       	subi	r24, 0xF8	; 248
      7e4:	80 93 1c 04 	sts	0x041C, r24	; 0x80041c <sec>
-    accumulatedSec += 8;
+    //WDT interrupt occurs every 8 seconds
      7e8:	20 91 15 04 	lds	r18, 0x0415	; 0x800415 <accumulatedSec>
      7ec:	28 5f       	subi	r18, 0xF8	; 248
      7ee:	20 93 15 04 	sts	0x0415, r18	; 0x800415 <accumulatedSec>
+    sec += 8;
+    accumulatedSec += 8;
 
     //real-time fetched from compiled time constant __TIME__
-    //calculate minutes
-    if (sec >= 60)
      7f2:	8c 33       	cpi	r24, 0x3C	; 60
      7f4:	5c f0       	brlt	.+22     	; 0x80c <proceedClock+0x2e>
+    //calculate minutes
+    if (sec >= 60)
     {
-        sec%=60;
-        min++;
      7f6:	90 91 1d 04 	lds	r25, 0x041D	; 0x80041d <min>
      7fa:	9f 5f       	subi	r25, 0xFF	; 255
      7fc:	90 93 1d 04 	sts	0x041D, r25	; 0x80041d <min>
-        sec += 2;
+        sec%=60;
      800:	6c e3       	ldi	r22, 0x3C	; 60
      802:	0e 94 1d 09 	call	0x123a	; 0x123a <__divmodqi4>
      806:	9e 5f       	subi	r25, 0xFE	; 254
      808:	90 93 1c 04 	sts	0x041C, r25	; 0x80041c <sec>
+        min++;
+        sec += 2;
     }
     //system run-time acculated time
-    //calculate minutes
-    if (accumulatedSec >= 60)
      80c:	2c 33       	cpi	r18, 0x3C	; 60
      80e:	64 f0       	brlt	.+24     	; 0x828 <proceedClock+0x4a>
+    //calculate minutes
+    if (accumulatedSec >= 60)
     {
-        accumulatedSec%=60;
-        accumulatedMin++;
      810:	80 91 16 04 	lds	r24, 0x0416	; 0x800416 <accumulatedMin>
      814:	8f 5f       	subi	r24, 0xFF	; 255
      816:	80 93 16 04 	sts	0x0416, r24	; 0x800416 <accumulatedMin>
-        accumulatedSec += 2;
+        accumulatedSec%=60;
      81a:	82 2f       	mov	r24, r18
      81c:	6c e3       	ldi	r22, 0x3C	; 60
      81e:	0e 94 1d 09 	call	0x123a	; 0x123a <__divmodqi4>
      822:	9e 5f       	subi	r25, 0xFE	; 254
      824:	90 93 15 04 	sts	0x0415, r25	; 0x800415 <accumulatedSec>
+        accumulatedMin++;
+        accumulatedSec += 2;
     }
 
     //real-time fetched from compiled time constant __TIME__
-    //calculate hours
-    if (min >= 60)
      828:	80 91 1d 04 	lds	r24, 0x041D	; 0x80041d <min>
      82c:	8c 33       	cpi	r24, 0x3C	; 60
      82e:	54 f0       	brlt	.+20     	; 0x844 <proceedClock+0x66>
-    {
-        min%=60;
+    //calculate hours
+    if (min >= 60)
      830:	6c e3       	ldi	r22, 0x3C	; 60
      832:	0e 94 1d 09 	call	0x123a	; 0x123a <__divmodqi4>
      836:	90 93 1d 04 	sts	0x041D, r25	; 0x80041d <min>
-        hour++;
+    {
      83a:	80 91 1e 04 	lds	r24, 0x041E	; 0x80041e <hour>
      83e:	8f 5f       	subi	r24, 0xFF	; 255
      840:	80 93 1e 04 	sts	0x041E, r24	; 0x80041e <hour>
+        min%=60;
+        hour++;
     }
     //system run-time acculated time
     //calculate hours
-    //if ((accumulatedMin == 60) && (hourlyAdjusted == 0))
-    if (accumulatedMin == 60)
      844:	80 91 16 04 	lds	r24, 0x0416	; 0x800416 <accumulatedMin>
      848:	8c 33       	cpi	r24, 0x3C	; 60
      84a:	61 f4       	brne	.+24     	; 0x864 <proceedClock+0x86>
+    //if ((accumulatedMin == 60) && (hourlyAdjusted == 0))
+    if (accumulatedMin == 60)
     {
         // adjust time by experiments
-        //hourlyAdjusted = 1;
-        sec -= 20;
      84c:	80 91 1c 04 	lds	r24, 0x041C	; 0x80041c <sec>
      850:	84 51       	subi	r24, 0x14	; 20
      852:	80 93 1c 04 	sts	0x041C, r24	; 0x80041c <sec>
-        accumulatedMin = 0;
+        //hourlyAdjusted = 1;
      856:	10 92 16 04 	sts	0x0416, r1	; 0x800416 <accumulatedMin>
-        accumulatedHour++;
+        sec -= 20;
      85a:	80 91 17 04 	lds	r24, 0x0417	; 0x800417 <accumulatedHour>
      85e:	8f 5f       	subi	r24, 0xFF	; 255
      860:	80 93 17 04 	sts	0x0417, r24	; 0x800417 <accumulatedHour>
+        accumulatedMin = 0;
+        accumulatedHour++;
     }
     /*
     if (accumulatedMin == 59)
         hourlyAdjusted = 0;
-    */
-    if (hour >= 24)
      864:	80 91 1e 04 	lds	r24, 0x041E	; 0x80041e <hour>
      868:	88 31       	cpi	r24, 0x18	; 24
      86a:	04 f1       	brlt	.+64     	; 0x8ac <proceedClock+0xce>
-    {
-        hour=0;
+    */
+    if (hour >= 24)
      86c:	10 92 1e 04 	sts	0x041E, r1	; 0x80041e <hour>
-        date++;
+    {
      870:	80 91 19 04 	lds	r24, 0x0419	; 0x800419 <date>
      874:	8f 5f       	subi	r24, 0xFF	; 255
      876:	80 93 19 04 	sts	0x0419, r24	; 0x800419 <date>
-        day++;
+        hour=0;
      87a:	80 91 18 04 	lds	r24, 0x0418	; 0x800418 <day>
      87e:	8f 5f       	subi	r24, 0xFF	; 255
-        if (day >= 7)
+        date++;
      880:	87 30       	cpi	r24, 0x07	; 7
      882:	1c f4       	brge	.+6      	; 0x88a <proceedClock+0xac>
+    if (accumulatedMin == 59)
+        hourlyAdjusted = 0;
     */
     if (hour >= 24)
     {
         hour=0;
-        date++;
-        day++;
      884:	80 93 18 04 	sts	0x0418, r24	; 0x800418 <day>
      888:	11 c0       	rjmp	.+34     	; 0x8ac <proceedClock+0xce>
-        if (day >= 7)
-            day %= 7;
+        date++;
+        day++;
      88a:	93 e9       	ldi	r25, 0x93	; 147
      88c:	89 02       	muls	r24, r25
      88e:	91 2d       	mov	r25, r1
@@ -1544,8 +1544,8 @@ void proceedClock()
      8a4:	29 1b       	sub	r18, r25
      8a6:	82 1b       	sub	r24, r18
      8a8:	80 93 18 04 	sts	0x0418, r24	; 0x800418 <day>
-    }
-    switch (month)
+        if (day >= 7)
+            day %= 7;
      8ac:	20 91 1a 04 	lds	r18, 0x041A	; 0x80041a <month>
      8b0:	82 2f       	mov	r24, r18
      8b2:	02 2e       	mov	r0, r18
@@ -1561,63 +1561,63 @@ void proceedClock()
      8c6:	e5 5c       	subi	r30, 0xC5	; 197
      8c8:	ff 4f       	sbci	r31, 0xFF	; 255
      8ca:	0c 94 2b 09 	jmp	0x1256	; 0x1256 <__tablejump2__>
+        case 1:
+        case 3:
         case 5:
         case 7:
         case 8:
         case 10:
-        case 12:
-            monthEndDate = 31;
      8ce:	8f e1       	ldi	r24, 0x1F	; 31
      8d0:	80 93 2a 04 	sts	0x042A, r24	; 0x80042a <monthEndDate>
-            break;
+        case 12:
      8d4:	0b c0       	rjmp	.+22     	; 0x8ec <proceedClock+0x10e>
-        case 2:
-            monthEndDate = 28;
+            monthEndDate = 31;
+            break;
      8d6:	8c e1       	ldi	r24, 0x1C	; 28
      8d8:	80 93 2a 04 	sts	0x042A, r24	; 0x80042a <monthEndDate>
+        case 2:
+            monthEndDate = 28;
             break;
         default:
             monthEndDate = 30;
     }//switch (month)
-
-    if (date > monthEndDate)
      8dc:	80 91 19 04 	lds	r24, 0x0419	; 0x800419 <date>
      8e0:	8d 31       	cpi	r24, 0x1D	; 29
      8e2:	54 f4       	brge	.+20     	; 0x8f8 <proceedClock+0x11a>
      8e4:	08 95       	ret
+        case 12:
+            monthEndDate = 31;
             break;
         case 2:
             monthEndDate = 28;
             break;
-        default:
-            monthEndDate = 30;
      8e6:	8e e1       	ldi	r24, 0x1E	; 30
      8e8:	80 93 2a 04 	sts	0x042A, r24	; 0x80042a <monthEndDate>
+        default:
+            monthEndDate = 30;
     }//switch (month)
-
-    if (date > monthEndDate)
      8ec:	90 91 19 04 	lds	r25, 0x0419	; 0x800419 <date>
      8f0:	80 91 2a 04 	lds	r24, 0x042A	; 0x80042a <monthEndDate>
      8f4:	89 17       	cp	r24, r25
      8f6:	34 f4       	brge	.+12     	; 0x904 <__stack+0x5>
-    {
-        date=1;
+
+    if (date > monthEndDate)
      8f8:	81 e0       	ldi	r24, 0x01	; 1
      8fa:	80 93 19 04 	sts	0x0419, r24	; 0x800419 <date>
-        month++;
+    {
      8fe:	2f 5f       	subi	r18, 0xFF	; 255
      900:	20 93 1a 04 	sts	0x041A, r18	; 0x80041a <month>
+        date=1;
+        month++;
     }
-
-    if (month > 12)
      904:	80 91 1a 04 	lds	r24, 0x041A	; 0x80041a <month>
      908:	8d 30       	cpi	r24, 0x0D	; 13
      90a:	44 f0       	brlt	.+16     	; 0x91c <__stack+0x1d>
-    {
-        month=1;
+
+    if (month > 12)
      90c:	81 e0       	ldi	r24, 0x01	; 1
      90e:	80 93 1a 04 	sts	0x041A, r24	; 0x80041a <month>
-        year++;
+    {
      912:	80 91 1b 04 	lds	r24, 0x041B	; 0x80041b <year>
      916:	8f 5f       	subi	r24, 0xFF	; 255
      918:	80 93 1b 04 	sts	0x041B, r24	; 0x80041b <year>
@@ -1648,9 +1648,9 @@ ISR(WDT_vect)
      93c:	ef 93       	push	r30
      93e:	ff 93       	push	r31
     //PORTB |= _BV(PB4);
-    proceedClock();
+    //proceedClock();
      940:	0e 94 ef 03 	call	0x7de	; 0x7de <proceedClock>
-    lcd_dispWords(wd%MAXWORDCNT);
+    //lcd_dispWords(wd%MAXWORDCNT);
      944:	80 91 1f 04 	lds	r24, 0x041F	; 0x80041f <wd>
      948:	9d ec       	ldi	r25, 0xCD	; 205
      94a:	89 9f       	mul	r24, r25
@@ -1666,13 +1666,13 @@ ISR(WDT_vect)
      95e:	92 0f       	add	r25, r18
      960:	89 1b       	sub	r24, r25
      962:	0e 94 02 07 	call	0xe04	; 0xe04 <lcd_dispWords>
-    wd++;
+    //wd++;
      966:	80 91 1f 04 	lds	r24, 0x041F	; 0x80041f <wd>
      96a:	8f 5f       	subi	r24, 0xFF	; 255
      96c:	80 93 1f 04 	sts	0x041F, r24	; 0x80041f <wd>
     //lcd_dispRealClock();
     //PORTB &= ~_BV(PB4);
-}//ISR(WDT_vect)
+	LCD_WriteTimeDateTempHumid();
      970:	ff 91       	pop	r31
      972:	ef 91       	pop	r30
      974:	bf 91       	pop	r27
@@ -2571,46 +2571,46 @@ void lcd_dispWords(uint8_t i)
      ef6:	08 95       	ret
 
 00000ef8 <main>:
+#include <avr/interrupt.h>
+#include <avr/wdt.h>
+#include <avr/sleep.h>
+#include "externs.h"
+#include "defines.h"
+#include <util/delay.h>
+     ef8:	0e 94 89 00 	call	0x112	; 0x112 <config>
+
 //------------------------------------
 int main()
 {
+     efc:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <initINT>
 	// configure MCU IO pins
 	// implemented at "config.c"
     config();
-     ef8:	0e 94 89 00 	call	0x112	; 0x112 <config>
  
-	// setup ISR
-	// implemented at "intrpt.c"
-    initINT();
-     efc:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <initINT>
-
-	// setup ISR
-	// implemented at "I2C.c"
-	I2C_Init();
      f00:	0e 94 16 03 	call	0x62c	; 0x62c <I2C_Init>
-	//LCD_dispReadyAndSleep(); 
-
-    //lcd_dispRealClock();
-	//lcd_dispProgInfo(); //LCD display program info
-    // Use the Power Down sleep mode
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	// and check it as the start time of the system.
+	// This is a legacy function implemented at "strFunc.c"
+    //parseCompileTime();
+	
+	//After call LCD_dispReadyAndSleep(), sleep current remain rather high 680 uA
+	//	otherwise, 230 uA
      f04:	83 b7       	in	r24, 0x33	; 51
      f06:	81 7f       	andi	r24, 0xF1	; 241
      f08:	84 60       	ori	r24, 0x04	; 4
      f0a:	83 bf       	out	0x33, r24	; 51
+	//EEPROM write & read test of DHT11 info
+	// implemented at "EEPROM.c"
+	//EWR_dht11();
+	//EWR_ds1307();
+
+	//-- Welcome message
+     f0c:	0e 94 af 07 	call	0xf5e	; 0xf5e <prepareWakeUpandLCDHome>
+	//showPowerOnTime();
+	//powerOnWelcomeMessage_Short();
 	
 	//DS1307_setSQW(); //enable 1hz square wave 
 
 	//--- To use LCD while testing any of functions
-	// make it commented when in production mode
-	prepareWakeUpandLCDHome();
-     f0c:	0e 94 af 07 	call	0xf5e	; 0xf5e <prepareWakeUpandLCDHome>
-	// endless loop
-    while(1)
-    {
-      // go to sleep and wait for interrupt...
-      //sleep_mode();
-	  LCD_WriteTimeDateTempHumid();
      f10:	0e 94 f5 02 	call	0x5ea	; 0x5ea <LCD_WriteTimeDateTempHumid>
 	#else
 		//round up by default
@@ -3354,7 +3354,7 @@ void countButton()
     11a0:	e1 f7       	brne	.-8      	; 0x119a <countButton+0x94>
     11a2:	00 c0       	rjmp	.+0      	; 0x11a4 <countButton+0x9e>
     11a4:	00 00       	nop
-				_delay_ms(3000);
+				_delay_ms(6000);
                 turnOffLCDBacklight();
     11a6:	0e 94 7e 05 	call	0xafc	; 0xafc <turnOffLCDBacklight>
                 break;
