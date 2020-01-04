@@ -3,29 +3,29 @@ INT0.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000068  00000000  00000000  00000054  2**1
+  0 .text         0000008e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000bc  2**0
+  1 .data         00000000  00800060  00800060  000000e2  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000bc  2**0
+  2 .comment      00000030  00000000  00000000  000000e2  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000ec  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000114  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  00000128  2**0
+  4 .debug_aranges 00000038  00000000  00000000  00000150  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000003af  00000000  00000000  00000160  2**0
+  5 .debug_info   0000046f  00000000  00000000  00000188  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000344  00000000  00000000  0000050f  2**0
+  6 .debug_abbrev 000003ca  00000000  00000000  000005f7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000001df  00000000  00000000  00000853  2**0
+  7 .debug_line   00000278  00000000  00000000  000009c1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000068  00000000  00000000  00000a34  2**2
+  8 .debug_frame  00000068  00000000  00000000  00000c3c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000025d  00000000  00000000  00000a9c  2**0
+  9 .debug_str    000002a0  00000000  00000000  00000ca4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000049  00000000  00000000  00000cf9  2**0
+ 10 .debug_loc    00000091  00000000  00000000  00000f44  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00000d42  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  00000fd5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -48,7 +48,7 @@ Disassembly of section .text:
   18:	cf e9       	ldi	r28, 0x9F	; 159
   1a:	cd bf       	out	0x3d, r28	; 61
   1c:	21 d0       	rcall	.+66     	; 0x60 <main>
-  1e:	22 c0       	rjmp	.+68     	; 0x64 <_exit>
+  1e:	35 c0       	rjmp	.+106    	; 0x8a <_exit>
 
 00000020 <__bad_interrupt>:
   20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
@@ -68,7 +68,7 @@ void toggleLED(void)
   2c:	8f 93       	push	r24
   2e:	9f 93       	push	r25
   30:	98 b3       	in	r25, 0x18	; 24
-  32:	88 e0       	ldi	r24, 0x08	; 8
+  32:	82 e0       	ldi	r24, 0x02	; 2
   34:	89 27       	eor	r24, r25
   36:	88 bb       	out	0x18, r24	; 24
   38:	9f 91       	pop	r25
@@ -86,7 +86,7 @@ void systemInit(void)
 {
 	// I/O
 	DDRB |= _BV(LED); //output for LED
-  46:	bb 9a       	sbi	0x17, 3	; 23
+  46:	b9 9a       	sbi	0x17, 1	; 23
 	DDRB &= ~_BV(SW); //input for SW
   48:	b8 98       	cbi	0x17, 0	; 23
 
@@ -95,14 +95,18 @@ void systemInit(void)
   4a:	8b b7       	in	r24, 0x3b	; 59
   4c:	80 64       	ori	r24, 0x40	; 64
   4e:	8b bf       	out	0x3b, r24	; 59
-	MCUCR |= _BV(ISC01);	// Trigger INT0 on falling edge
+	// Trigger INT0 on falling edge
+	// but, CANNOT wake up from Power Down sleep
+	MCUCR |= _BV(ISC01);	
   50:	85 b7       	in	r24, 0x35	; 53
   52:	82 60       	ori	r24, 0x02	; 2
   54:	85 bf       	out	0x35, r24	; 53
-	MCUCR &= _BV(ISC00);	// Trigger INT0 on falling  edge
+	MCUCR &= _BV(ISC00);	
   56:	85 b7       	in	r24, 0x35	; 53
   58:	81 70       	andi	r24, 0x01	; 1
   5a:	85 bf       	out	0x35, r24	; 53
+	// Trigger INT0 on low level, can wake up from Power Down sleep
+
 	sei();          // enable all interrupts
   5c:	78 94       	sei
   5e:	08 95       	ret
@@ -115,16 +119,46 @@ int main(void)
 {
     systemInit();
   60:	f2 df       	rcall	.-28     	; 0x46 <systemInit>
-	{
+
+	// Use the Power Down sleep mode
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  62:	85 b7       	in	r24, 0x35	; 53
+  64:	87 7e       	andi	r24, 0xE7	; 231
+  66:	80 61       	ori	r24, 0x10	; 16
+  68:	85 bf       	out	0x35, r24	; 53
 		// go to sleep and wait for interrupt...
 		// 33 uA as of Sep 27, 2018 when sleep
 		//sleep_mode();
+		
+		//toggleLED();
+		PORTB = (1<<LED);
+  6a:	82 e0       	ldi	r24, 0x02	; 2
+  6c:	88 bb       	out	0x18, r24	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
 
-	}//while (1) 
-  62:	ff cf       	rjmp	.-2      	; 0x62 <main+0x2>
+	__builtin_avr_delay_cycles(__ticks_dc);
+  6e:	ef e4       	ldi	r30, 0x4F	; 79
+  70:	f3 ec       	ldi	r31, 0xC3	; 195
+  72:	31 97       	sbiw	r30, 0x01	; 1
+  74:	f1 f7       	brne	.-4      	; 0x72 <main+0x12>
+  76:	00 c0       	rjmp	.+0      	; 0x78 <main+0x18>
+  78:	00 00       	nop
+		_delay_ms(200);
+		PORTB = (0<<LED);
+  7a:	18 ba       	out	0x18, r1	; 24
+  7c:	ef e4       	ldi	r30, 0x4F	; 79
+  7e:	f3 ec       	ldi	r31, 0xC3	; 195
+  80:	31 97       	sbiw	r30, 0x01	; 1
+  82:	f1 f7       	brne	.-4      	; 0x80 <main+0x20>
+  84:	00 c0       	rjmp	.+0      	; 0x86 <main+0x26>
+  86:	00 00       	nop
+  88:	f1 cf       	rjmp	.-30     	; 0x6c <main+0xc>
 
-00000064 <_exit>:
-  64:	f8 94       	cli
+0000008a <_exit>:
+  8a:	f8 94       	cli
 
-00000066 <__stop_program>:
-  66:	ff cf       	rjmp	.-2      	; 0x66 <__stop_program>
+0000008c <__stop_program>:
+  8c:	ff cf       	rjmp	.-2      	; 0x8c <__stop_program>
