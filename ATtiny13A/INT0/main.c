@@ -35,7 +35,10 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:INT0.hex:i
 
 // ATtiny13A port usage
 #define SW PB0
-#define LED PB3
+#define LED PB1 //PB3
+#ifndef F_CPU 
+	#def F_CPU 1000000
+#endif 
 
 //-------- function prototypes --------
 void systemInit(void);
@@ -62,7 +65,10 @@ int main(void)
 	{
 		// go to sleep and wait for interrupt...
 		// 33 uA as of Sep 27, 2018 when sleep
-		sleep_mode();
+		//sleep_mode();
+		
+		toggleLED();
+		_delay_ms(200);
 
 	}//while (1) 
 }//main
@@ -83,8 +89,8 @@ void systemInit(void)
 	GIMSK |= _BV(INT0); // enable INT0 interrupt
 	// Trigger INT0 on falling edge
 	// but, CANNOT wake up from Power Down sleep
-	//MCUCR |= _BV(ISC01);	
-	//MCUCR &= _BV(ISC00);	
+	MCUCR |= _BV(ISC01);	
+	MCUCR &= _BV(ISC00);	
 	// Trigger INT0 on low level, can wake up from Power Down sleep
 
 	sei();          // enable all interrupts

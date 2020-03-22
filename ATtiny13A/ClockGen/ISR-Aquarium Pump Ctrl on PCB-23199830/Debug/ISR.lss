@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000028  00000000  00000000  000001a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000039d  00000000  00000000  000001c8  2**0
+  6 .debug_info   0000039e  00000000  00000000  000001c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000332  00000000  00000000  00000565  2**0
+  7 .debug_abbrev 00000335  00000000  00000000  00000566  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000001fd  00000000  00000000  00000897  2**0
+  8 .debug_line   000001f3  00000000  00000000  0000089b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000048  00000000  00000000  00000a94  2**2
+  9 .debug_frame  00000048  00000000  00000000  00000a90  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000288  00000000  00000000  00000adc  2**0
+ 10 .debug_str    00000280  00000000  00000000  00000ad8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000049  00000000  00000000  00000d64  2**0
+ 11 .debug_loc    00000049  00000000  00000000  00000d58  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  00000dad  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  00000da1  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -86,9 +86,9 @@ ISR(WDT_vect)
 	// --------- INCREASE WDT TICK COUNT ----------------------
 	// increase WDTtick every UNIT_DELAY_WDT sec
 	++WDTtick;
-  40:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  40:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
   44:	8f 5f       	subi	r24, 0xFF	; 255
-  46:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+  46:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
 
 	// On every SET_DELAY_UNIT (half-hour) except last half-hour
 	//  reset WDTtick count and increase half-hour count
@@ -101,7 +101,7 @@ ISR(WDT_vect)
 	{
 		// Reset WDT counter
 		WDTtick = 0;
-  56:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  56:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
 
 		//Increase WDT Half-hour counter
 		++WDTtick30min;
@@ -122,7 +122,7 @@ ISR(WDT_vect)
   6e:	88 bb       	out	0x18, r24	; 24
 		// Reset WDT counter
 		WDTtick = 0;
-  70:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  70:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
 		//Reset WDT Half-hour counter
 		WDTtick30min=0;
   74:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
@@ -141,7 +141,7 @@ ISR(WDT_vect)
 int main(void) {
 
 	WDTtick=0;
-  86:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  86:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
 	WDTtick30min=0;
   8a:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
 	// Set up NPN_TR_PORT mode to output
@@ -189,7 +189,6 @@ int main(void) {
   b2:	85 b7       	in	r24, 0x35	; 53
   b4:	8f 7d       	andi	r24, 0xDF	; 223
   b6:	85 bf       	out	0x35, r24	; 53
-	}
   b8:	f8 cf       	rjmp	.-16     	; 0xaa <__stack+0xb>
 
 000000ba <_exit>:
