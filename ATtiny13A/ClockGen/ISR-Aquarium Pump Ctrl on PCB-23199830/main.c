@@ -7,7 +7,9 @@
     Nothing
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : May 15, 2015
- Updated : Aug 04, 2019 (On Atmel Studio 7)
+ Updated : Mar 22, 2020 (On Atmel Studio 7)
+			Update on-60 min, off-30 min in ISR(WDT_vect)
+		Aug 04, 2019 (On Atmel Studio 7)	
 
  Description: 
 	ATtiny13A controls power up or down to aquarium pump by 2n2222 NPN transistor & relay.
@@ -56,8 +58,11 @@
 	 Select Tool -> USBtiny (USBtiny memu should be configured in the external tool menu)
 		Title: USBtin&Y
 		Command: C:\WinAVR-20100110\bin\avrdude.exe
-		Parameter: avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
+		Parameter: -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
+		
 		Directory:$(ProjectDir)\Debug
+Ref: For ATmega328P, use "Parameter:" like followings
+	-c usbtiny -P usb -p atmega328p -U flash:w:LCD_RTC_DS1307_DHT11.hex:i		
  <For CMD window or DOS prompt>
 	 cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-Aquarium Pump Ctrl on PCB-23189830\Debug"
 	 avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR.hex:i
@@ -72,13 +77,13 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 
-#define TEST_MODE
-//#define PRODUCTION_MODE
+//#define TEST_MODE
+#define PRODUCTION_MODE
 
 #ifdef TEST_MODE
 	#define UNIT_DELAY_WDT	1 //<=== TEST VALUE in development;
-	#define SET_DELAY_UNIT	3
-	#define WAKEUP_PERIOD	2 
+	#define SET_DELAY_UNIT	2 //how many UNIT_DELAY_WDT
+	#define WAKEUP_PERIOD	3 //how many SET_DELAY_UNIT
 #endif
 #ifdef PRODUCTION_MODE
 	#define UNIT_DELAY_WDT	8 //<=== SELECTED VALUE in production; WDT period in seconds
@@ -86,6 +91,7 @@
 	#define WAKEUP_PERIOD	1 
 							// 1: 30 min 2:one hour, 4:two hours,
 							// when SET_DELAY_UNIT is 225 of ATtiny13a at 1.2Mhz
+	//#define WAKEUP_PERIOD	3 
 #endif
 
 // # of UNIT_DELAY_WDT, Max 253
@@ -106,6 +112,7 @@ ISR(WDT_vect)
 	// increase WDTtick every UNIT_DELAY_WDT sec
 	++WDTtick;
 
+	// 30 min counter
 	// On every SET_DELAY_UNIT (half-hour) except last half-hour
 	//  reset WDTtick count and increase half-hour count
 	if ((WDTtick >= SET_DELAY_UNIT) && (WDTtick30min < WAKEUP_PERIOD))
@@ -117,7 +124,8 @@ ISR(WDT_vect)
 		++WDTtick30min;
 	}//if (WDTtick >= SET_DELAY_UNIT)  && (WDTtick30min < WAKEUP_PERIOD)
 
-	// On every WAKEUP_PERIOD (i.e. one hour)
+	// On every WAKEUP_PERIOD (or for 30 min)
+	/*
 	if (WDTtick30min >= WAKEUP_PERIOD)
 	{
 		PORTB ^= 1<<NPN_TR_PORT; //toggle on/off NPN TR
@@ -126,6 +134,23 @@ ISR(WDT_vect)
 		//Reset WDT Half-hour counter
 		WDTtick30min=0;
 	}//if (WDTtick30min >= WAKEUP_PERIOD)
+	*/
+
+	// On for 60 min, off for 30 min 
+	// Updated on Sunday March 22, 2020
+	if (WDTtick30min % 3 == 2)
+	{
+		PORTB &= ~_BV(NPN_TR_PORT); //off NPN TR
+		if (WDTtick30min != 0)
+		{
+			WDTtick = 0;
+			WDTtick30min = 0;
+		}
+	}//if 
+	else
+	{
+		PORTB |= _BV(NPN_TR_PORT); //on NPN TR
+	}
 }//ISR(WDT_vect) 
 
 int main(void) {
