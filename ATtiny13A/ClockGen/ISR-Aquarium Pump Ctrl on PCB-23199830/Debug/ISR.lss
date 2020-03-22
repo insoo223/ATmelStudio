@@ -3,31 +3,31 @@ ISR.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000ea  00000000  00000000  00000074  2**1
+  0 .text         000000f4  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000015e  2**0
+  1 .data         00000000  00800060  00800060  00000168  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000002  00800060  00800060  0000015e  2**0
+  2 .bss          00000002  00800060  00800060  00000168  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000015e  2**0
+  3 .comment      00000030  00000000  00000000  00000168  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000190  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000198  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  000001cc  2**0
+  5 .debug_aranges 00000028  00000000  00000000  000001d4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000039e  00000000  00000000  000001f4  2**0
+  6 .debug_info   0000039e  00000000  00000000  000001fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000335  00000000  00000000  00000592  2**0
+  7 .debug_abbrev 00000335  00000000  00000000  0000059a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000001ff  00000000  00000000  000008c7  2**0
+  8 .debug_line   00000205  00000000  00000000  000008cf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000054  00000000  00000000  00000ac8  2**2
+  9 .debug_frame  00000058  00000000  00000000  00000ad4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000028a  00000000  00000000  00000b1c  2**0
+ 10 .debug_str    0000028a  00000000  00000000  00000b2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000063  00000000  00000000  00000da6  2**0
+ 11 .debug_loc    00000070  00000000  00000000  00000db6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  00000e09  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  00000e26  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,8 +63,8 @@ Disassembly of section .text:
   26:	a2 36       	cpi	r26, 0x62	; 98
   28:	b2 07       	cpc	r27, r18
   2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
-  2c:	36 d0       	rcall	.+108    	; 0x9a <main>
-  2e:	5b c0       	rjmp	.+182    	; 0xe6 <_exit>
+  2c:	3b d0       	rcall	.+118    	; 0xa4 <main>
+  2e:	60 c0       	rjmp	.+192    	; 0xf0 <_exit>
 
 00000030 <__bad_interrupt>:
   30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
@@ -81,154 +81,169 @@ ISR(WDT_vect)
   36:	0f b6       	in	r0, 0x3f	; 63
   38:	0f 92       	push	r0
   3a:	11 24       	eor	r1, r1
-  3c:	6f 93       	push	r22
-  3e:	7f 93       	push	r23
-  40:	8f 93       	push	r24
-  42:	9f 93       	push	r25
+  3c:	2f 93       	push	r18
+  3e:	6f 93       	push	r22
+  40:	7f 93       	push	r23
+  42:	8f 93       	push	r24
+  44:	9f 93       	push	r25
 	// --------- INCREASE WDT TICK COUNT ----------------------
 	// increase WDTtick every UNIT_DELAY_WDT sec
 	++WDTtick;
-  44:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
-  48:	8f 5f       	subi	r24, 0xFF	; 255
-  4a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+  46:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  4a:	8f 5f       	subi	r24, 0xFF	; 255
+		//Increase WDT Half-hour counter
+		++WDTtick30min;
+	}//if (WDTtick >= SET_DELAY_UNIT)  && (WDTtick30min < WAKEUP_PERIOD)
+	*/
+	// for uneven time on & off
+	if (WDTtick >= SET_DELAY_UNIT)
+  4c:	81 3e       	cpi	r24, 0xE1	; 225
+  4e:	18 f4       	brcc	.+6      	; 0x56 <__SREG__+0x17>
 
-	// 30 min counter
-	// On every SET_DELAY_UNIT (half-hour) except last half-hour
-	//  reset WDTtick count and increase half-hour count
-	if ((WDTtick >= SET_DELAY_UNIT) && (WDTtick30min < WAKEUP_PERIOD))
-  4e:	81 3e       	cpi	r24, 0xE1	; 225
-  50:	50 f0       	brcs	.+20     	; 0x66 <__SREG__+0x27>
-  52:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <WDTtick30min>
-  56:	81 11       	cpse	r24, r1
-  58:	06 c0       	rjmp	.+12     	; 0x66 <__SREG__+0x27>
+ISR(WDT_vect) 
+{
+	// --------- INCREASE WDT TICK COUNT ----------------------
+	// increase WDTtick every UNIT_DELAY_WDT sec
+	++WDTtick;
+  50:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+  54:	07 c0       	rjmp	.+14     	; 0x64 <__SREG__+0x25>
+	*/
+	// for uneven time on & off
+	if (WDTtick >= SET_DELAY_UNIT)
 	{
 		// Reset WDT counter
 		WDTtick = 0;
-  5a:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  56:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
 
 		//Increase WDT Half-hour counter
 		++WDTtick30min;
-  5e:	81 e0       	ldi	r24, 0x01	; 1
+  5a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <WDTtick30min>
+  5e:	8f 5f       	subi	r24, 0xFF	; 255
   60:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <WDTtick30min>
-  64:	10 c0       	rjmp	.+32     	; 0x86 <__SREG__+0x47>
-		WDTtick30min=0;
-	}//if (WDTtick30min >= WAKEUP_PERIOD)
 	*/
-
-	// On for 60 min, off for 30 min
+	
+	// for uneven time on & off
+	// On for 60 min, off for 30 min 
+	// Updated on Sunday March 22, 2020
 	if (WDTtick30min % 3 == 2)
-  66:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <WDTtick30min>
-  6a:	63 e0       	ldi	r22, 0x03	; 3
-  6c:	30 d0       	rcall	.+96     	; 0xce <__udivmodqi4>
-  6e:	92 30       	cpi	r25, 0x02	; 2
-  70:	51 f4       	brne	.+20     	; 0x86 <__SREG__+0x47>
+  64:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <WDTtick30min>
+  68:	63 e0       	ldi	r22, 0x03	; 3
+  6a:	36 d0       	rcall	.+108    	; 0xd8 <__udivmodqi4>
+  6c:	92 30       	cpi	r25, 0x02	; 2
+  6e:	11 f4       	brne	.+4      	; 0x74 <__SREG__+0x35>
 	{
 		PORTB &= ~_BV(NPN_TR_PORT); //off NPN TR
-  72:	c0 98       	cbi	0x18, 0	; 24
-		if (WDTtick30min != 0)
-  74:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <WDTtick30min>
-  78:	88 23       	and	r24, r24
-  7a:	31 f0       	breq	.+12     	; 0x88 <__SREG__+0x49>
-		{
-			WDTtick = 0;
-  7c:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-			WDTtick30min = 0;
-  80:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
-  84:	01 c0       	rjmp	.+2      	; 0x88 <__SREG__+0x49>
-		}
+  70:	c0 98       	cbi	0x18, 0	; 24
+  72:	01 c0       	rjmp	.+2      	; 0x76 <__SREG__+0x37>
 	}//if 
 	else
 	{
-		//PORTB = 1<<NPN_TR_PORT; //on NPN TR
 		PORTB |= _BV(NPN_TR_PORT); //on NPN TR
-  86:	c0 9a       	sbi	0x18, 0	; 24
+  74:	c0 9a       	sbi	0x18, 0	; 24
 	}
-}//ISR(WDT_vect) 
-  88:	9f 91       	pop	r25
-  8a:	8f 91       	pop	r24
-  8c:	7f 91       	pop	r23
-  8e:	6f 91       	pop	r22
-  90:	0f 90       	pop	r0
-  92:	0f be       	out	0x3f, r0	; 63
-  94:	0f 90       	pop	r0
-  96:	1f 90       	pop	r1
-  98:	18 95       	reti
+	if ( (WDTtick30min % 3 == 0) && (WDTtick30min != 0) )
+  76:	20 91 61 00 	lds	r18, 0x0061	; 0x800061 <WDTtick30min>
+  7a:	82 2f       	mov	r24, r18
+  7c:	63 e0       	ldi	r22, 0x03	; 3
+  7e:	2c d0       	rcall	.+88     	; 0xd8 <__udivmodqi4>
+  80:	91 11       	cpse	r25, r1
+  82:	06 c0       	rjmp	.+12     	; 0x90 <__SREG__+0x51>
+  84:	22 23       	and	r18, r18
+  86:	21 f0       	breq	.+8      	; 0x90 <__SREG__+0x51>
+	{
+			WDTtick = 0;
+  88:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+			WDTtick30min = 0;
+  8c:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
+	}
 
-0000009a <main>:
+}//ISR(WDT_vect) 
+  90:	9f 91       	pop	r25
+  92:	8f 91       	pop	r24
+  94:	7f 91       	pop	r23
+  96:	6f 91       	pop	r22
+  98:	2f 91       	pop	r18
+  9a:	0f 90       	pop	r0
+  9c:	0f be       	out	0x3f, r0	; 63
+  9e:	0f 90       	pop	r0
+  a0:	1f 90       	pop	r1
+  a2:	18 95       	reti
+
+000000a4 <main>:
 
 int main(void) {
 
 	WDTtick=0;
-  9a:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  a4:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
 	WDTtick30min=0;
-  9e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
+  a8:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <WDTtick30min>
 	// Set up NPN_TR_PORT mode to output
 	DDRB = (1<<NPN_TR_PORT);
-  a2:	91 e0       	ldi	r25, 0x01	; 1
-  a4:	97 bb       	out	0x17, r25	; 23
+  ac:	91 e0       	ldi	r25, 0x01	; 1
+  ae:	97 bb       	out	0x17, r25	; 23
 			break;
 		case 4:
 			WDTCR |= (1<<WDP3); // 4s
 			break;
 		case 8:
 			WDTCR |= (1<<WDP3) | (1<<WDP0); // 8s
-  a6:	81 b5       	in	r24, 0x21	; 33
-  a8:	81 62       	ori	r24, 0x21	; 33
-  aa:	81 bd       	out	0x21, r24	; 33
+  b0:	81 b5       	in	r24, 0x21	; 33
+  b2:	81 62       	ori	r24, 0x21	; 33
+  b4:	81 bd       	out	0x21, r24	; 33
 		default:
 			WDTCR |= (1<<WDP3) | (1<<WDP0); // 8s
 	}
 
 	// Enable watchdog timer interrupts
 	WDTCR |= (1<<WDTIE);
-  ac:	81 b5       	in	r24, 0x21	; 33
-  ae:	80 64       	ori	r24, 0x40	; 64
-  b0:	81 bd       	out	0x21, r24	; 33
+  b6:	81 b5       	in	r24, 0x21	; 33
+  b8:	80 64       	ori	r24, 0x40	; 64
+  ba:	81 bd       	out	0x21, r24	; 33
 
 	sei(); // Enable global interrupts
-  b2:	78 94       	sei
+  bc:	78 94       	sei
 
 	// Use the Power Down sleep mode
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  b4:	85 b7       	in	r24, 0x35	; 53
-  b6:	87 7e       	andi	r24, 0xE7	; 231
-  b8:	80 61       	ori	r24, 0x10	; 16
-  ba:	85 bf       	out	0x35, r24	; 53
+  be:	85 b7       	in	r24, 0x35	; 53
+  c0:	87 7e       	andi	r24, 0xE7	; 231
+  c2:	80 61       	ori	r24, 0x10	; 16
+  c4:	85 bf       	out	0x35, r24	; 53
 
 	PORTB = 1<<NPN_TR_PORT; //turn on NPN TR
-  bc:	98 bb       	out	0x18, r25	; 24
+  c6:	98 bb       	out	0x18, r25	; 24
 
 	for (;;) {
 		sleep_mode();   // go to sleep and wait for interrupt...
-  be:	85 b7       	in	r24, 0x35	; 53
-  c0:	80 62       	ori	r24, 0x20	; 32
-  c2:	85 bf       	out	0x35, r24	; 53
-  c4:	88 95       	sleep
-  c6:	85 b7       	in	r24, 0x35	; 53
-  c8:	8f 7d       	andi	r24, 0xDF	; 223
-  ca:	85 bf       	out	0x35, r24	; 53
-  cc:	f8 cf       	rjmp	.-16     	; 0xbe <__stack+0x1f>
+  c8:	85 b7       	in	r24, 0x35	; 53
+  ca:	80 62       	ori	r24, 0x20	; 32
+  cc:	85 bf       	out	0x35, r24	; 53
+  ce:	88 95       	sleep
+  d0:	85 b7       	in	r24, 0x35	; 53
+  d2:	8f 7d       	andi	r24, 0xDF	; 223
+  d4:	85 bf       	out	0x35, r24	; 53
+  d6:	f8 cf       	rjmp	.-16     	; 0xc8 <main+0x24>
 
-000000ce <__udivmodqi4>:
-  ce:	99 1b       	sub	r25, r25
-  d0:	79 e0       	ldi	r23, 0x09	; 9
-  d2:	04 c0       	rjmp	.+8      	; 0xdc <__udivmodqi4_ep>
+000000d8 <__udivmodqi4>:
+  d8:	99 1b       	sub	r25, r25
+  da:	79 e0       	ldi	r23, 0x09	; 9
+  dc:	04 c0       	rjmp	.+8      	; 0xe6 <__udivmodqi4_ep>
 
-000000d4 <__udivmodqi4_loop>:
-  d4:	99 1f       	adc	r25, r25
-  d6:	96 17       	cp	r25, r22
-  d8:	08 f0       	brcs	.+2      	; 0xdc <__udivmodqi4_ep>
-  da:	96 1b       	sub	r25, r22
+000000de <__udivmodqi4_loop>:
+  de:	99 1f       	adc	r25, r25
+  e0:	96 17       	cp	r25, r22
+  e2:	08 f0       	brcs	.+2      	; 0xe6 <__udivmodqi4_ep>
+  e4:	96 1b       	sub	r25, r22
 
-000000dc <__udivmodqi4_ep>:
-  dc:	88 1f       	adc	r24, r24
-  de:	7a 95       	dec	r23
-  e0:	c9 f7       	brne	.-14     	; 0xd4 <__udivmodqi4_loop>
-  e2:	80 95       	com	r24
-  e4:	08 95       	ret
+000000e6 <__udivmodqi4_ep>:
+  e6:	88 1f       	adc	r24, r24
+  e8:	7a 95       	dec	r23
+  ea:	c9 f7       	brne	.-14     	; 0xde <__udivmodqi4_loop>
+  ec:	80 95       	com	r24
+  ee:	08 95       	ret
 
-000000e6 <_exit>:
-  e6:	f8 94       	cli
+000000f0 <_exit>:
+  f0:	f8 94       	cli
 
-000000e8 <__stop_program>:
-  e8:	ff cf       	rjmp	.-2      	; 0xe8 <__stop_program>
+000000f2 <__stop_program>:
+  f2:	ff cf       	rjmp	.-2      	; 0xf2 <__stop_program>

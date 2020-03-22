@@ -82,12 +82,12 @@ Ref: For ATmega328P, use "Parameter:" like followings
 
 #ifdef TEST_MODE
 	#define UNIT_DELAY_WDT	1 //<=== TEST VALUE in development;
-	#define SET_DELAY_UNIT	2 //how many UNIT_DELAY_WDT
+	#define SET_DELAY_UNIT	3 //how many UNIT_DELAY_WDT
 	#define WAKEUP_PERIOD	3 //how many SET_DELAY_UNIT
 #endif
 #ifdef PRODUCTION_MODE
 	#define UNIT_DELAY_WDT	8 //<=== SELECTED VALUE in production; WDT period in seconds
-	#define SET_DELAY_UNIT	225 
+	#define SET_DELAY_UNIT	225  // 30 min = UNIT_DELAY_WDT(8 sec) * SET_DELAY_UNIT(225 count)
 	#define WAKEUP_PERIOD	1 
 							// 1: 30 min 2:one hour, 4:two hours,
 							// when SET_DELAY_UNIT is 225 of ATtiny13a at 1.2Mhz
@@ -115,7 +115,19 @@ ISR(WDT_vect)
 	// 30 min counter
 	// On every SET_DELAY_UNIT (half-hour) except last half-hour
 	//  reset WDTtick count and increase half-hour count
+	// for even time on & off
+	/* 
 	if ((WDTtick >= SET_DELAY_UNIT) && (WDTtick30min < WAKEUP_PERIOD))
+	{
+		// Reset WDT counter
+		WDTtick = 0;
+
+		//Increase WDT Half-hour counter
+		++WDTtick30min;
+	}//if (WDTtick >= SET_DELAY_UNIT)  && (WDTtick30min < WAKEUP_PERIOD)
+	*/
+	// for uneven time on & off
+	if (WDTtick >= SET_DELAY_UNIT)
 	{
 		// Reset WDT counter
 		WDTtick = 0;
@@ -125,6 +137,7 @@ ISR(WDT_vect)
 	}//if (WDTtick >= SET_DELAY_UNIT)  && (WDTtick30min < WAKEUP_PERIOD)
 
 	// On every WAKEUP_PERIOD (or for 30 min)
+	// for even time on & off
 	/*
 	if (WDTtick30min >= WAKEUP_PERIOD)
 	{
@@ -135,22 +148,24 @@ ISR(WDT_vect)
 		WDTtick30min=0;
 	}//if (WDTtick30min >= WAKEUP_PERIOD)
 	*/
-
+	
+	// for uneven time on & off
 	// On for 60 min, off for 30 min 
 	// Updated on Sunday March 22, 2020
 	if (WDTtick30min % 3 == 2)
 	{
 		PORTB &= ~_BV(NPN_TR_PORT); //off NPN TR
-		if (WDTtick30min != 0)
-		{
-			WDTtick = 0;
-			WDTtick30min = 0;
-		}
 	}//if 
 	else
 	{
 		PORTB |= _BV(NPN_TR_PORT); //on NPN TR
 	}
+	if ( (WDTtick30min % 3 == 0) && (WDTtick30min != 0) )
+	{
+			WDTtick = 0;
+			WDTtick30min = 0;
+	}
+
 }//ISR(WDT_vect) 
 
 int main(void) {
