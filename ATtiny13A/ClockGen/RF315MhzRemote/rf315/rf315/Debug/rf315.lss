@@ -1,0 +1,261 @@
+
+rf315.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ee  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000142  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000142  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000174  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  000001b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000415  00000000  00000000  000001e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000003bf  00000000  00000000  000005fd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000253  00000000  00000000  000009bc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000ac  00000000  00000000  00000c10  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000281  00000000  00000000  00000cbc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000169  00000000  00000000  00000f3d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000010a6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	3f c0       	rjmp	.+126    	; 0x84 <__vector_2>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	09 d0       	rcall	.+18     	; 0x30 <main>
+  1e:	65 c0       	rjmp	.+202    	; 0xea <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <ioinit>:
+}//main
+
+
+void ioinit (void)
+{
+	DDRB  = 0x00; //1 = output, 0 = input
+  22:	17 ba       	out	0x17, r1	; 23
+	DDRB |= _BV(latchPin); //output
+  24:	b8 9a       	sbi	0x17, 0	; 23
+	DDRB |= _BV(clockPin); //output
+  26:	b9 9a       	sbi	0x17, 1	; 23
+	DDRB &= ~_BV(dataPin); //input
+  28:	ba 98       	cbi	0x17, 2	; 23
+	DDRB |= _BV(relayPin); //output
+  2a:	bb 9a       	sbi	0x17, 3	; 23
+
+	PORTB = 0x00;
+  2c:	18 ba       	out	0x18, r1	; 24
+  2e:	08 95       	ret
+
+00000030 <main>:
+	PORTB &= ~_BV(PB3);
+}//ISR(PCINT0_vect)
+
+int main (void)
+{
+	ioinit(); //Setup IO pins and defaults
+  30:	f8 df       	rcall	.-16     	; 0x22 <ioinit>
+
+	// enable PC(Pin Change) interrupt
+	GIMSK |= _BV(PCIE);  //Enable PC interrupt
+  32:	8b b7       	in	r24, 0x3b	; 59
+  34:	80 62       	ori	r24, 0x20	; 32
+  36:	8b bf       	out	0x3b, r24	; 59
+
+	// Enable pin change interrupt for PBn
+	//VT of RF315 receiver chip is connected to PB4 of ATtiny13A
+	PCMSK |= _BV(PCINT4);
+  38:	ac 9a       	sbi	0x15, 4	; 21
+
+	// enable global interrupt
+	sei();
+  3a:	78 94       	sei
+
+	// Use the Power Down sleep mode
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  3c:	85 b7       	in	r24, 0x35	; 53
+  3e:	87 7e       	andi	r24, 0xE7	; 231
+  40:	80 61       	ori	r24, 0x10	; 16
+  42:	85 bf       	out	0x35, r24	; 53
+
+	while(1) {
+		sleep_mode();   // go to sleep and wait for interrupt...
+  44:	85 b7       	in	r24, 0x35	; 53
+  46:	80 62       	ori	r24, 0x20	; 32
+  48:	85 bf       	out	0x35, r24	; 53
+  4a:	88 95       	sleep
+  4c:	85 b7       	in	r24, 0x35	; 53
+  4e:	8f 7d       	andi	r24, 0xDF	; 223
+  50:	85 bf       	out	0x35, r24	; 53
+  52:	f8 cf       	rjmp	.-16     	; 0x44 <__SREG__+0x5>
+
+00000054 <readRF>:
+	PORTB = 0x00;
+}//ioinit
+
+
+void readRF(char* val)
+{
+  54:	fc 01       	movw	r30, r24
+	int i;
+	char inputData=0;
+
+	clockLow();
+  56:	c1 98       	cbi	0x18, 1	; 24
+	latchLow();
+  58:	c0 98       	cbi	0x18, 0	; 24
+
+
+void readRF(char* val)
+{
+	int i;
+	char inputData=0;
+  5a:	90 e0       	ldi	r25, 0x00	; 0
+
+	clockLow();
+	latchLow();
+	for (i=7;i>=0;i--)
+  5c:	47 e0       	ldi	r20, 0x07	; 7
+  5e:	50 e0       	ldi	r21, 0x00	; 0
+	{
+		inputData |= (PINB & _BV(dataPin)) << i;
+  60:	26 b3       	in	r18, 0x16	; 22
+  62:	24 70       	andi	r18, 0x04	; 4
+  64:	30 e0       	ldi	r19, 0x00	; 0
+  66:	04 2e       	mov	r0, r20
+  68:	02 c0       	rjmp	.+4      	; 0x6e <readRF+0x1a>
+  6a:	22 0f       	add	r18, r18
+  6c:	33 1f       	adc	r19, r19
+  6e:	0a 94       	dec	r0
+  70:	e2 f7       	brpl	.-8      	; 0x6a <readRF+0x16>
+  72:	92 2b       	or	r25, r18
+		clockHi();
+  74:	c1 9a       	sbi	0x18, 1	; 24
+		clockLow();
+  76:	c1 98       	cbi	0x18, 1	; 24
+	int i;
+	char inputData=0;
+
+	clockLow();
+	latchLow();
+	for (i=7;i>=0;i--)
+  78:	41 50       	subi	r20, 0x01	; 1
+  7a:	51 09       	sbc	r21, r1
+  7c:	88 f7       	brcc	.-30     	; 0x60 <readRF+0xc>
+	{
+		inputData |= (PINB & _BV(dataPin)) << i;
+		clockHi();
+		clockLow();
+	}
+	latchHi();
+  7e:	c0 9a       	sbi	0x18, 0	; 24
+
+	*val = inputData;
+  80:	90 83       	st	Z, r25
+  82:	08 95       	ret
+
+00000084 <__vector_2>:
+void ioinit(void);
+void readRF(char*);
+//======================
+
+ISR(PCINT0_vect)
+{
+  84:	1f 92       	push	r1
+  86:	0f 92       	push	r0
+  88:	0f b6       	in	r0, 0x3f	; 63
+  8a:	0f 92       	push	r0
+  8c:	11 24       	eor	r1, r1
+  8e:	2f 93       	push	r18
+  90:	3f 93       	push	r19
+  92:	4f 93       	push	r20
+  94:	5f 93       	push	r21
+  96:	6f 93       	push	r22
+  98:	7f 93       	push	r23
+  9a:	8f 93       	push	r24
+  9c:	9f 93       	push	r25
+  9e:	af 93       	push	r26
+  a0:	bf 93       	push	r27
+  a2:	ef 93       	push	r30
+  a4:	ff 93       	push	r31
+  a6:	cf 93       	push	r28
+  a8:	df 93       	push	r29
+  aa:	1f 92       	push	r1
+  ac:	cd b7       	in	r28, 0x3d	; 61
+  ae:	dd 27       	eor	r29, r29
+	char val;
+
+	readRF(&val);
+  b0:	ce 01       	movw	r24, r28
+  b2:	01 96       	adiw	r24, 0x01	; 1
+  b4:	cf df       	rcall	.-98     	; 0x54 <readRF>
+	//if (val & 0x08) // always ON
+	//if (val & 0x04) // always ON
+	//if (val & 0x10) // Button D
+	//if (val & 0x40) // always ON
+	//if (val & 0x80) // always OFF
+	if (val & 0x20) // Button B
+  b6:	89 81       	ldd	r24, Y+1	; 0x01
+  b8:	85 fd       	sbrc	r24, 5
+	PORTB |= _BV(PB3);
+  ba:	c3 9a       	sbi	0x18, 3	; 24
+
+	if (val & 0x10) // Button D
+  bc:	89 81       	ldd	r24, Y+1	; 0x01
+  be:	84 fd       	sbrc	r24, 4
+	PORTB &= ~_BV(PB3);
+  c0:	c3 98       	cbi	0x18, 3	; 24
+}//ISR(PCINT0_vect)
+  c2:	0f 90       	pop	r0
+  c4:	df 91       	pop	r29
+  c6:	cf 91       	pop	r28
+  c8:	ff 91       	pop	r31
+  ca:	ef 91       	pop	r30
+  cc:	bf 91       	pop	r27
+  ce:	af 91       	pop	r26
+  d0:	9f 91       	pop	r25
+  d2:	8f 91       	pop	r24
+  d4:	7f 91       	pop	r23
+  d6:	6f 91       	pop	r22
+  d8:	5f 91       	pop	r21
+  da:	4f 91       	pop	r20
+  dc:	3f 91       	pop	r19
+  de:	2f 91       	pop	r18
+  e0:	0f 90       	pop	r0
+  e2:	0f be       	out	0x3f, r0	; 63
+  e4:	0f 90       	pop	r0
+  e6:	1f 90       	pop	r1
+  e8:	18 95       	reti
+
+000000ea <_exit>:
+  ea:	f8 94       	cli
+
+000000ec <__stop_program>:
+  ec:	ff cf       	rjmp	.-2      	; 0xec <__stop_program>
