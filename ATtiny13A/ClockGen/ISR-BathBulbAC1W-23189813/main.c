@@ -8,7 +8,9 @@
     Nothing
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : Sep 26, 2018
- Updated : Oct 17, 2018 (On Atmel Studio 7)
+ Updated : 
+		Aug 22, 2020 (To adjust threshold of turn-on, turn on even though the kitchen light is on)
+		Oct 17, 2018 (On Atmel Studio 7)
 
  Description: 
 	In night, turning on bathroom light is too bright to do one's need.
@@ -31,8 +33,8 @@ Select Tool - USBtiny
 (USBtiny menu should be configured in the external tool menu)
 
 <For CMD window or DOS prompt>
-cd " C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-Bathroom LED-23189812\Debug "
-avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-Bathroom LED.hex:i
+cd "C:\Users\insoo\Documents\GitHub\ATmelStudio\ATtiny13A\ClockGen\ISR-BathBulbAC1W-23189813\Debug "
+avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-BathBulbAC1W.hex:i
 
  Ref: PIR time duration & sensitivity control
  http://qqtrading.com.my/pir-motion-sensor-module-hc-sr501
@@ -76,7 +78,9 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-Bathroom LED.hex:i
 //#define SET_DELAY_UNIT 15 //2min
 
 // turning LED ON threshold of ADC output of CDS-5 voltage divider
-#define CDS5_LIGHT_THRESHOLD 70 //0 to 254
+//0 to 254
+//#define CDS5_LIGHT_THRESHOLD 70 //when kitchen light is on, then over threshold
+#define CDS5_LIGHT_THRESHOLD 120 // Aug 22, 2020
 
 uint8_t i;
 int adc_result;
