@@ -114,7 +114,7 @@ void toggleLED1(void)
   84:	10 c0       	rjmp	.+32     	; 0xa6 <__stack+0x7>
   86:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <adc_result>
   8a:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <adc_result+0x1>
-  8e:	88 37       	cpi	r24, 0x78	; 120
+  8e:	88 3c       	cpi	r24, 0xC8	; 200
   90:	91 05       	cpc	r25, r1
   92:	4c f4       	brge	.+18     	; 0xa6 <__stack+0x7>
   94:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>

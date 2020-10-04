@@ -80,7 +80,8 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-BathBulbAC1W.hex:i
 // turning LED ON threshold of ADC output of CDS-5 voltage divider
 //0 to 254
 //#define CDS5_LIGHT_THRESHOLD 70 //when kitchen light is on, then over threshold
-#define CDS5_LIGHT_THRESHOLD 120 // Aug 22, 2020
+//#define CDS5_LIGHT_THRESHOLD 120 // Aug 22, 2020
+#define CDS5_LIGHT_THRESHOLD 200 // Oct 04, 2020
 
 uint8_t i;
 int adc_result;
