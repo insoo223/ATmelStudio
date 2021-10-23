@@ -186,7 +186,7 @@ void readSW()
 		PORTB &= ~(1<<LED0);
 	else //switch close
 		PORTB |= (1<<LED0);
-}
+}//readSW
 
 void bareboneTest()
 {
