@@ -3,31 +3,31 @@ ISR-Bathroom LED.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000014e  00000000  00000000  00000074  2**1
+  0 .text         00000138  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000001c2  2**0
+  1 .data         00000000  00800060  00800060  000001ac  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000005  00800060  00800060  000001c2  2**0
+  2 .bss          00000005  00800060  00800060  000001ac  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001c2  2**0
+  3 .comment      00000030  00000000  00000000  000001ac  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001f4  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001dc  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000068  00000000  00000000  00000230  2**0
+  5 .debug_aranges 00000078  00000000  00000000  00000218  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000005d0  00000000  00000000  00000298  2**0
+  6 .debug_info   00000702  00000000  00000000  00000290  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000488  00000000  00000000  00000868  2**0
+  7 .debug_abbrev 000004d9  00000000  00000000  00000992  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003c5  00000000  00000000  00000cf0  2**0
+  8 .debug_line   000003f9  00000000  00000000  00000e6b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000010c  00000000  00000000  000010b8  2**2
+  9 .debug_frame  0000013c  00000000  00000000  00001264  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000328  00000000  00000000  000011c4  2**0
+ 10 .debug_str    00000366  00000000  00000000  000013a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000018f  00000000  00000000  000014ec  2**0
+ 11 .debug_loc    00000396  00000000  00000000  00001706  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000058  00000000  00000000  0000167b  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  00001a9c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -35,7 +35,7 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
    2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
-   4:	6f c0       	rjmp	.+222    	; 0xe4 <__vector_2>
+   4:	73 c0       	rjmp	.+230    	; 0xec <__vector_2>
    6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
    8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
    a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
@@ -63,15 +63,15 @@ Disassembly of section .text:
   26:	a5 36       	cpi	r26, 0x65	; 101
   28:	b2 07       	cpc	r27, r18
   2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
-  2c:	7f d0       	rcall	.+254    	; 0x12c <main>
-  2e:	8d c0       	rjmp	.+282    	; 0x14a <_exit>
+  2c:	4c d0       	rcall	.+152    	; 0xc6 <main>
+  2e:	82 c0       	rjmp	.+260    	; 0x134 <_exit>
 
 00000030 <__bad_interrupt>:
   30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
 
 00000032 <__vector_8>:
-	_delay_ms(500);
 }//blinkLEDcnt
+
 
 void toggleLED0(void)
 {
@@ -82,210 +82,201 @@ void toggleLED0(void)
   38:	0f 92       	push	r0
   3a:	11 24       	eor	r1, r1
   3c:	8f 93       	push	r24
-  3e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
-  42:	8f 5f       	subi	r24, 0xFF	; 255
-  44:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
-  48:	8f 30       	cpi	r24, 0x0F	; 15
-  4a:	70 f0       	brcs	.+28     	; 0x68 <__SREG__+0x29>
-  4c:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <LEDstatus>
-  50:	81 30       	cpi	r24, 0x01	; 1
-  52:	51 f4       	brne	.+20     	; 0x68 <__SREG__+0x29>
-  54:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-  58:	81 b5       	in	r24, 0x21	; 33
-  5a:	8f 7b       	andi	r24, 0xBF	; 191
-  5c:	81 bd       	out	0x21, r24	; 33
-  5e:	88 b3       	in	r24, 0x18	; 24
-  60:	8c 7f       	andi	r24, 0xFC	; 252
-  62:	88 bb       	out	0x18, r24	; 24
-  64:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <LEDstatus>
-  68:	8f 91       	pop	r24
-  6a:	0f 90       	pop	r0
-  6c:	0f be       	out	0x3f, r0	; 63
-  6e:	0f 90       	pop	r0
-  70:	1f 90       	pop	r1
-  72:	18 95       	reti
+  3e:	9f 93       	push	r25
+  40:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  44:	8f 5f       	subi	r24, 0xFF	; 255
+  46:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+  4a:	98 b3       	in	r25, 0x18	; 24
+  4c:	81 e0       	ldi	r24, 0x01	; 1
+  4e:	89 27       	eor	r24, r25
+  50:	88 bb       	out	0x18, r24	; 24
+  52:	9f 91       	pop	r25
+  54:	8f 91       	pop	r24
+  56:	0f 90       	pop	r0
+  58:	0f be       	out	0x3f, r0	; 63
+  5a:	0f 90       	pop	r0
+  5c:	1f 90       	pop	r1
+  5e:	18 95       	reti
 
-00000074 <checkAmbientLight>:
-  74:	85 b1       	in	r24, 0x05	; 5
-  76:	90 e0       	ldi	r25, 0x00	; 0
-  78:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <adc_result+0x1>
-  7c:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <adc_result>
-  80:	36 9a       	sbi	0x06, 6	; 6
-  82:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <LEDstatus>
-  86:	81 11       	cpse	r24, r1
-  88:	11 c0       	rjmp	.+34     	; 0xac <__stack+0xd>
-  8a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <adc_result>
-  8e:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <adc_result+0x1>
-  92:	c2 97       	sbiw	r24, 0x32	; 50
-  94:	5c f4       	brge	.+22     	; 0xac <__stack+0xd>
-  96:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-  9a:	81 b5       	in	r24, 0x21	; 33
-  9c:	80 64       	ori	r24, 0x40	; 64
-  9e:	81 bd       	out	0x21, r24	; 33
-  a0:	88 b3       	in	r24, 0x18	; 24
-  a2:	83 60       	ori	r24, 0x03	; 3
-  a4:	88 bb       	out	0x18, r24	; 24
-  a6:	81 e0       	ldi	r24, 0x01	; 1
-  a8:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <LEDstatus>
-  ac:	08 95       	ret
+00000060 <checkAmbientLight>:
+  60:	85 b1       	in	r24, 0x05	; 5
+  62:	90 e0       	ldi	r25, 0x00	; 0
+  64:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <adc_result+0x1>
+  68:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <adc_result>
+  6c:	36 9a       	sbi	0x06, 6	; 6
+  6e:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <LEDstatus>
+  72:	81 11       	cpse	r24, r1
+  74:	11 c0       	rjmp	.+34     	; 0x98 <checkAmbientLight+0x38>
+  76:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <adc_result>
+  7a:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <adc_result+0x1>
+  7e:	c2 97       	sbiw	r24, 0x32	; 50
+  80:	5c f4       	brge	.+22     	; 0x98 <checkAmbientLight+0x38>
+  82:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+  86:	81 b5       	in	r24, 0x21	; 33
+  88:	80 64       	ori	r24, 0x40	; 64
+  8a:	81 bd       	out	0x21, r24	; 33
+  8c:	88 b3       	in	r24, 0x18	; 24
+  8e:	83 60       	ori	r24, 0x03	; 3
+  90:	88 bb       	out	0x18, r24	; 24
+  92:	81 e0       	ldi	r24, 0x01	; 1
+  94:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <LEDstatus>
+  98:	08 95       	ret
 
-000000ae <systemInit>:
+0000009a <systemInit>:
 }//toggleLED0
 
 void systemInit(void)
 {
 	DDRB |= (1<<LED0) | (1<<LED1); //output for LEDs
-  ae:	87 b3       	in	r24, 0x17	; 23
-  b0:	83 60       	ori	r24, 0x03	; 3
-  b2:	87 bb       	out	0x17, r24	; 23
+  9a:	87 b3       	in	r24, 0x17	; 23
+  9c:	83 60       	ori	r24, 0x03	; 3
+  9e:	87 bb       	out	0x17, r24	; 23
 	PORTB &= ~(1<<LED0) & ~(1<<LED1);
-  b4:	88 b3       	in	r24, 0x18	; 24
-  b6:	8c 7f       	andi	r24, 0xFC	; 252
-  b8:	88 bb       	out	0x18, r24	; 24
+  a0:	88 b3       	in	r24, 0x18	; 24
+  a2:	8c 7f       	andi	r24, 0xFC	; 252
+  a4:	88 bb       	out	0x18, r24	; 24
 	DDRB &= ~(1<<PIR); //input for PIR motion sensor
-  ba:	bb 98       	cbi	0x17, 3	; 23
+  a6:	bb 98       	cbi	0x17, 3	; 23
 
 	MCUCR &= ~(1<<ISC01) | ~(1<<ISC00);	// Trigger INT0 on rising edge
-  bc:	85 b7       	in	r24, 0x35	; 53
-  be:	85 bf       	out	0x35, r24	; 53
+  a8:	85 b7       	in	r24, 0x35	; 53
+  aa:	85 bf       	out	0x35, r24	; 53
 	PCMSK |= (1<<PIR_INT);   // pin change mask: listen to portb, pin PB3
-  c0:	ab 9a       	sbi	0x15, 3	; 21
+  ac:	ab 9a       	sbi	0x15, 3	; 21
 	GIMSK |= (1<<PCIE); // enable PCINT interrupt
-  c2:	8b b7       	in	r24, 0x3b	; 59
-  c4:	80 62       	ori	r24, 0x20	; 32
-  c6:	8b bf       	out	0x3b, r24	; 59
+  ae:	8b b7       	in	r24, 0x3b	; 59
+  b0:	80 62       	ori	r24, 0x20	; 32
+  b2:	8b bf       	out	0x3b, r24	; 59
 	sei();          // enable all interrupts
-  c8:	78 94       	sei
-  ca:	08 95       	ret
+  b4:	78 94       	sei
+  b6:	08 95       	ret
 
-000000cc <WDTsetup>:
-		break;
-		case 4:
-		WDTCR |= (1<<WDP3); // 4s
-		break;
-		case 8:
-		WDTCR |= (1<<WDP3) | (1<<WDP0); // 8s
-  cc:	81 b5       	in	r24, 0x21	; 33
-  ce:	81 62       	ori	r24, 0x21	; 33
-  d0:	81 bd       	out	0x21, r24	; 33
-  d2:	08 95       	ret
+000000b8 <WDTsetup>:
 
-000000d4 <adc_setup>:
-}//WDTsetup
+void WDTsetup(uint8_t periodID)
+{
+	// set timer prescaler to UNIT_DELAY_WDT seconds
+	// datasheet p43.
+	WDTCR |= periodID;
+  b8:	91 b5       	in	r25, 0x21	; 33
+  ba:	89 2b       	or	r24, r25
+  bc:	81 bd       	out	0x21, r24	; 33
+
+	// Enable watchdog timer interrupts
+	WDTCR |= (1<<WDTIE);
+  be:	81 b5       	in	r24, 0x21	; 33
+  c0:	80 64       	ori	r24, 0x40	; 64
+  c2:	81 bd       	out	0x21, r24	; 33
+  c4:	08 95       	ret
+
+000000c6 <main>:
+	blinkLEDcnt(2);
+} //bareboneTest
+
+void initForProduction(uint8_t WDTon, uint8_t ADCon)
+{
+    systemInit();
+  c6:	e9 df       	rcall	.-46     	; 0x9a <systemInit>
+    if (WDTon) WDTsetup(6);
+  c8:	86 e0       	ldi	r24, 0x06	; 6
+  ca:	f6 df       	rcall	.-20     	; 0xb8 <WDTsetup>
+	initForProduction(1, 0);
+	while (1) 
+	{
+		// go to sleep and wait for interrupt...
+		// 33 uA as of Sep 27, 2018 when sleep
+		sleep_mode();
+  cc:	85 b7       	in	r24, 0x35	; 53
+  ce:	80 62       	ori	r24, 0x20	; 32
+  d0:	85 bf       	out	0x35, r24	; 53
+  d2:	88 95       	sleep
+  d4:	85 b7       	in	r24, 0x35	; 53
+  d6:	8f 7d       	andi	r24, 0xDF	; 223
+  d8:	85 bf       	out	0x35, r24	; 53
+  da:	f8 cf       	rjmp	.-16     	; 0xcc <main+0x6>
+
+000000dc <adc_setup>:
+----------------------------------*/
 
 void adc_setup (void)
 {
 	// Set the ADC input to PB2/ADC1, left adjust result
 	ADMUX |= (1 << MUX0) | (1 << ADLAR);
-  d4:	87 b1       	in	r24, 0x07	; 7
-  d6:	81 62       	ori	r24, 0x21	; 33
-  d8:	87 b9       	out	0x07, r24	; 7
+  dc:	87 b1       	in	r24, 0x07	; 7
+  de:	81 62       	ori	r24, 0x21	; 33
+  e0:	87 b9       	out	0x07, r24	; 7
 
 	// Set the prescaler to clock/128 & enable ADC
 	// At 9.6 MHz this is 75 kHz.
 	// See ATtiny13 datasheet, Table 14.4.
 	// Also works fine for 1.2Mhz clock of ATtiny13a (2018.9.27)
 	ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
-  da:	86 b1       	in	r24, 0x06	; 6
-  dc:	83 68       	ori	r24, 0x83	; 131
-  de:	86 b9       	out	0x06, r24	; 6
+  e2:	86 b1       	in	r24, 0x06	; 6
+  e4:	83 68       	ori	r24, 0x83	; 131
+  e6:	86 b9       	out	0x06, r24	; 6
 
 	// Start the first conversion
 	ADCSRA |= (1 << ADSC);
-  e0:	36 9a       	sbi	0x06, 6	; 6
-  e2:	08 95       	ret
+  e8:	36 9a       	sbi	0x06, 6	; 6
+  ea:	08 95       	ret
 
-000000e4 <__vector_2>:
-	}//if (WDTtick >= SET_DELAY_UNIT)
+000000ec <__vector_2>:
+	*/
 
 }//ISR(WDT_vect)
 
 ISR(PCINT0_vect)
 {
-  e4:	1f 92       	push	r1
-  e6:	0f 92       	push	r0
-  e8:	0f b6       	in	r0, 0x3f	; 63
-  ea:	0f 92       	push	r0
-  ec:	11 24       	eor	r1, r1
-  ee:	2f 93       	push	r18
-  f0:	3f 93       	push	r19
-  f2:	4f 93       	push	r20
-  f4:	5f 93       	push	r21
-  f6:	6f 93       	push	r22
-  f8:	7f 93       	push	r23
-  fa:	8f 93       	push	r24
-  fc:	9f 93       	push	r25
-  fe:	af 93       	push	r26
- 100:	bf 93       	push	r27
- 102:	ef 93       	push	r30
- 104:	ff 93       	push	r31
+  ec:	1f 92       	push	r1
+  ee:	0f 92       	push	r0
+  f0:	0f b6       	in	r0, 0x3f	; 63
+  f2:	0f 92       	push	r0
+  f4:	11 24       	eor	r1, r1
+  f6:	2f 93       	push	r18
+  f8:	3f 93       	push	r19
+  fa:	4f 93       	push	r20
+  fc:	5f 93       	push	r21
+  fe:	6f 93       	push	r22
+ 100:	7f 93       	push	r23
+ 102:	8f 93       	push	r24
+ 104:	9f 93       	push	r25
+ 106:	af 93       	push	r26
+ 108:	bf 93       	push	r27
+ 10a:	ef 93       	push	r30
+ 10c:	ff 93       	push	r31
 	//isrCount++;
 	//if ((isrCount % 2) == 1)
 	//if ( ((isrCount % 2) == 1) || ((isrCount % 2) == 0) )
 	{
 		//toggleLED0();
 		adc_setup();
- 106:	e6 df       	rcall	.-52     	; 0xd4 <adc_setup>
+ 10e:	e6 df       	rcall	.-52     	; 0xdc <adc_setup>
 		checkAmbientLight();
- 108:	b5 df       	rcall	.-150    	; 0x74 <checkAmbientLight>
+ 110:	a7 df       	rcall	.-178    	; 0x60 <checkAmbientLight>
 	//GIMSK |= (1<<PCIE); // enable PCINT interrupt
 	}
 
 }//ISR(PCINT0_vect)
- 10a:	ff 91       	pop	r31
- 10c:	ef 91       	pop	r30
- 10e:	bf 91       	pop	r27
- 110:	af 91       	pop	r26
- 112:	9f 91       	pop	r25
- 114:	8f 91       	pop	r24
- 116:	7f 91       	pop	r23
- 118:	6f 91       	pop	r22
- 11a:	5f 91       	pop	r21
- 11c:	4f 91       	pop	r20
- 11e:	3f 91       	pop	r19
- 120:	2f 91       	pop	r18
- 122:	0f 90       	pop	r0
- 124:	0f be       	out	0x3f, r0	; 63
- 126:	0f 90       	pop	r0
- 128:	1f 90       	pop	r1
- 12a:	18 95       	reti
+ 112:	ff 91       	pop	r31
+ 114:	ef 91       	pop	r30
+ 116:	bf 91       	pop	r27
+ 118:	af 91       	pop	r26
+ 11a:	9f 91       	pop	r25
+ 11c:	8f 91       	pop	r24
+ 11e:	7f 91       	pop	r23
+ 120:	6f 91       	pop	r22
+ 122:	5f 91       	pop	r21
+ 124:	4f 91       	pop	r20
+ 126:	3f 91       	pop	r19
+ 128:	2f 91       	pop	r18
+ 12a:	0f 90       	pop	r0
+ 12c:	0f be       	out	0x3f, r0	; 63
+ 12e:	0f 90       	pop	r0
+ 130:	1f 90       	pop	r1
+ 132:	18 95       	reti
 
-0000012c <main>:
+00000134 <_exit>:
+ 134:	f8 94       	cli
 
-int main(void)
-{
-    systemInit();
- 12c:	c0 df       	rcall	.-128    	; 0xae <systemInit>
-	WDTsetup();
- 12e:	ce df       	rcall	.-100    	; 0xcc <WDTsetup>
-	adc_setup();
- 130:	d1 df       	rcall	.-94     	; 0xd4 <adc_setup>
-
-	// Use the Power Down sleep mode
-	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
- 132:	85 b7       	in	r24, 0x35	; 53
- 134:	87 7e       	andi	r24, 0xE7	; 231
- 136:	80 61       	ori	r24, 0x10	; 16
- 138:	85 bf       	out	0x35, r24	; 53
-
-	while (1) 
-	{
-		// go to sleep and wait for interrupt...
-		// 33 uA as of Sep 27, 2018 when sleep
-		sleep_mode();
- 13a:	85 b7       	in	r24, 0x35	; 53
- 13c:	80 62       	ori	r24, 0x20	; 32
- 13e:	85 bf       	out	0x35, r24	; 53
- 140:	88 95       	sleep
- 142:	85 b7       	in	r24, 0x35	; 53
- 144:	8f 7d       	andi	r24, 0xDF	; 223
- 146:	85 bf       	out	0x35, r24	; 53
-
-	}//while (1) 
- 148:	f8 cf       	rjmp	.-16     	; 0x13a <main+0xe>
-
-0000014a <_exit>:
- 14a:	f8 94       	cli
-
-0000014c <__stop_program>:
- 14c:	ff cf       	rjmp	.-2      	; 0x14c <__stop_program>
+00000136 <__stop_program>:
+ 136:	ff cf       	rjmp	.-2      	; 0x136 <__stop_program>
