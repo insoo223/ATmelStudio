@@ -8,7 +8,9 @@
     Nothing
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : Sep 26, 2018
- Updated : Sep 29, 2018 (On Atmel Studio 7)
+ Updated : 
+	Sat. Oct 23, 2021 (On Atmel Studio 7 of LG desktop at home)
+	Sep 29, 2018 (On Atmel Studio 7)
 
  Description: 
 	In night, turning on bathroom light is too bright to do one's need.
@@ -52,6 +54,11 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-Bathroom LED.hex:i
   Power saving techniques for microprocessors
   https://www.gammon.com.au/power
 *****************************************************************/
+
+#ifndef F_CPU
+# define F_CPU 1000000UL
+#endif
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -64,6 +71,7 @@ avrdude -c usbtiny -P usb -p attiny13 -U flash:w:ISR-Bathroom LED.hex:i
 #define CDS5 PB2
 #define PIR  PB3
 #define PIR_INT  PCINT3
+#define SW   PINB4 
 
 // AVR software reset macro
 #define soft_reset()        \
@@ -75,17 +83,24 @@ do                          \
 	}                       \
 } while(0)
 
-// Watch Dog Timer period [sec]
-//#define UNIT_DELAY_WDT 1 
-//#define UNIT_DELAY_WDT 4 
-#define UNIT_DELAY_WDT 8
+// Watch Dog Timer period ID
+//#define UNIT_DELAY_WDT 0 // 16ms
+//#define UNIT_DELAY_WDT 1 // 32ms
+//#define UNIT_DELAY_WDT 2 // 64ms
+//#define UNIT_DELAY_WDT 3 // 125ms
+//#define UNIT_DELAY_WDT 4 // 250ms
+//#define UNIT_DELAY_WDT 5 // 500ms
+#define UNIT_DELAY_WDT 6 // 1s
+//#define UNIT_DELAY_WDT 7 // 2s
+//#define UNIT_DELAY_WDT 8 // 4s
+//#define UNIT_DELAY_WDT 9 // 8s
 
 // accumulated WDT period [EA] to last LED ON. 
 // total duration of LED ON [sec] = UNIT_DELAY_WDT * SET_DELAY_UNIT
-//#define SET_DELAY_UNIT 3
-#define SET_DELAY_UNIT 15
+#define SET_DELAY_UNIT 3
+//#define SET_DELAY_UNIT 15
 
-// turning LED ON threshold of ADC output of CDS-5 voltage dividor
+// turning LED ON threshold of ADC output of CDS-5 voltage divider
 #define CDS5_LIGHT_THRESHOLD 50 //0 to 254
 
 uint8_t i;
@@ -98,11 +113,13 @@ uint8_t WDTtick=0;
 //-------- function prototypes --------
 void adc_setup (void);
 void systemInit(void);
-void WDTsetup(void);
+void WDTsetup(uint8_t);
 void toggleLED0(void);
 void testADC(void);
 void blinkLEDcnt(uint8_t );
 void checkAmbientLight(void);
+void initForProduction(uint8_t, uint8_t);
+void readSW(void);
 
 //-------- interrupt service routines --------
 ISR(WDT_vect)
@@ -112,9 +129,11 @@ ISR(WDT_vect)
 	++WDTtick;
 	//toggleLED0();
 	//testADC();
-
+	//if (WDTtick % 2 == 0)
+		PORTB ^= (1<<LED0);	
 	// On the 1st SET_DELAY_UNIT (2 min), reset WDTtick count
 	//		and stop WDT.
+	/*
 	if ( (WDTtick >= SET_DELAY_UNIT) && (LEDstatus == 1) )
 	{
 		
@@ -124,6 +143,7 @@ ISR(WDT_vect)
 		LEDstatus = 0; // make LEDstatus updated as 0
 		//soft_reset();
 	}//if (WDTtick >= SET_DELAY_UNIT)
+	*/
 
 }//ISR(WDT_vect)
 
@@ -145,25 +165,49 @@ ISR(PCINT0_vect)
 
 int main(void)
 {
-    systemInit();
-	WDTsetup();
-	adc_setup();
-
-	// Use the Power Down sleep mode
-	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-	
-	// ADC noise reduction sleep mode
-	//set_sleep_mode(SLEEP_MODE_ADC);
-
-
+	//initForProduction(true, false); // true, false NOT defined
+	//initForProduction(1, 0); //WDT, ACC
+	initForProduction(0, 0); 
 	while (1) 
 	{
 		// go to sleep and wait for interrupt...
 		// 33 uA as of Sep 27, 2018 when sleep
-		sleep_mode();
-
+		//sleep_mode();
+		
+		readSW();
+		//bareboneTest();
 	}//while (1) 
 }//main
+
+void readSW()
+{
+	uint8_t pinSWvalue = (PINB & (1 << SW)) >> SW;		
+	if (pinSWvalue == 1) //switch open
+		PORTB &= ~(1<<LED0);
+	else //switch close
+		PORTB |= (1<<LED0);
+}//readSW
+
+void bareboneTest()
+{
+	DDRB |= (1<<LED0) | (1<<LED1); //output for LEDs
+	PORTB &= ~(1<<LED0) & ~(1<<LED1);
+	blinkLEDcnt(2);
+} //bareboneTest
+
+void initForProduction(uint8_t WDTon, uint8_t ADCon)
+{
+    systemInit();
+    if (WDTon) WDTsetup(UNIT_DELAY_WDT);
+    if (ADCon) adc_setup();
+
+    // Use the Power Down sleep mode
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    
+    // ADC noise reduction sleep mode
+    //set_sleep_mode(SLEEP_MODE_ADC);
+	
+} //initForProduction
 
 void checkAmbientLight(void)
 {
@@ -213,11 +257,17 @@ void blinkLEDcnt(uint8_t num)
 	for(i=0; i<num; i++)
 	{
 		PORTB ^= (1<<LED0); // toggle on/off LED
-		_delay_ms(150);
+		for(uint8_t j=0; j<3; j++)
+			_delay_ms(100);
+
+		PORTB &= ~(1<<LED0); //off LED
+		for(uint8_t j=0; j<3; j++)
+			_delay_ms(100);
 	}
-	PORTB &= ~(1<<LED0); //off LED
-	_delay_ms(500);
+	for(i=0; i<10; i++)
+		_delay_ms(200);
 }//blinkLEDcnt
+
 
 void toggleLED0(void)
 {
@@ -228,7 +278,8 @@ void systemInit(void)
 {
 	DDRB |= (1<<LED0) | (1<<LED1); //output for LEDs
 	PORTB &= ~(1<<LED0) & ~(1<<LED1);
-	DDRB &= ~(1<<PIR); //input for PIR motion sensor
+	DDRB &= ~(1<<PIR); //input for a PIR(Passive Infra-Red) motion sensor
+	DDRB &= ~(1<<SW); //input for a tactile switch
 
 	MCUCR &= ~(1<<ISC01) | ~(1<<ISC00);	// Trigger INT0 on rising edge
 	PCMSK |= (1<<PIR_INT);   // pin change mask: listen to portb, pin PB3
@@ -236,30 +287,15 @@ void systemInit(void)
 	sei();          // enable all interrupts
 }//systemInit
 
-void WDTsetup(void)
+//modified on Sat. Oct 23, 2021
+void WDTsetup(uint8_t periodID)
 {
 	// set timer prescaler to UNIT_DELAY_WDT seconds
-	// datasheet p43.
-	switch (UNIT_DELAY_WDT)
-	{
-		case 50:
-		WDTCR |= (1<<WDP2) | (1<<WDP0); // 0.5s
-		break;
-		case 1:
-		WDTCR |= (1<<WDP2) | (1<<WDP1); // 1s
-		break;
-		case 4:
-		WDTCR |= (1<<WDP3); // 4s
-		break;
-		case 8:
-		WDTCR |= (1<<WDP3) | (1<<WDP0); // 8s
-		break;
-		default:
-		WDTCR |= (1<<WDP3) | (1<<WDP0); // 8s
-	}
+	// datasheet p43 (0:16ms, 1:32ms, ..., 5:500ms, 6:1s, 7:2s, 8:4s, 9:8s)
+	WDTCR |= periodID;
 
 	// Enable watchdog timer interrupts
-	//WDTCR |= (1<<WDTIE);
+	WDTCR |= (1<<WDTIE);
 }//WDTsetup
 
 void adc_setup (void)
