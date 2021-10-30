@@ -166,8 +166,8 @@ ISR(PCINT0_vect)
 int main(void)
 {
 	//initForProduction(true, false); // true, false NOT defined
-	//initForProduction(1, 0); //WDT, ACC
-	initForProduction(0, 0); 
+	initForProduction(1, 0); //WDT, ACC
+	// initForProduction(0, 0); 
 	while (1) 
 	{
 		// go to sleep and wait for interrupt...

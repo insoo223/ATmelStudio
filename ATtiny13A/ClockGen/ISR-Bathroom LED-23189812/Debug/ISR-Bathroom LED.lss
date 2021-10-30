@@ -297,14 +297,14 @@ void initForProduction(uint8_t WDTon, uint8_t ADCon)
  14e:	08 95       	ret
 
 00000150 <main>:
+}//ISR(PCINT0_vect)
 
 int main(void)
 {
 	//initForProduction(true, false); // true, false NOT defined
-	//initForProduction(1, 0); //WDT, ACC
-	initForProduction(0, 0); 
+	initForProduction(1, 0); //WDT, ACC
  150:	60 e0       	ldi	r22, 0x00	; 0
- 152:	80 e0       	ldi	r24, 0x00	; 0
+ 152:	81 e0       	ldi	r24, 0x01	; 1
  154:	eb df       	rcall	.-42     	; 0x12c <initForProduction>
 	{
 		// go to sleep and wait for interrupt...
