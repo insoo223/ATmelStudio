@@ -1,0 +1,44 @@
+## Ignore Atmel Studio temporary files and build results
+# https://www.microchip.com/mplab/avr-support/atmel-studio-7
+
+# Atmel Studio is powered by an older version of Visual Studio,
+# so most of the project and solution files are the same as VS files,
+# only prefixed by an `at`.
+
+#Build Directories
+[Dd]ebug/
+[Rr]elease/
+
+#Build Results
+*.o
+*.d
+*.eep
+*.elf
+*.hex
+*.map
+*.srec
+
+#User Specific Files
+*.atsuo
+
+D:\InsooDocuments\LocalDownloads\Github\ATmelStudio\ATtiny13A\ClockGen\ISR-Bathroom LED-23189812\.vs\ISR-Bathroom LED\v14\*.*
+./ATtiny13A/ClockGen/ISR-Bathroom LED-23189812/.vs/ISR-Bathroom LED/v14/*.*
+./ATtiny13A/ClockGen/ISR-Bathroom LED-23189812/Debug/
+
+ATmega328P/LCD/.vs/LCD_RTC_DS1307_DHT11/v14/.atsuo
+ATmega328P/LCD/.vs/LCD_RTC_DS1307_DHT11/v14/.atsuo
+ATmega328P/LCD/Debug/*.o
+ATmega328P/LCD/Debug/*.hex
+ATmega328P/LCD/Debug/*.lss
+ATmega328P/LCD/Debug/*.elf
+ATmega328P/LCD/Debug/*.srec
+ATmega328P/LCD/Debug/Makefile
+ATmega328P/LCD/Debug/Makefile
+ATmega328P/LCD/Debug/makedep.mk
+*.mk
+*.map
+*.d
+*.map
+*.map
+*.map
+*.map

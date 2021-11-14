@@ -119,17 +119,22 @@ void countButton()
                 _delay_ms(1000);
                 break;
             case 2:
-                _delay_ms(1000);
-                //turnOnLCDBacklight();
-                lcd_showDHT11();
-                _delay_ms(5000);
-				//turnOffLCDBacklight();
+                //_delay_ms(1000);
+                if (backLight == 0) 
+					turnOnLCDBacklight();
+				else
+					turnOffLCDBacklight();
+                //lcd_showDHT11();
+                //_delay_ms(5000);
+				
                 break;
             case 3:
-                turnOnLCDBacklight();
-                lcd_dispRealClock();
-                _delay_ms(7000);
-                turnOffLCDBacklight();
+				lcd_dispMenu();
+                //turnOnLCDBacklight();
+                //lcd_dispRealClock();
+                //_delay_ms(7000);
+                //turnOffLCDBacklight();
+				//wdt_enable(WDTO_2S);
                 break;
             case 4:
                 //adjustClock();

@@ -46,15 +46,17 @@ int main(void)
 {
     config();
     //ioinit(); //dht11
-    //init_devices();
-    initINT();
+    init_devices();
+    
+	initINT();
     parseCompileTime();
     //lcd_dispRealClock();
 	lcd_dispProgInfo();
-    // Use the Power Down sleep mode
+    //turnOnLCDBacklight();
+    
+	// Use the Power Down sleep mode
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-
-    // endless loop
+	// endless loop
     while(1)
     {
       // go to sleep and wait for interrupt...
@@ -132,6 +134,7 @@ void turnOnLCDBacklight()
     //turn on LCD backlight
     //  by giving 0 volt to K of LCD
     lcd_Backlight_port &= ~_BV(lcd_Backlight_bit);
+	backLight = 1;
 }//turnOnLCDBacklight
 
 void turnOffLCDBacklight()
@@ -139,6 +142,7 @@ void turnOffLCDBacklight()
     //turn off LCD backlight
     //  by giving 5 volt to K of LCD
     lcd_Backlight_port |= _BV(lcd_Backlight_bit);
+	backLight = 0;
 }//turnOffLCDBacklight
 
 void lcd_SysTime()

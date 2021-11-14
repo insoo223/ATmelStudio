@@ -39,7 +39,7 @@ extern int8_t year, month, date;
 extern int8_t monthEndDate, day;
 extern int8_t accumulatedHour, accumulatedMin, accumulatedSec;
 //extern uint8_t hourlyAdjusted;
-
+extern uint8_t backLight;
 extern void proceedClock();
 
 extern void WDT_Init(void);
