@@ -3,31 +3,31 @@ LCD.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000035a  00800100  000010b6  0000114a  2**0
+  0 .data         00000364  00800100  000010b6  0000114a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         000010b6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000010  0080045a  0080045a  000014a4  2**0
+  2 .bss          00000010  00800464  00800464  000014ae  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000014a4  2**0
+  3 .comment      00000030  00000000  00000000  000014ae  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014d4  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014e0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000001f8  00000000  00000000  00001514  2**0
+  5 .debug_aranges 000001f8  00000000  00000000  00001520  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00003bc6  00000000  00000000  0000170c  2**0
+  6 .debug_info   00003bc6  00000000  00000000  00001718  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000f22  00000000  00000000  000052d2  2**0
+  7 .debug_abbrev 00000f22  00000000  00000000  000052de  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001681  00000000  00000000  000061f4  2**0
+  8 .debug_line   00001681  00000000  00000000  00006200  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000544  00000000  00000000  00007878  2**2
+  9 .debug_frame  00000544  00000000  00000000  00007884  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000902  00000000  00000000  00007dbc  2**0
+ 10 .debug_str    00000902  00000000  00000000  00007dc8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00002281  00000000  00000000  000086be  2**0
+ 11 .debug_loc    00002281  00000000  00000000  000086ca  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000220  00000000  00000000  0000a93f  2**0
+ 12 .debug_ranges 00000220  00000000  00000000  0000a94b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -96,13 +96,13 @@ Disassembly of section .text:
       a4:	02 c0       	rjmp	.+4      	; 0xaa <__do_copy_data+0x10>
       a6:	05 90       	lpm	r0, Z+
       a8:	0d 92       	st	X+, r0
-      aa:	aa 35       	cpi	r26, 0x5A	; 90
+      aa:	a4 36       	cpi	r26, 0x64	; 100
       ac:	b1 07       	cpc	r27, r17
       ae:	d9 f7       	brne	.-10     	; 0xa6 <__do_copy_data+0xc>
 
 000000b0 <__do_clear_bss>:
       b0:	24 e0       	ldi	r18, 0x04	; 4
-      b2:	aa e5       	ldi	r26, 0x5A	; 90
+      b2:	a4 e6       	ldi	r26, 0x64	; 100
       b4:	b4 e0       	ldi	r27, 0x04	; 4
       b6:	01 c0       	rjmp	.+2      	; 0xba <.do_clear_bss_start>
 
@@ -110,7 +110,7 @@ Disassembly of section .text:
       b8:	1d 92       	st	X+, r1
 
 000000ba <.do_clear_bss_start>:
-      ba:	aa 36       	cpi	r26, 0x6A	; 106
+      ba:	a4 37       	cpi	r26, 0x74	; 116
       bc:	b2 07       	cpc	r27, r18
       be:	e1 f7       	brne	.-8      	; 0xb8 <.do_clear_bss_loop>
       c0:	0e 94 7e 04 	call	0x8fc	; 0x8fc <main>
@@ -308,13 +308,13 @@ void proceedClock()
 {
     //WDT interrupt occurs every 8 seconds
     sec += 8;
-     1a0:	80 91 63 04 	lds	r24, 0x0463	; 0x800463 <sec>
+     1a0:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      1a4:	88 5f       	subi	r24, 0xF8	; 248
-     1a6:	80 93 63 04 	sts	0x0463, r24	; 0x800463 <sec>
+     1a6:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
     accumulatedSec += 8;
-     1aa:	20 91 5c 04 	lds	r18, 0x045C	; 0x80045c <accumulatedSec>
+     1aa:	20 91 66 04 	lds	r18, 0x0466	; 0x800466 <accumulatedSec>
      1ae:	28 5f       	subi	r18, 0xF8	; 248
-     1b0:	20 93 5c 04 	sts	0x045C, r18	; 0x80045c <accumulatedSec>
+     1b0:	20 93 66 04 	sts	0x0466, r18	; 0x800466 <accumulatedSec>
 
     //real-time fetched from compiled time constant __TIME__
     //calculate minutes
@@ -324,14 +324,14 @@ void proceedClock()
     {
         sec%=60;
         min++;
-     1b8:	90 91 64 04 	lds	r25, 0x0464	; 0x800464 <min>
+     1b8:	90 91 6e 04 	lds	r25, 0x046E	; 0x80046e <min>
      1bc:	9f 5f       	subi	r25, 0xFF	; 255
-     1be:	90 93 64 04 	sts	0x0464, r25	; 0x800464 <min>
+     1be:	90 93 6e 04 	sts	0x046E, r25	; 0x80046e <min>
         sec += 2;
      1c2:	6c e3       	ldi	r22, 0x3C	; 60
      1c4:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
      1c8:	9e 5f       	subi	r25, 0xFE	; 254
-     1ca:	90 93 63 04 	sts	0x0463, r25	; 0x800463 <sec>
+     1ca:	90 93 6d 04 	sts	0x046D, r25	; 0x80046d <sec>
     }
     //system run-time acculated time
     //calculate minutes
@@ -341,71 +341,71 @@ void proceedClock()
     {
         accumulatedSec%=60;
         accumulatedMin++;
-     1d2:	80 91 5d 04 	lds	r24, 0x045D	; 0x80045d <accumulatedMin>
+     1d2:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <accumulatedMin>
      1d6:	8f 5f       	subi	r24, 0xFF	; 255
-     1d8:	80 93 5d 04 	sts	0x045D, r24	; 0x80045d <accumulatedMin>
+     1d8:	80 93 67 04 	sts	0x0467, r24	; 0x800467 <accumulatedMin>
         accumulatedSec += 2;
      1dc:	82 2f       	mov	r24, r18
      1de:	6c e3       	ldi	r22, 0x3C	; 60
      1e0:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
      1e4:	9e 5f       	subi	r25, 0xFE	; 254
-     1e6:	90 93 5c 04 	sts	0x045C, r25	; 0x80045c <accumulatedSec>
+     1e6:	90 93 66 04 	sts	0x0466, r25	; 0x800466 <accumulatedSec>
     }
 
     //real-time fetched from compiled time constant __TIME__
     //calculate hours
     if (min >= 60)
-     1ea:	80 91 64 04 	lds	r24, 0x0464	; 0x800464 <min>
+     1ea:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      1ee:	8c 33       	cpi	r24, 0x3C	; 60
      1f0:	54 f0       	brlt	.+20     	; 0x206 <proceedClock+0x66>
     {
         min%=60;
      1f2:	6c e3       	ldi	r22, 0x3C	; 60
      1f4:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
-     1f8:	90 93 64 04 	sts	0x0464, r25	; 0x800464 <min>
+     1f8:	90 93 6e 04 	sts	0x046E, r25	; 0x80046e <min>
         hour++;
-     1fc:	80 91 65 04 	lds	r24, 0x0465	; 0x800465 <hour>
+     1fc:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      200:	8f 5f       	subi	r24, 0xFF	; 255
-     202:	80 93 65 04 	sts	0x0465, r24	; 0x800465 <hour>
+     202:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
     }
     //system run-time acculated time
     //calculate hours
     //if ((accumulatedMin == 60) && (hourlyAdjusted == 0))
     if (accumulatedMin == 60)
-     206:	80 91 5d 04 	lds	r24, 0x045D	; 0x80045d <accumulatedMin>
+     206:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <accumulatedMin>
      20a:	8c 33       	cpi	r24, 0x3C	; 60
      20c:	61 f4       	brne	.+24     	; 0x226 <proceedClock+0x86>
     {
         // adjust time by experiments
         //hourlyAdjusted = 1;
         sec -= 20;
-     20e:	80 91 63 04 	lds	r24, 0x0463	; 0x800463 <sec>
+     20e:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      212:	84 51       	subi	r24, 0x14	; 20
-     214:	80 93 63 04 	sts	0x0463, r24	; 0x800463 <sec>
+     214:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
         accumulatedMin = 0;
-     218:	10 92 5d 04 	sts	0x045D, r1	; 0x80045d <accumulatedMin>
+     218:	10 92 67 04 	sts	0x0467, r1	; 0x800467 <accumulatedMin>
         accumulatedHour++;
-     21c:	80 91 5e 04 	lds	r24, 0x045E	; 0x80045e <accumulatedHour>
+     21c:	80 91 68 04 	lds	r24, 0x0468	; 0x800468 <accumulatedHour>
      220:	8f 5f       	subi	r24, 0xFF	; 255
-     222:	80 93 5e 04 	sts	0x045E, r24	; 0x80045e <accumulatedHour>
+     222:	80 93 68 04 	sts	0x0468, r24	; 0x800468 <accumulatedHour>
     }
     /*
     if (accumulatedMin == 59)
         hourlyAdjusted = 0;
     */
     if (hour >= 24)
-     226:	80 91 65 04 	lds	r24, 0x0465	; 0x800465 <hour>
+     226:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      22a:	88 31       	cpi	r24, 0x18	; 24
      22c:	04 f1       	brlt	.+64     	; 0x26e <proceedClock+0xce>
     {
         hour=0;
-     22e:	10 92 65 04 	sts	0x0465, r1	; 0x800465 <hour>
+     22e:	10 92 6f 04 	sts	0x046F, r1	; 0x80046f <hour>
         date++;
-     232:	80 91 60 04 	lds	r24, 0x0460	; 0x800460 <date>
+     232:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      236:	8f 5f       	subi	r24, 0xFF	; 255
-     238:	80 93 60 04 	sts	0x0460, r24	; 0x800460 <date>
+     238:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
         day++;
-     23c:	80 91 5f 04 	lds	r24, 0x045F	; 0x80045f <day>
+     23c:	80 91 69 04 	lds	r24, 0x0469	; 0x800469 <day>
      240:	8f 5f       	subi	r24, 0xFF	; 255
         if (day >= 7)
      242:	87 30       	cpi	r24, 0x07	; 7
@@ -416,7 +416,7 @@ void proceedClock()
         hour=0;
         date++;
         day++;
-     246:	80 93 5f 04 	sts	0x045F, r24	; 0x80045f <day>
+     246:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <day>
      24a:	11 c0       	rjmp	.+34     	; 0x26e <proceedClock+0xce>
         if (day >= 7)
             day %= 7;
@@ -435,10 +435,10 @@ void proceedClock()
      264:	22 0f       	add	r18, r18
      266:	29 1b       	sub	r18, r25
      268:	82 1b       	sub	r24, r18
-     26a:	80 93 5f 04 	sts	0x045F, r24	; 0x80045f <day>
+     26a:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <day>
     }
     switch (month)
-     26e:	20 91 61 04 	lds	r18, 0x0461	; 0x800461 <month>
+     26e:	20 91 6b 04 	lds	r18, 0x046B	; 0x80046b <month>
      272:	82 2f       	mov	r24, r18
      274:	02 2e       	mov	r0, r18
      276:	00 0c       	add	r0, r0
@@ -460,20 +460,20 @@ void proceedClock()
         case 12:
             monthEndDate = 31;
      290:	8f e1       	ldi	r24, 0x1F	; 31
-     292:	80 93 67 04 	sts	0x0467, r24	; 0x800467 <monthEndDate>
+     292:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
             break;
      296:	0b c0       	rjmp	.+22     	; 0x2ae <proceedClock+0x10e>
         case 2:
             monthEndDate = 28;
      298:	8c e1       	ldi	r24, 0x1C	; 28
-     29a:	80 93 67 04 	sts	0x0467, r24	; 0x800467 <monthEndDate>
+     29a:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
             break;
         default:
             monthEndDate = 30;
     }//switch (month)
 
     if (date > monthEndDate)
-     29e:	80 91 60 04 	lds	r24, 0x0460	; 0x800460 <date>
+     29e:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      2a2:	8d 31       	cpi	r24, 0x1D	; 29
      2a4:	54 f4       	brge	.+20     	; 0x2ba <proceedClock+0x11a>
      2a6:	08 95       	ret
@@ -484,35 +484,35 @@ void proceedClock()
         default:
             monthEndDate = 30;
      2a8:	8e e1       	ldi	r24, 0x1E	; 30
-     2aa:	80 93 67 04 	sts	0x0467, r24	; 0x800467 <monthEndDate>
+     2aa:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
     }//switch (month)
 
     if (date > monthEndDate)
-     2ae:	90 91 60 04 	lds	r25, 0x0460	; 0x800460 <date>
-     2b2:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <monthEndDate>
+     2ae:	90 91 6a 04 	lds	r25, 0x046A	; 0x80046a <date>
+     2b2:	80 91 71 04 	lds	r24, 0x0471	; 0x800471 <monthEndDate>
      2b6:	89 17       	cp	r24, r25
      2b8:	34 f4       	brge	.+12     	; 0x2c6 <proceedClock+0x126>
     {
         date=1;
      2ba:	81 e0       	ldi	r24, 0x01	; 1
-     2bc:	80 93 60 04 	sts	0x0460, r24	; 0x800460 <date>
+     2bc:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
         month++;
      2c0:	2f 5f       	subi	r18, 0xFF	; 255
-     2c2:	20 93 61 04 	sts	0x0461, r18	; 0x800461 <month>
+     2c2:	20 93 6b 04 	sts	0x046B, r18	; 0x80046b <month>
     }
 
     if (month > 12)
-     2c6:	80 91 61 04 	lds	r24, 0x0461	; 0x800461 <month>
+     2c6:	80 91 6b 04 	lds	r24, 0x046B	; 0x80046b <month>
      2ca:	8d 30       	cpi	r24, 0x0D	; 13
      2cc:	44 f0       	brlt	.+16     	; 0x2de <proceedClock+0x13e>
     {
         month=1;
      2ce:	81 e0       	ldi	r24, 0x01	; 1
-     2d0:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     2d0:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
         year++;
-     2d4:	80 91 62 04 	lds	r24, 0x0462	; 0x800462 <year>
+     2d4:	80 91 6c 04 	lds	r24, 0x046C	; 0x80046c <year>
      2d8:	8f 5f       	subi	r24, 0xFF	; 255
-     2da:	80 93 62 04 	sts	0x0462, r24	; 0x800462 <year>
+     2da:	80 93 6c 04 	sts	0x046C, r24	; 0x80046c <year>
      2de:	08 95       	ret
 
 000002e0 <__vector_6>:
@@ -543,7 +543,7 @@ ISR(WDT_vect)
     proceedClock();
      302:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <proceedClock>
     lcd_dispWords(wd%MAXWORDCNT);
-     306:	80 91 66 04 	lds	r24, 0x0466	; 0x800466 <wd>
+     306:	80 91 70 04 	lds	r24, 0x0470	; 0x800470 <wd>
      30a:	9d ec       	ldi	r25, 0xCD	; 205
      30c:	89 9f       	mul	r24, r25
      30e:	91 2d       	mov	r25, r1
@@ -559,9 +559,9 @@ ISR(WDT_vect)
      322:	89 1b       	sub	r24, r25
      324:	0e 94 aa 03 	call	0x754	; 0x754 <lcd_dispWords>
     wd++;
-     328:	80 91 66 04 	lds	r24, 0x0466	; 0x800466 <wd>
+     328:	80 91 70 04 	lds	r24, 0x0470	; 0x800470 <wd>
      32c:	8f 5f       	subi	r24, 0xFF	; 255
-     32e:	80 93 66 04 	sts	0x0466, r24	; 0x800466 <wd>
+     32e:	80 93 70 04 	sts	0x0470, r24	; 0x800470 <wd>
     //lcd_dispRealClock();
     //PORTB &= ~_BV(PB4);
 }//ISR(WDT_vect)
@@ -592,12 +592,12 @@ ISR(WDT_vect)
     lcd_write_instruction_4d(lcd_DisplayOn);
      354:	28 98       	cbi	0x05, 0	; 5
      356:	81 e0       	ldi	r24, 0x01	; 1
-     358:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <backLight>
+     358:	80 93 73 04 	sts	0x0473, r24	; 0x800473 <backLight>
      35c:	08 95       	ret
 
 0000035e <turnOffLCDBacklight>:
      35e:	28 9a       	sbi	0x05, 0	; 5
-     360:	10 92 69 04 	sts	0x0469, r1	; 0x800469 <backLight>
+     360:	10 92 73 04 	sts	0x0473, r1	; 0x800473 <backLight>
      364:	08 95       	ret
 
 00000366 <lcd_write_4>:
@@ -711,7 +711,7 @@ ISR(WDT_vect)
      438:	8a 95       	dec	r24
      43a:	f1 f7       	brne	.-4      	; 0x438 <lcd_dispRealClock+0x1c>
      43c:	00 00       	nop
-     43e:	80 91 65 04 	lds	r24, 0x0465	; 0x800465 <hour>
+     43e:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      442:	4a e0       	ldi	r20, 0x0A	; 10
      444:	be 01       	movw	r22, r28
      446:	69 5f       	subi	r22, 0xF9	; 249
@@ -720,7 +720,7 @@ ISR(WDT_vect)
      44c:	00 0c       	add	r0, r0
      44e:	99 0b       	sbc	r25, r25
      450:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     454:	80 91 64 04 	lds	r24, 0x0464	; 0x800464 <min>
+     454:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      458:	4a e0       	ldi	r20, 0x0A	; 10
      45a:	be 01       	movw	r22, r28
      45c:	6c 5f       	subi	r22, 0xFC	; 252
@@ -729,7 +729,7 @@ ISR(WDT_vect)
      462:	00 0c       	add	r0, r0
      464:	99 0b       	sbc	r25, r25
      466:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     46a:	80 91 63 04 	lds	r24, 0x0463	; 0x800463 <sec>
+     46a:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      46e:	4a e0       	ldi	r20, 0x0A	; 10
      470:	be 01       	movw	r22, r28
      472:	6f 5f       	subi	r22, 0xFF	; 255
@@ -766,7 +766,7 @@ ISR(WDT_vect)
      4c0:	8a 95       	dec	r24
      4c2:	f1 f7       	brne	.-4      	; 0x4c0 <lcd_dispRealClock+0xa4>
      4c4:	00 00       	nop
-     4c6:	80 91 62 04 	lds	r24, 0x0462	; 0x800462 <year>
+     4c6:	80 91 6c 04 	lds	r24, 0x046C	; 0x80046c <year>
      4ca:	4a e0       	ldi	r20, 0x0A	; 10
      4cc:	be 01       	movw	r22, r28
      4ce:	66 5f       	subi	r22, 0xF6	; 246
@@ -775,7 +775,7 @@ ISR(WDT_vect)
      4d4:	00 0c       	add	r0, r0
      4d6:	99 0b       	sbc	r25, r25
      4d8:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     4dc:	80 91 61 04 	lds	r24, 0x0461	; 0x800461 <month>
+     4dc:	80 91 6b 04 	lds	r24, 0x046B	; 0x80046b <month>
      4e0:	4a e0       	ldi	r20, 0x0A	; 10
      4e2:	be 01       	movw	r22, r28
      4e4:	63 5f       	subi	r22, 0xF3	; 243
@@ -784,7 +784,7 @@ ISR(WDT_vect)
      4ea:	00 0c       	add	r0, r0
      4ec:	99 0b       	sbc	r25, r25
      4ee:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     4f2:	80 91 60 04 	lds	r24, 0x0460	; 0x800460 <date>
+     4f2:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      4f6:	4a e0       	ldi	r20, 0x0A	; 10
      4f8:	be 01       	movw	r22, r28
      4fa:	60 5f       	subi	r22, 0xF0	; 240
@@ -811,7 +811,7 @@ ISR(WDT_vect)
      530:	80 e0       	ldi	r24, 0x00	; 0
      532:	94 e0       	ldi	r25, 0x04	; 4
      534:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-     538:	e0 91 5f 04 	lds	r30, 0x045F	; 0x80045f <day>
+     538:	e0 91 69 04 	lds	r30, 0x0469	; 0x800469 <day>
      53c:	8e 2f       	mov	r24, r30
      53e:	ee 0f       	add	r30, r30
      540:	99 0b       	sbc	r25, r25
@@ -924,7 +924,7 @@ ISR(WDT_vect)
      61a:	8a 95       	dec	r24
      61c:	f1 f7       	brne	.-4      	; 0x61a <lcd_dispAccumulatedTime+0x1c>
      61e:	00 00       	nop
-     620:	80 91 5e 04 	lds	r24, 0x045E	; 0x80045e <accumulatedHour>
+     620:	80 91 68 04 	lds	r24, 0x0468	; 0x800468 <accumulatedHour>
      624:	4a e0       	ldi	r20, 0x0A	; 10
      626:	be 01       	movw	r22, r28
      628:	69 5f       	subi	r22, 0xF9	; 249
@@ -933,7 +933,7 @@ ISR(WDT_vect)
      62e:	00 0c       	add	r0, r0
      630:	99 0b       	sbc	r25, r25
      632:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     636:	80 91 5d 04 	lds	r24, 0x045D	; 0x80045d <accumulatedMin>
+     636:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <accumulatedMin>
      63a:	4a e0       	ldi	r20, 0x0A	; 10
      63c:	be 01       	movw	r22, r28
      63e:	6c 5f       	subi	r22, 0xFC	; 252
@@ -942,7 +942,7 @@ ISR(WDT_vect)
      644:	00 0c       	add	r0, r0
      646:	99 0b       	sbc	r25, r25
      648:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-     64c:	80 91 5c 04 	lds	r24, 0x045C	; 0x80045c <accumulatedSec>
+     64c:	80 91 66 04 	lds	r24, 0x0466	; 0x800466 <accumulatedSec>
      650:	4a e0       	ldi	r20, 0x0A	; 10
      652:	be 01       	movw	r22, r28
      654:	6f 5f       	subi	r22, 0xFF	; 255
@@ -1075,7 +1075,7 @@ ISR(WDT_vect)
      76a:	2a 95       	dec	r18
      76c:	f1 f7       	brne	.-4      	; 0x76a <lcd_dispWords+0x16>
      76e:	00 00       	nop
-     770:	80 91 64 04 	lds	r24, 0x0464	; 0x800464 <min>
+     770:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      774:	83 78       	andi	r24, 0x83	; 131
      776:	1c f4       	brge	.+6      	; 0x77e <lcd_dispWords+0x2a>
      778:	81 50       	subi	r24, 0x01	; 1
@@ -1409,7 +1409,7 @@ int main(void)
 void calcDay()
 {
     day = (date - 17)%7;
-     928:	80 91 60 04 	lds	r24, 0x0460	; 0x800460 <date>
+     928:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      92c:	08 2e       	mov	r0, r24
      92e:	00 0c       	add	r0, r0
      930:	99 0b       	sbc	r25, r25
@@ -1417,7 +1417,7 @@ void calcDay()
      934:	67 e0       	ldi	r22, 0x07	; 7
      936:	70 e0       	ldi	r23, 0x00	; 0
      938:	0e 94 79 07 	call	0xef2	; 0xef2 <__divmodhi4>
-     93c:	80 93 5f 04 	sts	0x045F, r24	; 0x80045f <day>
+     93c:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <day>
      940:	08 95       	ret
 
 00000942 <parseCompileTime>:
@@ -1446,8 +1446,8 @@ void parseCompileTime()
     p = strtok(__TIME__,":");
      958:	65 ee       	ldi	r22, 0xE5	; 229
      95a:	73 e0       	ldi	r23, 0x03	; 3
-     95c:	80 ed       	ldi	r24, 0xD0	; 208
-     95e:	93 e0       	ldi	r25, 0x03	; 3
+     95c:	87 e1       	ldi	r24, 0x17	; 23
+     95e:	94 e0       	ldi	r25, 0x04	; 4
      960:	0e 94 e0 07 	call	0xfc0	; 0xfc0 <strtok>
      964:	bc 01       	movw	r22, r24
     while (*p)
@@ -1505,12 +1505,12 @@ void parseCompileTime()
      9a8:	ce 01       	movw	r24, r28
      9aa:	01 96       	adiw	r24, 0x01	; 1
      9ac:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
-     9b0:	80 93 65 04 	sts	0x0465, r24	; 0x800465 <hour>
+     9b0:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
     min=atoi(sTime[1]);
      9b4:	ce 01       	movw	r24, r28
      9b6:	04 96       	adiw	r24, 0x04	; 4
      9b8:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
-     9bc:	80 93 64 04 	sts	0x0464, r24	; 0x800464 <min>
+     9bc:	80 93 6e 04 	sts	0x046E, r24	; 0x80046e <min>
     //give some delay (8 seconds), to compile & upload by human click
     //sec=atoi(sTime[2]) + 8;
 
@@ -1521,7 +1521,7 @@ void parseCompileTime()
      9c2:	07 96       	adiw	r24, 0x07	; 7
      9c4:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      9c8:	81 5f       	subi	r24, 0xF1	; 241
-     9ca:	80 93 63 04 	sts	0x0463, r24	; 0x800463 <sec>
+     9ca:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
     //hour = atoi(sHour);
 
     n=0;
@@ -1591,7 +1591,7 @@ void parseCompileTime()
     }
 
     if ( strcmp(sDate[0], "Jan") == 0 )
-     a2a:	67 e1       	ldi	r22, 0x17	; 23
+     a2a:	60 e2       	ldi	r22, 0x20	; 32
      a2c:	74 e0       	ldi	r23, 0x04	; 4
      a2e:	ce 01       	movw	r24, r28
      a30:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1600,10 +1600,10 @@ void parseCompileTime()
      a38:	21 f4       	brne	.+8      	; 0xa42 <parseCompileTime+0x100>
         month = 1;
      a3a:	81 e0       	ldi	r24, 0x01	; 1
-     a3c:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     a3c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a40:	83 c0       	rjmp	.+262    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Feb") == 0 )
-     a42:	6b e1       	ldi	r22, 0x1B	; 27
+     a42:	64 e2       	ldi	r22, 0x24	; 36
      a44:	74 e0       	ldi	r23, 0x04	; 4
      a46:	ce 01       	movw	r24, r28
      a48:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1612,10 +1612,10 @@ void parseCompileTime()
      a50:	21 f4       	brne	.+8      	; 0xa5a <parseCompileTime+0x118>
         month = 2;
      a52:	82 e0       	ldi	r24, 0x02	; 2
-     a54:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     a54:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a58:	77 c0       	rjmp	.+238    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Mar") == 0 )
-     a5a:	6f e1       	ldi	r22, 0x1F	; 31
+     a5a:	68 e2       	ldi	r22, 0x28	; 40
      a5c:	74 e0       	ldi	r23, 0x04	; 4
      a5e:	ce 01       	movw	r24, r28
      a60:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1624,10 +1624,10 @@ void parseCompileTime()
      a68:	21 f4       	brne	.+8      	; 0xa72 <parseCompileTime+0x130>
         month = 3;
      a6a:	83 e0       	ldi	r24, 0x03	; 3
-     a6c:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     a6c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a70:	6b c0       	rjmp	.+214    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Apr") == 0 )
-     a72:	63 e2       	ldi	r22, 0x23	; 35
+     a72:	6c e2       	ldi	r22, 0x2C	; 44
      a74:	74 e0       	ldi	r23, 0x04	; 4
      a76:	ce 01       	movw	r24, r28
      a78:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1636,10 +1636,10 @@ void parseCompileTime()
      a80:	21 f4       	brne	.+8      	; 0xa8a <parseCompileTime+0x148>
         month = 4;
      a82:	84 e0       	ldi	r24, 0x04	; 4
-     a84:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     a84:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a88:	5f c0       	rjmp	.+190    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "May") == 0 )
-     a8a:	67 e2       	ldi	r22, 0x27	; 39
+     a8a:	60 e3       	ldi	r22, 0x30	; 48
      a8c:	74 e0       	ldi	r23, 0x04	; 4
      a8e:	ce 01       	movw	r24, r28
      a90:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1648,10 +1648,10 @@ void parseCompileTime()
      a98:	21 f4       	brne	.+8      	; 0xaa2 <parseCompileTime+0x160>
         month = 5;
      a9a:	85 e0       	ldi	r24, 0x05	; 5
-     a9c:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     a9c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      aa0:	53 c0       	rjmp	.+166    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Jun") == 0 )
-     aa2:	6b e2       	ldi	r22, 0x2B	; 43
+     aa2:	64 e3       	ldi	r22, 0x34	; 52
      aa4:	74 e0       	ldi	r23, 0x04	; 4
      aa6:	ce 01       	movw	r24, r28
      aa8:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1660,10 +1660,10 @@ void parseCompileTime()
      ab0:	21 f4       	brne	.+8      	; 0xaba <parseCompileTime+0x178>
         month = 6;
      ab2:	86 e0       	ldi	r24, 0x06	; 6
-     ab4:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     ab4:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ab8:	47 c0       	rjmp	.+142    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Jul") == 0 )
-     aba:	6f e2       	ldi	r22, 0x2F	; 47
+     aba:	68 e3       	ldi	r22, 0x38	; 56
      abc:	74 e0       	ldi	r23, 0x04	; 4
      abe:	ce 01       	movw	r24, r28
      ac0:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1672,10 +1672,10 @@ void parseCompileTime()
      ac8:	21 f4       	brne	.+8      	; 0xad2 <parseCompileTime+0x190>
         month = 7;
      aca:	87 e0       	ldi	r24, 0x07	; 7
-     acc:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     acc:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ad0:	3b c0       	rjmp	.+118    	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Aug") == 0 )
-     ad2:	63 e3       	ldi	r22, 0x33	; 51
+     ad2:	6c e3       	ldi	r22, 0x3C	; 60
      ad4:	74 e0       	ldi	r23, 0x04	; 4
      ad6:	ce 01       	movw	r24, r28
      ad8:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1684,10 +1684,10 @@ void parseCompileTime()
      ae0:	21 f4       	brne	.+8      	; 0xaea <parseCompileTime+0x1a8>
         month = 8;
      ae2:	88 e0       	ldi	r24, 0x08	; 8
-     ae4:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     ae4:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ae8:	2f c0       	rjmp	.+94     	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Sep") == 0 )
-     aea:	67 e3       	ldi	r22, 0x37	; 55
+     aea:	60 e4       	ldi	r22, 0x40	; 64
      aec:	74 e0       	ldi	r23, 0x04	; 4
      aee:	ce 01       	movw	r24, r28
      af0:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1696,10 +1696,10 @@ void parseCompileTime()
      af8:	21 f4       	brne	.+8      	; 0xb02 <parseCompileTime+0x1c0>
         month = 9;
      afa:	89 e0       	ldi	r24, 0x09	; 9
-     afc:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     afc:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b00:	23 c0       	rjmp	.+70     	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Oct") == 0 )
-     b02:	6b e3       	ldi	r22, 0x3B	; 59
+     b02:	64 e4       	ldi	r22, 0x44	; 68
      b04:	74 e0       	ldi	r23, 0x04	; 4
      b06:	ce 01       	movw	r24, r28
      b08:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1708,10 +1708,10 @@ void parseCompileTime()
      b10:	21 f4       	brne	.+8      	; 0xb1a <parseCompileTime+0x1d8>
         month = 10;
      b12:	8a e0       	ldi	r24, 0x0A	; 10
-     b14:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     b14:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b18:	17 c0       	rjmp	.+46     	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Nov") == 0 )
-     b1a:	6f e3       	ldi	r22, 0x3F	; 63
+     b1a:	68 e4       	ldi	r22, 0x48	; 72
      b1c:	74 e0       	ldi	r23, 0x04	; 4
      b1e:	ce 01       	movw	r24, r28
      b20:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1720,10 +1720,10 @@ void parseCompileTime()
      b28:	21 f4       	brne	.+8      	; 0xb32 <parseCompileTime+0x1f0>
         month = 11;
      b2a:	8b e0       	ldi	r24, 0x0B	; 11
-     b2c:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     b2c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b30:	0b c0       	rjmp	.+22     	; 0xb48 <parseCompileTime+0x206>
     else if ( strcmp(sDate[0], "Dec") == 0 )
-     b32:	63 e4       	ldi	r22, 0x43	; 67
+     b32:	6c e4       	ldi	r22, 0x4C	; 76
      b34:	74 e0       	ldi	r23, 0x04	; 4
      b36:	ce 01       	movw	r24, r28
      b38:	0d 96       	adiw	r24, 0x0d	; 13
@@ -1732,13 +1732,13 @@ void parseCompileTime()
      b40:	19 f4       	brne	.+6      	; 0xb48 <parseCompileTime+0x206>
         month = 12;
      b42:	8c e0       	ldi	r24, 0x0C	; 12
-     b44:	80 93 61 04 	sts	0x0461, r24	; 0x800461 <month>
+     b44:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
 
     date=atoi(sDate[1]);
      b48:	ce 01       	movw	r24, r28
      b4a:	47 96       	adiw	r24, 0x17	; 23
      b4c:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
-     b50:	80 93 60 04 	sts	0x0460, r24	; 0x800460 <date>
+     b50:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
     yearLong=atoi(sDate[2]);
      b54:	ce 01       	movw	r24, r28
      b56:	81 96       	adiw	r24, 0x21	; 33
@@ -1772,7 +1772,7 @@ void parseCompileTime()
      b90:	11 24       	eor	r1, r1
      b92:	42 1b       	sub	r20, r18
      b94:	53 0b       	sbc	r21, r19
-     b96:	40 93 62 04 	sts	0x0462, r20	; 0x800462 <year>
+     b96:	40 93 6c 04 	sts	0x046C, r20	; 0x80046c <year>
 
     calcDay();
      b9a:	0e 94 94 04 	call	0x928	; 0x928 <calcDay>
@@ -1822,7 +1822,7 @@ void adjustHour()
         _delay_us(DELAY_INST);                                  // 40 uS delay (min)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"Hour: ");
-     bd4:	87 e4       	ldi	r24, 0x47	; 71
+     bd4:	80 e5       	ldi	r24, 0x50	; 80
      bd6:	94 e0       	ldi	r25, 0x04	; 4
      bd8:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
     } else if (__radix < 2 || __radix > 36) {
@@ -1831,7 +1831,7 @@ void adjustHour()
     } else {
 	extern char *__itoa_ncheck (int, char *, unsigned char);
 	return __itoa_ncheck (__val, __s, __radix);
-     bdc:	80 91 65 04 	lds	r24, 0x0465	; 0x800465 <hour>
+     bdc:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      be0:	4a e0       	ldi	r20, 0x0A	; 10
      be2:	be 01       	movw	r22, r28
      be4:	6f 5f       	subi	r22, 0xFF	; 255
@@ -1869,7 +1869,7 @@ void adjustHour()
      c12:	0c c0       	rjmp	.+24     	; 0xc2c <adjustHour+0x7a>
         {
             hour++;
-     c14:	80 91 65 04 	lds	r24, 0x0465	; 0x800465 <hour>
+     c14:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      c18:	8f 5f       	subi	r24, 0xFF	; 255
             if (hour > 23)
      c1a:	88 31       	cpi	r24, 0x18	; 24
@@ -1880,12 +1880,12 @@ void adjustHour()
         if (val == 0)
         {
             hour++;
-     c1e:	80 93 65 04 	sts	0x0465, r24	; 0x800465 <hour>
+     c1e:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
      c22:	01 2f       	mov	r16, r17
      c24:	03 c0       	rjmp	.+6      	; 0xc2c <adjustHour+0x7a>
             if (hour > 23)
                 hour=0;
-     c26:	10 92 65 04 	sts	0x0465, r1	; 0x800465 <hour>
+     c26:	10 92 6f 04 	sts	0x046F, r1	; 0x80046f <hour>
      c2a:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
@@ -1960,10 +1960,10 @@ void adjustMin()
         _delay_us(DELAY_INST);                                  // 40 uS delay (min)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"Min: ");
-     c82:	8e e4       	ldi	r24, 0x4E	; 78
+     c82:	87 e5       	ldi	r24, 0x57	; 87
      c84:	94 e0       	ldi	r25, 0x04	; 4
      c86:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-     c8a:	80 91 64 04 	lds	r24, 0x0464	; 0x800464 <min>
+     c8a:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      c8e:	4a e0       	ldi	r20, 0x0A	; 10
      c90:	be 01       	movw	r22, r28
      c92:	6f 5f       	subi	r22, 0xFF	; 255
@@ -2001,7 +2001,7 @@ void adjustMin()
      cc0:	0c c0       	rjmp	.+24     	; 0xcda <adjustMin+0x7a>
         {
             min++;
-     cc2:	80 91 64 04 	lds	r24, 0x0464	; 0x800464 <min>
+     cc2:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      cc6:	8f 5f       	subi	r24, 0xFF	; 255
             if (min > 59)
      cc8:	8c 33       	cpi	r24, 0x3C	; 60
@@ -2012,12 +2012,12 @@ void adjustMin()
         if (val == 0)
         {
             min++;
-     ccc:	80 93 64 04 	sts	0x0464, r24	; 0x800464 <min>
+     ccc:	80 93 6e 04 	sts	0x046E, r24	; 0x80046e <min>
      cd0:	01 2f       	mov	r16, r17
      cd2:	03 c0       	rjmp	.+6      	; 0xcda <adjustMin+0x7a>
             if (min > 59)
                 min=0;
-     cd4:	10 92 64 04 	sts	0x0464, r1	; 0x800464 <min>
+     cd4:	10 92 6e 04 	sts	0x046E, r1	; 0x80046e <min>
      cd8:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
@@ -2093,10 +2093,10 @@ void adjustSec()
         _delay_us(DELAY_INST);                                  // 40 uS delay (sec)
     // display the first line of information
         lcd_write_string_4d((uint8_t *)"sec: ");
-     d30:	84 e5       	ldi	r24, 0x54	; 84
+     d30:	8d e5       	ldi	r24, 0x5D	; 93
      d32:	94 e0       	ldi	r25, 0x04	; 4
      d34:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-     d38:	80 91 63 04 	lds	r24, 0x0463	; 0x800463 <sec>
+     d38:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      d3c:	4a e0       	ldi	r20, 0x0A	; 10
      d3e:	be 01       	movw	r22, r28
      d40:	6f 5f       	subi	r22, 0xFF	; 255
@@ -2134,7 +2134,7 @@ void adjustSec()
      d6e:	0c c0       	rjmp	.+24     	; 0xd88 <adjustSec+0x7a>
         {
             sec++;
-     d70:	80 91 63 04 	lds	r24, 0x0463	; 0x800463 <sec>
+     d70:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      d74:	8f 5f       	subi	r24, 0xFF	; 255
             if (sec > 59)
      d76:	8c 33       	cpi	r24, 0x3C	; 60
@@ -2145,12 +2145,12 @@ void adjustSec()
         if (val == 0)
         {
             sec++;
-     d7a:	80 93 63 04 	sts	0x0463, r24	; 0x800463 <sec>
+     d7a:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
      d7e:	01 2f       	mov	r16, r17
      d80:	03 c0       	rjmp	.+6      	; 0xd88 <adjustSec+0x7a>
             if (sec > 59)
                 sec=0;
-     d82:	10 92 63 04 	sts	0x0463, r1	; 0x800463 <sec>
+     d82:	10 92 6d 04 	sts	0x046D, r1	; 0x80046d <sec>
      d86:	01 2f       	mov	r16, r17
             preLoop = curLoop;
         }
@@ -2308,14 +2308,14 @@ void countButton()
      e06:	92 30       	cpi	r25, 0x02	; 2
      e08:	11 f4       	brne	.+4      	; 0xe0e <countButton+0x52>
             menuCnt = prevMenuCnt;
-     e0a:	20 91 68 04 	lds	r18, 0x0468	; 0x800468 <prevMenuCnt>
+     e0a:	20 91 72 04 	lds	r18, 0x0472	; 0x800472 <prevMenuCnt>
         //visual cue to notifiy user selected menuCnt
         //blinkLED(menuCnt);
         //_delay_ms(halfSec);
         //turnOnLCDpower();
         //lcd_dispON();
         prevMenuCnt = menuCnt;
-     e0e:	20 93 68 04 	sts	0x0468, r18	; 0x800468 <prevMenuCnt>
+     e0e:	20 93 72 04 	sts	0x0472, r18	; 0x800472 <prevMenuCnt>
         switch (menuCnt)
      e12:	23 30       	cpi	r18, 0x03	; 3
      e14:	11 f1       	breq	.+68     	; 0xe5a <countButton+0x9e>
@@ -2351,7 +2351,7 @@ void countButton()
             case 2:
                 //_delay_ms(1000);
                 if (backLight == 0) 
-     e46:	80 91 69 04 	lds	r24, 0x0469	; 0x800469 <backLight>
+     e46:	80 91 73 04 	lds	r24, 0x0473	; 0x800473 <backLight>
      e4a:	81 11       	cpse	r24, r1
      e4c:	03 c0       	rjmp	.+6      	; 0xe54 <countButton+0x98>
 					turnOnLCDBacklight();
@@ -2621,7 +2621,7 @@ void countButton()
      fbe:	08 95       	ret
 
 00000fc0 <strtok>:
-     fc0:	4a e5       	ldi	r20, 0x5A	; 90
+     fc0:	44 e6       	ldi	r20, 0x64	; 100
      fc2:	54 e0       	ldi	r21, 0x04	; 4
      fc4:	0e 94 f5 07 	call	0xfea	; 0xfea <strtok_r>
      fc8:	08 95       	ret

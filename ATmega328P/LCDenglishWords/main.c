@@ -17,7 +17,8 @@ avrdude -c usbtiny -P usb -p atmega328p -U flash:w:LCD.hex:i
  Author  : Insoo Kim (insoo@hotmail.com)
  Created : May 15, 2015
  Updated : Oct 9, 2016 (On Atmel Studio 7)
-
+		   Nov 14, 2021 (On Atmel Studio 7 of LG all-in-one desktop)			
+	
  Description: Get system compile time & date and display on LCD 2*16
     Button toggling to turn on or off the backlight of LCD
 
@@ -540,7 +541,7 @@ void lcd_write_character_4d(uint8_t theData)
     lcd_E_port &= ~_BV(lcd_E_bit);                  // make sure E is initially low
     lcd_write_4(theData);                           // write the upper 4-bits of the data
     lcd_write_4(theData << 4);                      // write the lower 4-bits of the data
-}
+} //lcd_write_character_4d
 
 /*...........................................................................
   Name:     lcd_write_instruction_4d
@@ -555,7 +556,7 @@ void lcd_write_instruction_4d(uint8_t theInstruction)
     lcd_E_port &= ~_BV(lcd_E_bit);                  // make sure E is initially low
     lcd_write_4(theInstruction);                    // write the upper 4-bits of the data
     lcd_write_4(theInstruction << 4);               // write the lower 4-bits of the data
-}
+}//
 
 
 /*...........................................................................
