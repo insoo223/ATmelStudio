@@ -31,12 +31,12 @@ uint8_t words000[10][2][16] =
            //"petrified",       "cause2bcmStnlike"
            //"succumb",         "fail to resist"
 		   //"abstinence",       "avoidance" // Aug 15, 2018
-		   "proceeds",       "money" // Nov 14, 2021
+		   "proceeds",       "money" // Nov 14, 2021 (p3, "The Moment" Douglas Kennedy)
       },
       {//1 "1234512345123456" "1234512345123456"
          //"arid",            "lckgSuffWtr/Rain"
 		   //"pampered",        "treated well" // Aug 15, 2018
-		   "chafe",           "rub against" // Nov 14, 2021
+		   "chafe",           "sore by rubbing" // Nov 14, 2021 (p4, "The Moment" Douglas Kennedy)
       },
       {//2 "1234512345123456" "1234512345123456"
            //"enliven",         "hgtn/intensify"
@@ -48,7 +48,7 @@ uint8_t words000[10][2][16] =
       },
       {//4 "1234512345123456" "1234512345123456"
 		   //"oblivious to",     "lckgCnscsAwrnOf"
-  	       "outlandish",        "disapprove" // Aug 15, 2018
+  	       "outlandish",        "bizarre" // Aug 15, 2018
       },
       {//5 "1234512345123456"   "1234512345123456"
            //"wtn a whisker of",  "extremelyClose 2"
@@ -56,7 +56,7 @@ uint8_t words000[10][2][16] =
       },
       {//6 "1234512345123456"   "1234512345123456"
            //"colloid",           "mixWpropBtSolSus"
-  	       "exhort",			"hard to persuade" // Aug 15, 2018
+  	       "exhort",			"urge" // Aug 15, 2018
       },
       {//7 "1234512345123456"   "1234512345123456"
            //"reticent",           "disclined2talk"
@@ -68,32 +68,39 @@ uint8_t words000[10][2][16] =
       },
       {//9 "1234512345123456"   "1234512345123456"
            //"esoteric",          "cnfnd2onyEnlgtnd"
-  	       "obstinate",         "stubborn" // Aug 15, 2018
+  	       //"obstinate",         "stubborn" // Aug 15, 2018
+		   "nettled",             "annoyed" // Nov 15, 2021 (p4, "The Moment" Douglas Kennedy)
       },
     }; //words000[10][2][16]
 
 uint8_t words001[10][2][16] =
     {
       {//0 "1234512345123456" "1234512345123456"
-         "snag",              "hiddenObstacle"
+           "snag",              "hitch, catch"
       },
       {//1 "1234512345123456" "1234512345123456"
-         "mission-agnostic",  "genApplicable"
+         //"mission-agnostic",  "genApplicable"
+		   "meager",			  "not enough" // Nov 15, 2021 (p4, "The Moment" Douglas Kennedy)
       },
       {//2 "1234512345123456" "1234512345123456"
-           "deep-stedCulture","fracturedRltnshp"
+           //"deep-stedCulture","fracturedRltnshp"
+		   "dappled",		  "lite,shde patch" // Nov 15, 2021 (p4, "The Moment" Douglas Kennedy)
       },
       {//3"1234512345123456" "1234512345123456"
-         "tumult",           "loudCnfsdNseByMs"
+         //"tumult",           "loudCnfsdNseByMs"
+		 "clapboard",		 "wall-cover wood" // Nov 15, 2021 (p5, "The Moment" Douglas Kennedy)
       },
       {//4 "1234512345123456" "1234512345123456"
-        "sobering",           "tending2mkSober"
+        //"sobering",           "tending2mkSober"
+		"crack",			  "lose control" // Nov 15, 2021 (p5, "The Moment" Douglas Kennedy)
       },
       {//5 "1234512345123456"   "1234512345123456"
-         "miscarrage",          "brthBbyAlrdDd@Wm"
+         //"miscarrage",          "brthBbyAlrdDd@Wm"
+		   "HowSoon'not now'",	"becomes 'never.'" // Nov 15, 2021 (p7, "The Moment" Douglas Kennedy)
       },
       {//6 "1234512345123456"   "1234512345123456"
-           "class-actnLwSt",    "lawSuitTogether"
+           //"class-actnLwSt",    "lawSuitTogether"
+		   "replete",		    "full of" // Nov 15, 2021 NYT: Oct27,2021 (paper)
       },
       {//7 "1234512345123456"   "1234512345123456"
            "blister",           "fluidPocket"
@@ -102,7 +109,8 @@ uint8_t words001[10][2][16] =
            "titter",            "laughQuietNrvsly"
       },
       {//9 "1234512345123456"   "1234512345123456"
-           "line cook",         "a cook inKitchen"
+           //"line cook",         "a cook inKitchen"
+		   "birch",		        "tallTreeW/thinBr" // Nov 15, 2021 NYT: Oct25,2021 (paper news)
       },
     }; //words001[10][2][16]
 
