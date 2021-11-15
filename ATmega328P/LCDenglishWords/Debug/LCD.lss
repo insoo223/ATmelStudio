@@ -120,12 +120,6 @@ Disassembly of section .text:
       c8:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000cc <__vector_3>:
-
-    //reset watchdog
-    wdt_reset();
-    wdt_enable(WDTO_500MS);
-    //Enable global interrupts
-    sei();
       cc:	1f 92       	push	r1
       ce:	0f 92       	push	r0
       d0:	0f b6       	in	r0, 0x3f	; 63
@@ -183,243 +177,116 @@ Disassembly of section .text:
      13a:	18 95       	reti
 
 0000013c <check_wdt>:
-http://elegantcircuits.com/2014/10/14/introduction-to-the-avr-watchdog-timer/
-*/
-void check_wdt(void)
-{
-    // If a reset was caused by the Watchdog Timer...
-    if(MCUSR & _BV(WDRF))
      13c:	04 b6       	in	r0, 0x34	; 52
      13e:	03 fe       	sbrs	r0, 3
      140:	09 c0       	rjmp	.+18     	; 0x154 <check_wdt+0x18>
-    {
-        // Clear the WDT reset flag
-        MCUSR &= ~_BV(WDRF);
      142:	84 b7       	in	r24, 0x34	; 52
      144:	87 7f       	andi	r24, 0xF7	; 247
      146:	84 bf       	out	0x34, r24	; 52
-        // Enable the WD Change Bit
-        WDTCSR |= (_BV(WDCE) | _BV(WDE));
      148:	e0 e6       	ldi	r30, 0x60	; 96
      14a:	f0 e0       	ldi	r31, 0x00	; 0
      14c:	80 81       	ld	r24, Z
      14e:	88 61       	ori	r24, 0x18	; 24
      150:	80 83       	st	Z, r24
-        // Disable the WDT
-        WDTCSR = 0x00;
      152:	10 82       	st	Z, r1
      154:	08 95       	ret
 
 00000156 <setup_wdt>:
-
-void setup_wdt(void){
-// Set up Watch Dog Timer for Inactivity
-    // Enable the WD Change Bit
-    // Enable WDT interrupt
-    WDTCSR |= _BV(WDCE) | _BV(WDE);
      156:	e0 e6       	ldi	r30, 0x60	; 96
      158:	f0 e0       	ldi	r31, 0x00	; 0
      15a:	80 81       	ld	r24, Z
      15c:	88 61       	ori	r24, 0x18	; 24
      15e:	80 83       	st	Z, r24
-
-    // Set Timeout to ~8 seconds
-    WDTCSR = _BV(WDIE) | _BV(WDP3) | _BV(WDP0); // 8s
      160:	81 e6       	ldi	r24, 0x61	; 97
      162:	80 83       	st	Z, r24
      164:	08 95       	ret
 
 00000166 <initINT>:
-    sei();
-}//WDT_Init
-
-void initINT()
-{
-    cli();
      166:	f8 94       	cli
-    //PCMSK |= _BV(startPin);
-	/**
-	 * Pin Change Interrupt enable on PCINT6 (PB6)
-	 */
-    //For PCINT7-0, DS: Ch 12.2.4
-	PCICR |= _BV(PCIE0);
      168:	e8 e6       	ldi	r30, 0x68	; 104
      16a:	f0 e0       	ldi	r31, 0x00	; 0
      16c:	80 81       	ld	r24, Z
      16e:	81 60       	ori	r24, 0x01	; 1
      170:	80 83       	st	Z, r24
-	//For PCINT7-0, DS: Ch 12.2.8
-	//PCMSK0 |= _BV(PCINT4);
-	PCMSK0 |= _BV(tactile_Switch_bit);
      172:	eb e6       	ldi	r30, 0x6B	; 107
      174:	f0 e0       	ldi	r31, 0x00	; 0
      176:	80 81       	ld	r24, Z
      178:	80 61       	ori	r24, 0x10	; 16
      17a:	80 83       	st	Z, r24
-
-
-
-    //**** WDT interrupt setting
-    check_wdt();
      17c:	0e 94 9e 00 	call	0x13c	; 0x13c <check_wdt>
-    setup_wdt();
      180:	0e 94 ab 00 	call	0x156	; 0x156 <setup_wdt>
-    //WDTCSR = _BV(WDIE) | _BV(WDP2) | _BV(WDP0); // 0.5s
-
-
-    //wdt_reset();
-    //enalbe global interrupt
-    sei();
      184:	78 94       	sei
      186:	08 95       	ret
 
 00000188 <init_devices>:
-    //WDTCSR =   _BV(WDIE) | _BV(WDP2);
-}//setup_wdt
-
-void init_devices(void){
-    //stop errant interrupts until set up
-    cli(); //disable all interrupts
      188:	f8 94       	cli
-
-    //timer0_init();
-
-    MCUCR = 0x00;
      18a:	15 be       	out	0x35, r1	; 53
-    EICRA = 0x00; //extended ext ints
      18c:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <__DATA_REGION_ORIGIN__+0x9>
-    EIMSK = 0x00;
      190:	1d ba       	out	0x1d, r1	; 29
-
-    TIMSK0 = 0x02; //timer 0 interrupt sources
      192:	82 e0       	ldi	r24, 0x02	; 2
      194:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__DATA_REGION_ORIGIN__+0xe>
-
-    PRR = 0x00; //power controller
      198:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
-    sei(); //re-enable interrupts
      19c:	78 94       	sei
      19e:	08 95       	ret
 
 000001a0 <proceedClock>:
-}
-
-void proceedClock()
-{
-    //WDT interrupt occurs every 8 seconds
-    sec += 8;
      1a0:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      1a4:	88 5f       	subi	r24, 0xF8	; 248
      1a6:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
-    accumulatedSec += 8;
      1aa:	20 91 66 04 	lds	r18, 0x0466	; 0x800466 <accumulatedSec>
      1ae:	28 5f       	subi	r18, 0xF8	; 248
      1b0:	20 93 66 04 	sts	0x0466, r18	; 0x800466 <accumulatedSec>
-
-    //real-time fetched from compiled time constant __TIME__
-    //calculate minutes
-    if (sec >= 60)
      1b4:	8c 33       	cpi	r24, 0x3C	; 60
      1b6:	5c f0       	brlt	.+22     	; 0x1ce <proceedClock+0x2e>
-    {
-        sec%=60;
-        min++;
      1b8:	90 91 6e 04 	lds	r25, 0x046E	; 0x80046e <min>
      1bc:	9f 5f       	subi	r25, 0xFF	; 255
      1be:	90 93 6e 04 	sts	0x046E, r25	; 0x80046e <min>
-        sec += 2;
      1c2:	6c e3       	ldi	r22, 0x3C	; 60
      1c4:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
      1c8:	9e 5f       	subi	r25, 0xFE	; 254
      1ca:	90 93 6d 04 	sts	0x046D, r25	; 0x80046d <sec>
-    }
-    //system run-time acculated time
-    //calculate minutes
-    if (accumulatedSec >= 60)
      1ce:	2c 33       	cpi	r18, 0x3C	; 60
      1d0:	64 f0       	brlt	.+24     	; 0x1ea <proceedClock+0x4a>
-    {
-        accumulatedSec%=60;
-        accumulatedMin++;
      1d2:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <accumulatedMin>
      1d6:	8f 5f       	subi	r24, 0xFF	; 255
      1d8:	80 93 67 04 	sts	0x0467, r24	; 0x800467 <accumulatedMin>
-        accumulatedSec += 2;
      1dc:	82 2f       	mov	r24, r18
      1de:	6c e3       	ldi	r22, 0x3C	; 60
      1e0:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
      1e4:	9e 5f       	subi	r25, 0xFE	; 254
      1e6:	90 93 66 04 	sts	0x0466, r25	; 0x800466 <accumulatedSec>
-    }
-
-    //real-time fetched from compiled time constant __TIME__
-    //calculate hours
-    if (min >= 60)
      1ea:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      1ee:	8c 33       	cpi	r24, 0x3C	; 60
      1f0:	54 f0       	brlt	.+20     	; 0x206 <proceedClock+0x66>
-    {
-        min%=60;
      1f2:	6c e3       	ldi	r22, 0x3C	; 60
      1f4:	0e 94 6b 07 	call	0xed6	; 0xed6 <__divmodqi4>
      1f8:	90 93 6e 04 	sts	0x046E, r25	; 0x80046e <min>
-        hour++;
      1fc:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      200:	8f 5f       	subi	r24, 0xFF	; 255
      202:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
-    }
-    //system run-time acculated time
-    //calculate hours
-    //if ((accumulatedMin == 60) && (hourlyAdjusted == 0))
-    if (accumulatedMin == 60)
      206:	80 91 67 04 	lds	r24, 0x0467	; 0x800467 <accumulatedMin>
      20a:	8c 33       	cpi	r24, 0x3C	; 60
      20c:	61 f4       	brne	.+24     	; 0x226 <proceedClock+0x86>
-    {
-        // adjust time by experiments
-        //hourlyAdjusted = 1;
-        sec -= 20;
      20e:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      212:	84 51       	subi	r24, 0x14	; 20
      214:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
-        accumulatedMin = 0;
      218:	10 92 67 04 	sts	0x0467, r1	; 0x800467 <accumulatedMin>
-        accumulatedHour++;
      21c:	80 91 68 04 	lds	r24, 0x0468	; 0x800468 <accumulatedHour>
      220:	8f 5f       	subi	r24, 0xFF	; 255
      222:	80 93 68 04 	sts	0x0468, r24	; 0x800468 <accumulatedHour>
-    }
-    /*
-    if (accumulatedMin == 59)
-        hourlyAdjusted = 0;
-    */
-    if (hour >= 24)
      226:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      22a:	88 31       	cpi	r24, 0x18	; 24
      22c:	04 f1       	brlt	.+64     	; 0x26e <proceedClock+0xce>
-    {
-        hour=0;
      22e:	10 92 6f 04 	sts	0x046F, r1	; 0x80046f <hour>
-        date++;
      232:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      236:	8f 5f       	subi	r24, 0xFF	; 255
      238:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
-        day++;
      23c:	80 91 69 04 	lds	r24, 0x0469	; 0x800469 <day>
      240:	8f 5f       	subi	r24, 0xFF	; 255
-        if (day >= 7)
      242:	87 30       	cpi	r24, 0x07	; 7
      244:	1c f4       	brge	.+6      	; 0x24c <proceedClock+0xac>
-    */
-    if (hour >= 24)
-    {
-        hour=0;
-        date++;
-        day++;
      246:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <day>
      24a:	11 c0       	rjmp	.+34     	; 0x26e <proceedClock+0xce>
-        if (day >= 7)
-            day %= 7;
      24c:	93 e9       	ldi	r25, 0x93	; 147
      24e:	89 02       	muls	r24, r25
      250:	91 2d       	mov	r25, r1
@@ -436,8 +303,6 @@ void proceedClock()
      266:	29 1b       	sub	r18, r25
      268:	82 1b       	sub	r24, r18
      26a:	80 93 69 04 	sts	0x0469, r24	; 0x800469 <day>
-    }
-    switch (month)
      26e:	20 91 6b 04 	lds	r18, 0x046B	; 0x80046b <month>
      272:	82 2f       	mov	r24, r18
      274:	02 2e       	mov	r0, r18
@@ -453,75 +318,36 @@ void proceedClock()
      288:	ec 5c       	subi	r30, 0xCC	; 204
      28a:	ff 4f       	sbci	r31, 0xFF	; 255
      28c:	0c 94 8d 07 	jmp	0xf1a	; 0xf1a <__tablejump2__>
-        case 5:
-        case 7:
-        case 8:
-        case 10:
-        case 12:
-            monthEndDate = 31;
      290:	8f e1       	ldi	r24, 0x1F	; 31
      292:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
-            break;
      296:	0b c0       	rjmp	.+22     	; 0x2ae <proceedClock+0x10e>
-        case 2:
-            monthEndDate = 28;
      298:	8c e1       	ldi	r24, 0x1C	; 28
      29a:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
-            break;
-        default:
-            monthEndDate = 30;
-    }//switch (month)
-
-    if (date > monthEndDate)
      29e:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      2a2:	8d 31       	cpi	r24, 0x1D	; 29
      2a4:	54 f4       	brge	.+20     	; 0x2ba <proceedClock+0x11a>
      2a6:	08 95       	ret
-            break;
-        case 2:
-            monthEndDate = 28;
-            break;
-        default:
-            monthEndDate = 30;
      2a8:	8e e1       	ldi	r24, 0x1E	; 30
      2aa:	80 93 71 04 	sts	0x0471, r24	; 0x800471 <monthEndDate>
-    }//switch (month)
-
-    if (date > monthEndDate)
      2ae:	90 91 6a 04 	lds	r25, 0x046A	; 0x80046a <date>
      2b2:	80 91 71 04 	lds	r24, 0x0471	; 0x800471 <monthEndDate>
      2b6:	89 17       	cp	r24, r25
      2b8:	34 f4       	brge	.+12     	; 0x2c6 <proceedClock+0x126>
-    {
-        date=1;
      2ba:	81 e0       	ldi	r24, 0x01	; 1
      2bc:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
-        month++;
      2c0:	2f 5f       	subi	r18, 0xFF	; 255
      2c2:	20 93 6b 04 	sts	0x046B, r18	; 0x80046b <month>
-    }
-
-    if (month > 12)
      2c6:	80 91 6b 04 	lds	r24, 0x046B	; 0x80046b <month>
      2ca:	8d 30       	cpi	r24, 0x0D	; 13
      2cc:	44 f0       	brlt	.+16     	; 0x2de <proceedClock+0x13e>
-    {
-        month=1;
      2ce:	81 e0       	ldi	r24, 0x01	; 1
      2d0:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
-        year++;
      2d4:	80 91 6c 04 	lds	r24, 0x046C	; 0x80046c <year>
      2d8:	8f 5f       	subi	r24, 0xFF	; 255
      2da:	80 93 6c 04 	sts	0x046C, r24	; 0x80046c <year>
      2de:	08 95       	ret
 
 000002e0 <__vector_6>:
-	_delay_ms(200); // for debounce
-}//ISR(PCINT0_vect)
-
-//-----------------------------------
-ISR(WDT_vect)
-{
      2e0:	1f 92       	push	r1
      2e2:	0f 92       	push	r0
      2e4:	0f b6       	in	r0, 0x3f	; 63
@@ -539,10 +365,7 @@ ISR(WDT_vect)
      2fc:	bf 93       	push	r27
      2fe:	ef 93       	push	r30
      300:	ff 93       	push	r31
-    //PORTB |= _BV(PB4);
-    proceedClock();
      302:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <proceedClock>
-    lcd_dispWords(wd%MAXWORDCNT);
      306:	80 91 70 04 	lds	r24, 0x0470	; 0x800470 <wd>
      30a:	9d ec       	ldi	r25, 0xCD	; 205
      30c:	89 9f       	mul	r24, r25
@@ -558,13 +381,9 @@ ISR(WDT_vect)
      320:	92 0f       	add	r25, r18
      322:	89 1b       	sub	r24, r25
      324:	0e 94 aa 03 	call	0x754	; 0x754 <lcd_dispWords>
-    wd++;
      328:	80 91 70 04 	lds	r24, 0x0470	; 0x800470 <wd>
      32c:	8f 5f       	subi	r24, 0xFF	; 255
      32e:	80 93 70 04 	sts	0x0470, r24	; 0x800470 <wd>
-    //lcd_dispRealClock();
-    //PORTB &= ~_BV(PB4);
-}//ISR(WDT_vect)
      332:	ff 91       	pop	r31
      334:	ef 91       	pop	r30
      336:	bf 91       	pop	r27
@@ -584,12 +403,6 @@ ISR(WDT_vect)
      352:	18 95       	reti
 
 00000354 <turnOnLCDBacklight>:
-    _delay_ms(1000);
-
-    lcd_write_instruction_4d(lcd_DisplayOff);
-    _delay_us(DELAY_INST);                                  // 40 uS delay (min)
-    _delay_ms(1000);
-    lcd_write_instruction_4d(lcd_DisplayOn);
      354:	28 98       	cbi	0x05, 0	; 5
      356:	81 e0       	ldi	r24, 0x01	; 1
      358:	80 93 73 04 	sts	0x0473, r24	; 0x800473 <backLight>
@@ -1193,18 +1006,8 @@ ISR(WDT_vect)
      852:	f1 f7       	brne	.-4      	; 0x850 <lcd_init_4d+0x4>
      854:	00 c0       	rjmp	.+0      	; 0x856 <lcd_init_4d+0xa>
      856:	00 00       	nop
-//   this instruction can be sent on just the four available data lines and it will be interpreted
-//   properly by the LCD controller.  The 'lcd_write_4' subroutine will accomplish this if the
-//   control lines have previously been configured properly.
-
-// Set up the RS and E lines for the 'lcd_write_4' subroutine.
-    lcd_RS_port &= ~_BV(lcd_RS_bit);                // select the Instruction Register (RS low)
      858:	5a 98       	cbi	0x0b, 2	; 11
-    lcd_E_port &= ~_BV(lcd_E_bit);                  // make sure E is initially low
      85a:	5b 98       	cbi	0x0b, 3	; 11
-
-// Reset the LCD controller
-    lcd_write_4(lcd_FunctionReset);                 // first part of reset sequence
      85c:	80 e3       	ldi	r24, 0x30	; 48
      85e:	0e 94 b3 01 	call	0x366	; 0x366 <lcd_write_4>
      862:	83 ec       	ldi	r24, 0xC3	; 195
@@ -1213,9 +1016,6 @@ ISR(WDT_vect)
      868:	f1 f7       	brne	.-4      	; 0x866 <lcd_init_4d+0x1a>
      86a:	00 c0       	rjmp	.+0      	; 0x86c <lcd_init_4d+0x20>
      86c:	00 00       	nop
-    _delay_ms(10);                                  // 4.1 mS delay (min)
-
-    lcd_write_4(lcd_FunctionReset);                 // second part of reset sequence
      86e:	80 e3       	ldi	r24, 0x30	; 48
      870:	0e 94 b3 01 	call	0x366	; 0x366 <lcd_write_4>
 	#else
@@ -1228,53 +1028,30 @@ ISR(WDT_vect)
      876:	9a 95       	dec	r25
      878:	f1 f7       	brne	.-4      	; 0x876 <lcd_init_4d+0x2a>
      87a:	00 c0       	rjmp	.+0      	; 0x87c <lcd_init_4d+0x30>
-    _delay_us(200);                                 // 100uS delay (min)
-
-    lcd_write_4(lcd_FunctionReset);                 // third part of reset sequence
      87c:	80 e3       	ldi	r24, 0x30	; 48
      87e:	0e 94 b3 01 	call	0x366	; 0x366 <lcd_write_4>
      882:	82 e4       	ldi	r24, 0x42	; 66
      884:	8a 95       	dec	r24
      886:	f1 f7       	brne	.-4      	; 0x884 <lcd_init_4d+0x38>
      888:	00 c0       	rjmp	.+0      	; 0x88a <lcd_init_4d+0x3e>
-// Preliminary Function Set instruction - used only to set the 4-bit mode.
-// The number of lines or the font cannot be set at this time since the controller is still in the
-//  8-bit mode, but the data transfer mode can be changed since this parameter is determined by one
-//  of the upper four bits of the instruction.
-
-    lcd_write_4(lcd_FunctionSet4bit);               // set 4-bit mode
      88a:	88 e2       	ldi	r24, 0x28	; 40
      88c:	0e 94 b3 01 	call	0x366	; 0x366 <lcd_write_4>
      890:	9d e0       	ldi	r25, 0x0D	; 13
      892:	9a 95       	dec	r25
      894:	f1 f7       	brne	.-4      	; 0x892 <lcd_init_4d+0x46>
      896:	00 00       	nop
-    _delay_us(DELAY_INST);                                  // 40uS delay (min)
-
-// Function Set instruction
-    lcd_write_instruction_4d(lcd_FunctionSet4bit);   // set mode, lines, and font
      898:	88 e2       	ldi	r24, 0x28	; 40
      89a:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
      89e:	8d e0       	ldi	r24, 0x0D	; 13
      8a0:	8a 95       	dec	r24
      8a2:	f1 f7       	brne	.-4      	; 0x8a0 <lcd_init_4d+0x54>
      8a4:	00 00       	nop
-// The next three instructions are specified in the data sheet as part of the initialization routine,
-//  so it is a good idea (but probably not necessary) to do them just as specified and then redo them
-//  later if the application requires a different configuration.
-
-// Display On/Off Control instruction
-    lcd_write_instruction_4d(lcd_DisplayOff);        // turn display OFF
      8a6:	88 e0       	ldi	r24, 0x08	; 8
      8a8:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
      8ac:	9d e0       	ldi	r25, 0x0D	; 13
      8ae:	9a 95       	dec	r25
      8b0:	f1 f7       	brne	.-4      	; 0x8ae <lcd_init_4d+0x62>
      8b2:	00 00       	nop
-    _delay_us(DELAY_INST);                                  // 40uS delay (min)
-
-// Clear Display instruction
-    lcd_write_instruction_4d(lcd_Clear);             // clear display RAM
      8b4:	81 e0       	ldi	r24, 0x01	; 1
      8b6:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
 	#else
@@ -1289,10 +1066,6 @@ ISR(WDT_vect)
      8c0:	f1 f7       	brne	.-4      	; 0x8be <lcd_init_4d+0x72>
      8c2:	00 c0       	rjmp	.+0      	; 0x8c4 <lcd_init_4d+0x78>
      8c4:	00 00       	nop
-    _delay_ms(4);                                   // 1.64 mS delay (min)
-
-// ; Entry Mode Set instruction
-    lcd_write_instruction_4d(lcd_EntryMode);         // set desired shift characteristics
      8c6:	86 e0       	ldi	r24, 0x06	; 6
      8c8:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
 	#else
@@ -1305,12 +1078,6 @@ ISR(WDT_vect)
      8ce:	9a 95       	dec	r25
      8d0:	f1 f7       	brne	.-4      	; 0x8ce <lcd_init_4d+0x82>
      8d2:	00 00       	nop
-
-// This is the end of the LCD controller initialization as specified in the data sheet, but the display
-//  has been left in the OFF condition.  This is a good time to turn the display back ON.
-
-// Display On/Off Control instruction
-    lcd_write_instruction_4d(lcd_DisplayOn);         // turn the display ON
      8d4:	8c e0       	ldi	r24, 0x0C	; 12
      8d6:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
      8da:	8d e0       	ldi	r24, 0x0D	; 13
@@ -1320,79 +1087,28 @@ ISR(WDT_vect)
      8e2:	08 95       	ret
 
 000008e4 <config>:
-
-void config()
-{
-// configure the microprocessor pins for the data lines
-// 4 data lines - output
-    lcd_D7_ddr |= _BV(lcd_D7_bit);
      8e4:	57 9a       	sbi	0x0a, 7	; 10
-    lcd_D6_ddr |= _BV(lcd_D6_bit);
      8e6:	56 9a       	sbi	0x0a, 6	; 10
-    lcd_D5_ddr |= _BV(lcd_D5_bit);
      8e8:	55 9a       	sbi	0x0a, 5	; 10
-    lcd_D4_ddr |= _BV(lcd_D4_bit);
      8ea:	54 9a       	sbi	0x0a, 4	; 10
-
-// LCD backlight cathode pin (K) - Output
-    lcd_Backlight_ddr |= _BV(lcd_Backlight_bit);
      8ec:	20 9a       	sbi	0x04, 0	; 4
-    //turn off LCD backlight
-    lcd_Backlight_port |= _BV(lcd_Backlight_bit);
      8ee:	28 9a       	sbi	0x05, 0	; 5
-
-//Tactile switch - Input
-    tactile_Switch_ddr &= ~_BV(tactile_Switch_bit);
      8f0:	24 98       	cbi	0x04, 4	; 4
-
-// configure the microprocessor pins for the control lines
-// E line - output
-    lcd_E_ddr |= _BV(lcd_E_bit);
      8f2:	53 9a       	sbi	0x0a, 3	; 10
-// RS line - output
-    lcd_RS_ddr |= _BV(lcd_RS_bit);
      8f4:	52 9a       	sbi	0x0a, 2	; 10
-    //turn on LCD VDD
-    //lcd_VDD_port |= _BV(lcd_VDD_bit);
-
-// initialize the LCD controller as determined by the defines (LCD instructions)
-// initialize the LCD display for a 4-bit interface
-    lcd_init_4d();
      8f6:	0e 94 26 04 	call	0x84c	; 0x84c <lcd_init_4d>
      8fa:	08 95       	ret
 
 000008fc <main>:
-
-
-/******************************* Main Program Code *************************/
-int main(void)
-{
-    config();
      8fc:	0e 94 72 04 	call	0x8e4	; 0x8e4 <config>
-    //ioinit(); //dht11
-    init_devices();
      900:	0e 94 c4 00 	call	0x188	; 0x188 <init_devices>
-    
-	initINT();
      904:	0e 94 b3 00 	call	0x166	; 0x166 <initINT>
-    parseCompileTime();
      908:	0e 94 a1 04 	call	0x942	; 0x942 <parseCompileTime>
-    //lcd_dispRealClock();
-	lcd_dispProgInfo();
      90c:	0e 94 56 03 	call	0x6ac	; 0x6ac <lcd_dispProgInfo>
-    //turnOnLCDBacklight();
-    
-	// Use the Power Down sleep mode
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
      910:	83 b7       	in	r24, 0x33	; 51
      912:	81 7f       	andi	r24, 0xF1	; 241
      914:	84 60       	ori	r24, 0x04	; 4
      916:	83 bf       	out	0x33, r24	; 51
-	// endless loop
-    while(1)
-    {
-      // go to sleep and wait for interrupt...
-      sleep_mode();
      918:	83 b7       	in	r24, 0x33	; 51
      91a:	81 60       	ori	r24, 0x01	; 1
      91c:	83 bf       	out	0x33, r24	; 51
@@ -1403,12 +1119,6 @@ int main(void)
      926:	f8 cf       	rjmp	.-16     	; 0x918 <__stack+0x19>
 
 00000928 <calcDay>:
-    calcDay();
-}//parseCompileTime
-
-void calcDay()
-{
-    day = (date - 17)%7;
      928:	80 91 6a 04 	lds	r24, 0x046A	; 0x80046a <date>
      92c:	08 2e       	mov	r0, r24
      92e:	00 0c       	add	r0, r0
@@ -1421,12 +1131,6 @@ void calcDay()
      940:	08 95       	ret
 
 00000942 <parseCompileTime>:
-extern uint8_t year, month, date;
-extern uint8_t monthEndDate, day;
-*/
-
-void parseCompileTime()
-{
      942:	1f 93       	push	r17
      944:	cf 93       	push	r28
      946:	df 93       	push	r29
@@ -1438,26 +1142,17 @@ void parseCompileTime()
      952:	de bf       	out	0x3e, r29	; 62
      954:	0f be       	out	0x3f, r0	; 63
      956:	cd bf       	out	0x3d, r28	; 61
-    char sTime[4][3];
-    char sDate[4][10];
-    uint8_t n=0;
-    uint16_t yearLong;
-
-    p = strtok(__TIME__,":");
      958:	65 ee       	ldi	r22, 0xE5	; 229
      95a:	73 e0       	ldi	r23, 0x03	; 3
      95c:	87 e1       	ldi	r24, 0x17	; 23
      95e:	94 e0       	ldi	r25, 0x04	; 4
      960:	0e 94 e0 07 	call	0xfc0	; 0xfc0 <strtok>
      964:	bc 01       	movw	r22, r24
-    while (*p)
      966:	fc 01       	movw	r30, r24
      968:	80 81       	ld	r24, Z
      96a:	88 23       	and	r24, r24
      96c:	e9 f0       	breq	.+58     	; 0x9a8 <parseCompileTime+0x66>
      96e:	20 e0       	ldi	r18, 0x00	; 0
-    {
-        strcpy((char *)&sTime[n++], p);
      970:	11 e0       	ldi	r17, 0x01	; 1
      972:	12 0f       	add	r17, r18
      974:	30 e0       	ldi	r19, 0x00	; 0
@@ -1473,73 +1168,41 @@ void parseCompileTime()
      988:	82 0f       	add	r24, r18
      98a:	93 1f       	adc	r25, r19
      98c:	0e 94 ee 07 	call	0xfdc	; 0xfdc <strcpy>
-        p=strtok(NULL, ":");
      990:	65 ee       	ldi	r22, 0xE5	; 229
      992:	73 e0       	ldi	r23, 0x03	; 3
      994:	80 e0       	ldi	r24, 0x00	; 0
      996:	90 e0       	ldi	r25, 0x00	; 0
      998:	0e 94 e0 07 	call	0xfc0	; 0xfc0 <strtok>
      99c:	bc 01       	movw	r22, r24
-    uint16_t yearLong;
-
-    p = strtok(__TIME__,":");
-    while (*p)
-    {
-        strcpy((char *)&sTime[n++], p);
      99e:	21 2f       	mov	r18, r17
-    char sDate[4][10];
-    uint8_t n=0;
-    uint16_t yearLong;
-
-    p = strtok(__TIME__,":");
-    while (*p)
      9a0:	fc 01       	movw	r30, r24
      9a2:	80 81       	ld	r24, Z
      9a4:	81 11       	cpse	r24, r1
      9a6:	e4 cf       	rjmp	.-56     	; 0x970 <parseCompileTime+0x2e>
-    {
-        strcpy((char *)&sTime[n++], p);
-        p=strtok(NULL, ":");
-    }
-    hour=atoi(sTime[0]);
      9a8:	ce 01       	movw	r24, r28
      9aa:	01 96       	adiw	r24, 0x01	; 1
      9ac:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      9b0:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
-    min=atoi(sTime[1]);
      9b4:	ce 01       	movw	r24, r28
      9b6:	04 96       	adiw	r24, 0x04	; 4
      9b8:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      9bc:	80 93 6e 04 	sts	0x046E, r24	; 0x80046e <min>
-    //give some delay (8 seconds), to compile & upload by human click
-    //sec=atoi(sTime[2]) + 8;
-
-    //if you change power source to battery,
-    //  you'd better put more time allowance
-    sec=atoi(sTime[2]) + 15;
      9c0:	ce 01       	movw	r24, r28
      9c2:	07 96       	adiw	r24, 0x07	; 7
      9c4:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      9c8:	81 5f       	subi	r24, 0xF1	; 241
      9ca:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
-    //hour = atoi(sHour);
-
-    n=0;
-    p = strtok(__DATE__," ");
      9ce:	60 e0       	ldi	r22, 0x00	; 0
      9d0:	74 e0       	ldi	r23, 0x04	; 4
      9d2:	89 ed       	ldi	r24, 0xD9	; 217
      9d4:	93 e0       	ldi	r25, 0x03	; 3
      9d6:	0e 94 e0 07 	call	0xfc0	; 0xfc0 <strtok>
      9da:	bc 01       	movw	r22, r24
-    while (*p)
      9dc:	fc 01       	movw	r30, r24
      9de:	80 81       	ld	r24, Z
      9e0:	88 23       	and	r24, r24
      9e2:	19 f1       	breq	.+70     	; 0xa2a <parseCompileTime+0xe8>
      9e4:	20 e0       	ldi	r18, 0x00	; 0
-    {
-        strcpy((char *)&sDate[n++], p);
      9e6:	11 e0       	ldi	r17, 0x01	; 1
      9e8:	12 0f       	add	r17, r18
      9ea:	30 e0       	ldi	r19, 0x00	; 0
@@ -1561,36 +1224,17 @@ void parseCompileTime()
      a0a:	82 0f       	add	r24, r18
      a0c:	93 1f       	adc	r25, r19
      a0e:	0e 94 ee 07 	call	0xfdc	; 0xfdc <strcpy>
-        p=strtok(NULL, " ");
      a12:	60 e0       	ldi	r22, 0x00	; 0
      a14:	74 e0       	ldi	r23, 0x04	; 4
      a16:	80 e0       	ldi	r24, 0x00	; 0
      a18:	90 e0       	ldi	r25, 0x00	; 0
      a1a:	0e 94 e0 07 	call	0xfc0	; 0xfc0 <strtok>
      a1e:	bc 01       	movw	r22, r24
-
-    n=0;
-    p = strtok(__DATE__," ");
-    while (*p)
-    {
-        strcpy((char *)&sDate[n++], p);
      a20:	21 2f       	mov	r18, r17
-    sec=atoi(sTime[2]) + 15;
-    //hour = atoi(sHour);
-
-    n=0;
-    p = strtok(__DATE__," ");
-    while (*p)
      a22:	fc 01       	movw	r30, r24
      a24:	80 81       	ld	r24, Z
      a26:	81 11       	cpse	r24, r1
      a28:	de cf       	rjmp	.-68     	; 0x9e6 <parseCompileTime+0xa4>
-    {
-        strcpy((char *)&sDate[n++], p);
-        p=strtok(NULL, " ");
-    }
-
-    if ( strcmp(sDate[0], "Jan") == 0 )
      a2a:	60 e2       	ldi	r22, 0x20	; 32
      a2c:	74 e0       	ldi	r23, 0x04	; 4
      a2e:	ce 01       	movw	r24, r28
@@ -1598,11 +1242,9 @@ void parseCompileTime()
      a32:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      a36:	89 2b       	or	r24, r25
      a38:	21 f4       	brne	.+8      	; 0xa42 <parseCompileTime+0x100>
-        month = 1;
      a3a:	81 e0       	ldi	r24, 0x01	; 1
      a3c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a40:	83 c0       	rjmp	.+262    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Feb") == 0 )
      a42:	64 e2       	ldi	r22, 0x24	; 36
      a44:	74 e0       	ldi	r23, 0x04	; 4
      a46:	ce 01       	movw	r24, r28
@@ -1610,11 +1252,9 @@ void parseCompileTime()
      a4a:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      a4e:	89 2b       	or	r24, r25
      a50:	21 f4       	brne	.+8      	; 0xa5a <parseCompileTime+0x118>
-        month = 2;
      a52:	82 e0       	ldi	r24, 0x02	; 2
      a54:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a58:	77 c0       	rjmp	.+238    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Mar") == 0 )
      a5a:	68 e2       	ldi	r22, 0x28	; 40
      a5c:	74 e0       	ldi	r23, 0x04	; 4
      a5e:	ce 01       	movw	r24, r28
@@ -1622,11 +1262,9 @@ void parseCompileTime()
      a62:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      a66:	89 2b       	or	r24, r25
      a68:	21 f4       	brne	.+8      	; 0xa72 <parseCompileTime+0x130>
-        month = 3;
      a6a:	83 e0       	ldi	r24, 0x03	; 3
      a6c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a70:	6b c0       	rjmp	.+214    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Apr") == 0 )
      a72:	6c e2       	ldi	r22, 0x2C	; 44
      a74:	74 e0       	ldi	r23, 0x04	; 4
      a76:	ce 01       	movw	r24, r28
@@ -1634,11 +1272,9 @@ void parseCompileTime()
      a7a:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      a7e:	89 2b       	or	r24, r25
      a80:	21 f4       	brne	.+8      	; 0xa8a <parseCompileTime+0x148>
-        month = 4;
      a82:	84 e0       	ldi	r24, 0x04	; 4
      a84:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      a88:	5f c0       	rjmp	.+190    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "May") == 0 )
      a8a:	60 e3       	ldi	r22, 0x30	; 48
      a8c:	74 e0       	ldi	r23, 0x04	; 4
      a8e:	ce 01       	movw	r24, r28
@@ -1646,11 +1282,9 @@ void parseCompileTime()
      a92:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      a96:	89 2b       	or	r24, r25
      a98:	21 f4       	brne	.+8      	; 0xaa2 <parseCompileTime+0x160>
-        month = 5;
      a9a:	85 e0       	ldi	r24, 0x05	; 5
      a9c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      aa0:	53 c0       	rjmp	.+166    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Jun") == 0 )
      aa2:	64 e3       	ldi	r22, 0x34	; 52
      aa4:	74 e0       	ldi	r23, 0x04	; 4
      aa6:	ce 01       	movw	r24, r28
@@ -1658,11 +1292,9 @@ void parseCompileTime()
      aaa:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      aae:	89 2b       	or	r24, r25
      ab0:	21 f4       	brne	.+8      	; 0xaba <parseCompileTime+0x178>
-        month = 6;
      ab2:	86 e0       	ldi	r24, 0x06	; 6
      ab4:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ab8:	47 c0       	rjmp	.+142    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Jul") == 0 )
      aba:	68 e3       	ldi	r22, 0x38	; 56
      abc:	74 e0       	ldi	r23, 0x04	; 4
      abe:	ce 01       	movw	r24, r28
@@ -1670,11 +1302,9 @@ void parseCompileTime()
      ac2:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      ac6:	89 2b       	or	r24, r25
      ac8:	21 f4       	brne	.+8      	; 0xad2 <parseCompileTime+0x190>
-        month = 7;
      aca:	87 e0       	ldi	r24, 0x07	; 7
      acc:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ad0:	3b c0       	rjmp	.+118    	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Aug") == 0 )
      ad2:	6c e3       	ldi	r22, 0x3C	; 60
      ad4:	74 e0       	ldi	r23, 0x04	; 4
      ad6:	ce 01       	movw	r24, r28
@@ -1682,11 +1312,9 @@ void parseCompileTime()
      ada:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      ade:	89 2b       	or	r24, r25
      ae0:	21 f4       	brne	.+8      	; 0xaea <parseCompileTime+0x1a8>
-        month = 8;
      ae2:	88 e0       	ldi	r24, 0x08	; 8
      ae4:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      ae8:	2f c0       	rjmp	.+94     	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Sep") == 0 )
      aea:	60 e4       	ldi	r22, 0x40	; 64
      aec:	74 e0       	ldi	r23, 0x04	; 4
      aee:	ce 01       	movw	r24, r28
@@ -1694,11 +1322,9 @@ void parseCompileTime()
      af2:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      af6:	89 2b       	or	r24, r25
      af8:	21 f4       	brne	.+8      	; 0xb02 <parseCompileTime+0x1c0>
-        month = 9;
      afa:	89 e0       	ldi	r24, 0x09	; 9
      afc:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b00:	23 c0       	rjmp	.+70     	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Oct") == 0 )
      b02:	64 e4       	ldi	r22, 0x44	; 68
      b04:	74 e0       	ldi	r23, 0x04	; 4
      b06:	ce 01       	movw	r24, r28
@@ -1706,11 +1332,9 @@ void parseCompileTime()
      b0a:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      b0e:	89 2b       	or	r24, r25
      b10:	21 f4       	brne	.+8      	; 0xb1a <parseCompileTime+0x1d8>
-        month = 10;
      b12:	8a e0       	ldi	r24, 0x0A	; 10
      b14:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b18:	17 c0       	rjmp	.+46     	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Nov") == 0 )
      b1a:	68 e4       	ldi	r22, 0x48	; 72
      b1c:	74 e0       	ldi	r23, 0x04	; 4
      b1e:	ce 01       	movw	r24, r28
@@ -1718,11 +1342,9 @@ void parseCompileTime()
      b22:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      b26:	89 2b       	or	r24, r25
      b28:	21 f4       	brne	.+8      	; 0xb32 <parseCompileTime+0x1f0>
-        month = 11;
      b2a:	8b e0       	ldi	r24, 0x0B	; 11
      b2c:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
      b30:	0b c0       	rjmp	.+22     	; 0xb48 <parseCompileTime+0x206>
-    else if ( strcmp(sDate[0], "Dec") == 0 )
      b32:	6c e4       	ldi	r22, 0x4C	; 76
      b34:	74 e0       	ldi	r23, 0x04	; 4
      b36:	ce 01       	movw	r24, r28
@@ -1730,21 +1352,16 @@ void parseCompileTime()
      b3a:	0e 94 e5 07 	call	0xfca	; 0xfca <strcmp>
      b3e:	89 2b       	or	r24, r25
      b40:	19 f4       	brne	.+6      	; 0xb48 <parseCompileTime+0x206>
-        month = 12;
      b42:	8c e0       	ldi	r24, 0x0C	; 12
      b44:	80 93 6b 04 	sts	0x046B, r24	; 0x80046b <month>
-
-    date=atoi(sDate[1]);
      b48:	ce 01       	movw	r24, r28
      b4a:	47 96       	adiw	r24, 0x17	; 23
      b4c:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      b50:	80 93 6a 04 	sts	0x046A, r24	; 0x80046a <date>
-    yearLong=atoi(sDate[2]);
      b54:	ce 01       	movw	r24, r28
      b56:	81 96       	adiw	r24, 0x21	; 33
      b58:	0e 94 c2 07 	call	0xf84	; 0xf84 <atoi>
      b5c:	ac 01       	movw	r20, r24
-    year=yearLong%1000;
      b5e:	9c 01       	movw	r18, r24
      b60:	36 95       	lsr	r19
      b62:	27 95       	ror	r18
@@ -1773,10 +1390,7 @@ void parseCompileTime()
      b92:	42 1b       	sub	r20, r18
      b94:	53 0b       	sbc	r21, r19
      b96:	40 93 6c 04 	sts	0x046C, r20	; 0x80046c <year>
-
-    calcDay();
      b9a:	0e 94 94 04 	call	0x928	; 0x928 <calcDay>
-}//parseCompileTime
      b9e:	e4 96       	adiw	r28, 0x34	; 52
      ba0:	0f b6       	in	r0, 0x3f	; 63
      ba2:	f8 94       	cli
@@ -1789,12 +1403,6 @@ void parseCompileTime()
      bb0:	08 95       	ret
 
 00000bb2 <adjustHour>:
-    }//if (DONE == 1)
-
-}//countButton
-
-void adjustHour()
-{
      bb2:	0f 93       	push	r16
      bb4:	1f 93       	push	r17
      bb6:	cf 93       	push	r28
@@ -1803,25 +1411,14 @@ void adjustHour()
      bbc:	1f 92       	push	r1
      bbe:	cd b7       	in	r28, 0x3d	; 61
      bc0:	de b7       	in	r29, 0x3e	; 62
-    uint8_t DONE=0, val;
-    uint8_t curLoop=0, preLoop=0, lapse=0;
      bc2:	00 e0       	ldi	r16, 0x00	; 0
      bc4:	10 e0       	ldi	r17, 0x00	; 0
-    char strHour[3];
-
-    while (!DONE)
-    {
-    // set cursor to start of first line
-        lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
      bc6:	80 e8       	ldi	r24, 0x80	; 128
      bc8:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
      bcc:	8d e0       	ldi	r24, 0x0D	; 13
      bce:	8a 95       	dec	r24
      bd0:	f1 f7       	brne	.-4      	; 0xbce <adjustHour+0x1c>
      bd2:	00 00       	nop
-        _delay_us(DELAY_INST);                                  // 40 uS delay (min)
-    // display the first line of information
-        lcd_write_string_4d((uint8_t *)"Hour: ");
      bd4:	80 e5       	ldi	r24, 0x50	; 80
      bd6:	94 e0       	ldi	r25, 0x04	; 4
      bd8:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
@@ -1840,16 +1437,12 @@ void adjustHour()
      bea:	00 0c       	add	r0, r0
      bec:	99 0b       	sbc	r25, r25
      bee:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-        itoa(hour, strHour, 10);
-        lcd_write_string_4d((uint8_t *)strHour);
      bf2:	ce 01       	movw	r24, r28
      bf4:	01 96       	adiw	r24, 0x01	; 1
      bf6:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        lcd_write_string_4d((uint8_t *)" ");
      bfa:	80 e0       	ldi	r24, 0x00	; 0
      bfc:	94 e0       	ldi	r25, 0x04	; 4
      bfe:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
      c02:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
@@ -1863,36 +1456,18 @@ void adjustHour()
      c0a:	f1 f7       	brne	.-4      	; 0xc08 <adjustHour+0x56>
      c0c:	00 c0       	rjmp	.+0      	; 0xc0e <adjustHour+0x5c>
      c0e:	00 00       	nop
-        _delay_ms(100);
-        if (val == 0)
      c10:	84 fd       	sbrc	r24, 4
      c12:	0c c0       	rjmp	.+24     	; 0xc2c <adjustHour+0x7a>
-        {
-            hour++;
      c14:	80 91 6f 04 	lds	r24, 0x046F	; 0x80046f <hour>
      c18:	8f 5f       	subi	r24, 0xFF	; 255
-            if (hour > 23)
      c1a:	88 31       	cpi	r24, 0x18	; 24
      c1c:	24 f4       	brge	.+8      	; 0xc26 <adjustHour+0x74>
-        lcd_write_string_4d((uint8_t *)" ");
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
-        _delay_ms(100);
-        if (val == 0)
-        {
-            hour++;
      c1e:	80 93 6f 04 	sts	0x046F, r24	; 0x80046f <hour>
      c22:	01 2f       	mov	r16, r17
      c24:	03 c0       	rjmp	.+6      	; 0xc2c <adjustHour+0x7a>
-            if (hour > 23)
-                hour=0;
      c26:	10 92 6f 04 	sts	0x046F, r1	; 0x80046f <hour>
      c2a:	01 2f       	mov	r16, r17
-            preLoop = curLoop;
-        }
-        curLoop++;
      c2c:	1f 5f       	subi	r17, 0xFF	; 255
-        lapse = curLoop - preLoop;
-        if (lapse > adjustTimeInterval)
      c2e:	81 2f       	mov	r24, r17
      c30:	80 1b       	sub	r24, r16
      c32:	89 30       	cpi	r24, 0x09	; 9
@@ -1910,10 +1485,6 @@ void adjustHour()
      c4a:	f1 f7       	brne	.-4      	; 0xc48 <adjustHour+0x96>
      c4c:	00 c0       	rjmp	.+0      	; 0xc4e <adjustHour+0x9c>
      c4e:	00 00       	nop
-            DONE = 1;
-        _delay_ms(halfSec/4);
-    }//while (!DONE)
-}//adjustHour
      c50:	0f 90       	pop	r0
      c52:	0f 90       	pop	r0
      c54:	0f 90       	pop	r0
@@ -1924,9 +1495,6 @@ void adjustHour()
      c5e:	08 95       	ret
 
 00000c60 <adjustMin>:
-
-void adjustMin()
-{
      c60:	0f 93       	push	r16
      c62:	1f 93       	push	r17
      c64:	cf 93       	push	r28
@@ -1935,16 +1503,8 @@ void adjustMin()
      c6a:	1f 92       	push	r1
      c6c:	cd b7       	in	r28, 0x3d	; 61
      c6e:	de b7       	in	r29, 0x3e	; 62
-    uint8_t DONE=0, val;
-    uint8_t curLoop=0, preLoop=0, lapse=0;
      c70:	00 e0       	ldi	r16, 0x00	; 0
      c72:	10 e0       	ldi	r17, 0x00	; 0
-    char strMin[3];
-
-    while (!DONE)
-    {
-    // set cursor to start of first line
-        lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
      c74:	80 e8       	ldi	r24, 0x80	; 128
      c76:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
 	#else
@@ -1957,9 +1517,6 @@ void adjustMin()
      c7c:	8a 95       	dec	r24
      c7e:	f1 f7       	brne	.-4      	; 0xc7c <adjustMin+0x1c>
      c80:	00 00       	nop
-        _delay_us(DELAY_INST);                                  // 40 uS delay (min)
-    // display the first line of information
-        lcd_write_string_4d((uint8_t *)"Min: ");
      c82:	87 e5       	ldi	r24, 0x57	; 87
      c84:	94 e0       	ldi	r25, 0x04	; 4
      c86:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
@@ -1972,16 +1529,12 @@ void adjustMin()
      c98:	00 0c       	add	r0, r0
      c9a:	99 0b       	sbc	r25, r25
      c9c:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-        itoa(min, strMin, 10);
-        lcd_write_string_4d((uint8_t *)strMin);
      ca0:	ce 01       	movw	r24, r28
      ca2:	01 96       	adiw	r24, 0x01	; 1
      ca4:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        lcd_write_string_4d((uint8_t *)" ");
      ca8:	80 e0       	ldi	r24, 0x00	; 0
      caa:	94 e0       	ldi	r25, 0x04	; 4
      cac:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
      cb0:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
@@ -1995,36 +1548,18 @@ void adjustMin()
      cb8:	f1 f7       	brne	.-4      	; 0xcb6 <adjustMin+0x56>
      cba:	00 c0       	rjmp	.+0      	; 0xcbc <adjustMin+0x5c>
      cbc:	00 00       	nop
-        _delay_ms(100);
-        if (val == 0)
      cbe:	84 fd       	sbrc	r24, 4
      cc0:	0c c0       	rjmp	.+24     	; 0xcda <adjustMin+0x7a>
-        {
-            min++;
      cc2:	80 91 6e 04 	lds	r24, 0x046E	; 0x80046e <min>
      cc6:	8f 5f       	subi	r24, 0xFF	; 255
-            if (min > 59)
      cc8:	8c 33       	cpi	r24, 0x3C	; 60
      cca:	24 f4       	brge	.+8      	; 0xcd4 <adjustMin+0x74>
-        lcd_write_string_4d((uint8_t *)" ");
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
-        _delay_ms(100);
-        if (val == 0)
-        {
-            min++;
      ccc:	80 93 6e 04 	sts	0x046E, r24	; 0x80046e <min>
      cd0:	01 2f       	mov	r16, r17
      cd2:	03 c0       	rjmp	.+6      	; 0xcda <adjustMin+0x7a>
-            if (min > 59)
-                min=0;
      cd4:	10 92 6e 04 	sts	0x046E, r1	; 0x80046e <min>
      cd8:	01 2f       	mov	r16, r17
-            preLoop = curLoop;
-        }
-        curLoop++;
      cda:	1f 5f       	subi	r17, 0xFF	; 255
-        lapse = curLoop - preLoop;
-        if (lapse > adjustTimeInterval)
      cdc:	81 2f       	mov	r24, r17
      cde:	80 1b       	sub	r24, r16
      ce0:	89 30       	cpi	r24, 0x09	; 9
@@ -2042,11 +1577,6 @@ void adjustMin()
      cf8:	f1 f7       	brne	.-4      	; 0xcf6 <adjustMin+0x96>
      cfa:	00 c0       	rjmp	.+0      	; 0xcfc <adjustMin+0x9c>
      cfc:	00 00       	nop
-            DONE = 1;
-        _delay_ms(halfSec/4);
-    }//while (!DONE)
-
-}//adjustMin
      cfe:	0f 90       	pop	r0
      d00:	0f 90       	pop	r0
      d02:	0f 90       	pop	r0
@@ -2057,9 +1587,6 @@ void adjustMin()
      d0c:	08 95       	ret
 
 00000d0e <adjustSec>:
-
-void adjustSec()
-{
      d0e:	0f 93       	push	r16
      d10:	1f 93       	push	r17
      d12:	cf 93       	push	r28
@@ -2068,16 +1595,8 @@ void adjustSec()
      d18:	1f 92       	push	r1
      d1a:	cd b7       	in	r28, 0x3d	; 61
      d1c:	de b7       	in	r29, 0x3e	; 62
-    uint8_t DONE=0, val;
-    uint8_t curLoop=0, preLoop=0, lapse=0;
      d1e:	00 e0       	ldi	r16, 0x00	; 0
      d20:	10 e0       	ldi	r17, 0x00	; 0
-    char strSec[3];
-
-    while (!DONE)
-    {
-    // set cursor to start of first line
-        lcd_write_instruction_4d(lcd_SetCursor | lcd_LineOne);
      d22:	80 e8       	ldi	r24, 0x80	; 128
      d24:	0e 94 01 02 	call	0x402	; 0x402 <lcd_write_instruction_4d>
 	#else
@@ -2090,9 +1609,6 @@ void adjustSec()
      d2a:	8a 95       	dec	r24
      d2c:	f1 f7       	brne	.-4      	; 0xd2a <adjustSec+0x1c>
      d2e:	00 00       	nop
-        _delay_us(DELAY_INST);                                  // 40 uS delay (sec)
-    // display the first line of information
-        lcd_write_string_4d((uint8_t *)"sec: ");
      d30:	8d e5       	ldi	r24, 0x5D	; 93
      d32:	94 e0       	ldi	r25, 0x04	; 4
      d34:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
@@ -2105,16 +1621,12 @@ void adjustSec()
      d46:	00 0c       	add	r0, r0
      d48:	99 0b       	sbc	r25, r25
      d4a:	0e 94 1c 08 	call	0x1038	; 0x1038 <__itoa_ncheck>
-        itoa(sec, strSec, 10);
-        lcd_write_string_4d((uint8_t *)strSec);
      d4e:	ce 01       	movw	r24, r28
      d50:	01 96       	adiw	r24, 0x01	; 1
      d52:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        lcd_write_string_4d((uint8_t *)" ");
      d56:	80 e0       	ldi	r24, 0x00	; 0
      d58:	94 e0       	ldi	r25, 0x04	; 4
      d5a:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <lcd_write_string_4d>
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
      d5e:	83 b1       	in	r24, 0x03	; 3
 	#else
 		//round up by default
@@ -2128,36 +1640,18 @@ void adjustSec()
      d66:	f1 f7       	brne	.-4      	; 0xd64 <adjustSec+0x56>
      d68:	00 c0       	rjmp	.+0      	; 0xd6a <adjustSec+0x5c>
      d6a:	00 00       	nop
-        _delay_ms(100);
-        if (val == 0)
      d6c:	84 fd       	sbrc	r24, 4
      d6e:	0c c0       	rjmp	.+24     	; 0xd88 <adjustSec+0x7a>
-        {
-            sec++;
      d70:	80 91 6d 04 	lds	r24, 0x046D	; 0x80046d <sec>
      d74:	8f 5f       	subi	r24, 0xFF	; 255
-            if (sec > 59)
      d76:	8c 33       	cpi	r24, 0x3C	; 60
      d78:	24 f4       	brge	.+8      	; 0xd82 <adjustSec+0x74>
-        lcd_write_string_4d((uint8_t *)" ");
-        val = tactile_Switch_port & _BV(tactile_Switch_bit);
-        _delay_ms(100);
-        if (val == 0)
-        {
-            sec++;
      d7a:	80 93 6d 04 	sts	0x046D, r24	; 0x80046d <sec>
      d7e:	01 2f       	mov	r16, r17
      d80:	03 c0       	rjmp	.+6      	; 0xd88 <adjustSec+0x7a>
-            if (sec > 59)
-                sec=0;
      d82:	10 92 6d 04 	sts	0x046D, r1	; 0x80046d <sec>
      d86:	01 2f       	mov	r16, r17
-            preLoop = curLoop;
-        }
-        curLoop++;
      d88:	1f 5f       	subi	r17, 0xFF	; 255
-        lapse = curLoop - preLoop;
-        if (lapse > adjustTimeInterval)
      d8a:	81 2f       	mov	r24, r17
      d8c:	80 1b       	sub	r24, r16
      d8e:	89 30       	cpi	r24, 0x09	; 9
@@ -2175,11 +1669,6 @@ void adjustSec()
      da6:	f1 f7       	brne	.-4      	; 0xda4 <adjustSec+0x96>
      da8:	00 c0       	rjmp	.+0      	; 0xdaa <adjustSec+0x9c>
      daa:	00 00       	nop
-            DONE = 1;
-        _delay_ms(halfSec/4);
-    }//while (!DONE)
-
-}//adjustSec
      dac:	0f 90       	pop	r0
      dae:	0f 90       	pop	r0
      db0:	0f 90       	pop	r0
@@ -2190,71 +1679,19 @@ void adjustSec()
      dba:	08 95       	ret
 
 00000dbc <countButton>:
-
-    uint8_t val;
-    uint8_t DONE=0;
-
-
-    loopCnt=0;
      dbc:	80 e0       	ldi	r24, 0x00	; 0
-    prevLoop=0;
      dbe:	30 e0       	ldi	r19, 0x00	; 0
-}//sysClockTest
-
-//-----------------------------------
-void countButton()
-{
-    uint8_t menuCnt=0;
      dc0:	20 e0       	ldi	r18, 0x00	; 0
-        //  multiple of _delay_ms(halfSec/4)
-        //  which is the unit delay of each while loop
-        if (lapse > menuSelectInterval)
-        {
-            if (menuCnt != 0)
-                DONE = 1;
      dc2:	51 e0       	ldi	r21, 0x01	; 1
-            DONE = 2;
-
-      //check if tactile_Switch pressed to 0
-      //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
-      val = tactile_Switch_port & _BV(tactile_Switch_bit);
-      if (val == 0)
      dc4:	60 e0       	ldi	r22, 0x00	; 0
-                ;
-        }
-        //if user has not chosen menuCnt > 0, and time lapse over 3sec,
-        //forget about it, and call DONE as 2, and eventually go to sleep.
-        if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
-            DONE = 2;
      dc6:	42 e0       	ldi	r20, 0x02	; 2
-    //  it will be accumulated as "menuCnt".
-    //If the interval is over 1 sec, which is menuSelectInterval,
-    //  then DONE is set to 1.
-    while (!DONE)
-    {
-        loopCnt++;
      dc8:	8f 5f       	subi	r24, 0xFF	; 255
-        curLoop = loopCnt;
-        lapse = curLoop - prevLoop;
      dca:	98 2f       	mov	r25, r24
      dcc:	93 1b       	sub	r25, r19
-
-        //menuSelectInterval is
-        //  multiple of _delay_ms(halfSec/4)
-        //  which is the unit delay of each while loop
-        if (lapse > menuSelectInterval)
      dce:	95 30       	cpi	r25, 0x05	; 5
      dd0:	10 f0       	brcs	.+4      	; 0xdd6 <countButton+0x1a>
-        {
-            if (menuCnt != 0)
      dd2:	21 11       	cpse	r18, r1
      dd4:	7a c0       	rjmp	.+244    	; 0xeca <countButton+0x10e>
-                //wait another 1 sec to get user's menuCnt
-                ;
-        }
-        //if user has not chosen menuCnt > 0, and time lapse over 3sec,
-        //forget about it, and call DONE as 2, and eventually go to sleep.
-        if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
      dd6:	99 30       	cpi	r25, 0x09	; 9
      dd8:	08 f4       	brcc	.+2      	; 0xddc <countButton+0x20>
      dda:	6d c0       	rjmp	.+218    	; 0xeb6 <countButton+0xfa>
@@ -2262,12 +1699,6 @@ void countButton()
      dde:	09 f4       	brne	.+2      	; 0xde2 <countButton+0x26>
      de0:	76 c0       	rjmp	.+236    	; 0xece <countButton+0x112>
      de2:	69 c0       	rjmp	.+210    	; 0xeb6 <countButton+0xfa>
-            DONE = 2;
-
-      //check if tactile_Switch pressed to 0
-      //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
-      val = tactile_Switch_port & _BV(tactile_Switch_bit);
-      if (val == 0)
      de4:	96 2f       	mov	r25, r22
      de6:	e3 e2       	ldi	r30, 0x23	; 35
      de8:	f4 ef       	ldi	r31, 0xF4	; 244
@@ -2275,10 +1706,6 @@ void countButton()
      dec:	f1 f7       	brne	.-4      	; 0xdea <countButton+0x2e>
      dee:	00 c0       	rjmp	.+0      	; 0xdf0 <countButton+0x34>
      df0:	00 00       	nop
-      {
-        // for debounce
-        _delay_ms(halfSec/2);
-        menuCnt++;
      df2:	2f 5f       	subi	r18, 0xFF	; 255
      df4:	e1 e1       	ldi	r30, 0x11	; 17
      df6:	fa e7       	ldi	r31, 0x7A	; 122
@@ -2286,37 +1713,13 @@ void countButton()
      dfa:	f1 f7       	brne	.-4      	; 0xdf8 <countButton+0x3c>
      dfc:	00 c0       	rjmp	.+0      	; 0xdfe <countButton+0x42>
      dfe:	00 00       	nop
-
-        //Pressing the button, lap time calculation should be reset
-        //to give 1 sec of time to choose menuCnt
-        prevLoop = loopCnt;
      e00:	38 2f       	mov	r19, r24
-    //Get menuCnt by counting the button press
-    //If pressing the button within 1 second of interval between each press,
-    //  it will be accumulated as "menuCnt".
-    //If the interval is over 1 sec, which is menuSelectInterval,
-    //  then DONE is set to 1.
-    while (!DONE)
      e02:	99 23       	and	r25, r25
      e04:	09 f3       	breq	.-62     	; 0xdc8 <countButton+0xc>
-
-    //menuCnt has been set within 3sec of a PCINT occurence
-    //  then, play WDT count for a corresponding alarm period.
-    if (DONE)
-    {
-        if (DONE == 2)
      e06:	92 30       	cpi	r25, 0x02	; 2
      e08:	11 f4       	brne	.+4      	; 0xe0e <countButton+0x52>
-            menuCnt = prevMenuCnt;
      e0a:	20 91 72 04 	lds	r18, 0x0472	; 0x800472 <prevMenuCnt>
-        //visual cue to notifiy user selected menuCnt
-        //blinkLED(menuCnt);
-        //_delay_ms(halfSec);
-        //turnOnLCDpower();
-        //lcd_dispON();
-        prevMenuCnt = menuCnt;
      e0e:	20 93 72 04 	sts	0x0472, r18	; 0x800472 <prevMenuCnt>
-        switch (menuCnt)
      e12:	23 30       	cpi	r18, 0x03	; 3
      e14:	11 f1       	breq	.+68     	; 0xe5a <countButton+0x9e>
      e16:	28 f4       	brcc	.+10     	; 0xe22 <countButton+0x66>
@@ -2331,10 +1734,6 @@ void countButton()
      e28:	26 30       	cpi	r18, 0x06	; 6
      e2a:	c1 f1       	breq	.+112    	; 0xe9c <countButton+0xe0>
      e2c:	3a c0       	rjmp	.+116    	; 0xea2 <countButton+0xe6>
-        {
-            case 1:
-                //lcd_dispWords();
-                lcd_dispRealClock();
      e2e:	0e 94 0e 02 	call	0x41c	; 0x41c <lcd_dispRealClock>
      e32:	ff e3       	ldi	r31, 0x3F	; 63
      e34:	2d e0       	ldi	r18, 0x0D	; 13
@@ -2346,44 +1745,18 @@ void countButton()
      e40:	00 c0       	rjmp	.+0      	; 0xe42 <countButton+0x86>
      e42:	00 00       	nop
      e44:	08 95       	ret
-                _delay_ms(1000);
-                break;
-            case 2:
-                //_delay_ms(1000);
-                if (backLight == 0) 
      e46:	80 91 73 04 	lds	r24, 0x0473	; 0x800473 <backLight>
      e4a:	81 11       	cpse	r24, r1
      e4c:	03 c0       	rjmp	.+6      	; 0xe54 <countButton+0x98>
-					turnOnLCDBacklight();
      e4e:	0e 94 aa 01 	call	0x354	; 0x354 <turnOnLCDBacklight>
      e52:	08 95       	ret
-				else
-					turnOffLCDBacklight();
      e54:	0e 94 af 01 	call	0x35e	; 0x35e <turnOffLCDBacklight>
      e58:	08 95       	ret
-                //lcd_showDHT11();
-                //_delay_ms(5000);
-				
-                break;
-            case 3:
-				lcd_dispMenu();
      e5a:	0e 94 8a 03 	call	0x714	; 0x714 <lcd_dispMenu>
-                //turnOnLCDBacklight();
-                //lcd_dispRealClock();
-                //_delay_ms(7000);
-                //turnOffLCDBacklight();
-				//wdt_enable(WDTO_2S);
-                break;
      e5e:	08 95       	ret
-            case 4:
-                //adjustClock();
-                adjustMin();
      e60:	0e 94 30 06 	call	0xc60	; 0xc60 <adjustMin>
-                adjustHour();
      e64:	0e 94 d9 05 	call	0xbb2	; 0xbb2 <adjustHour>
-                adjustSec();
      e68:	0e 94 87 06 	call	0xd0e	; 0xd0e <adjustSec>
-                lcd_dispRealClock();
      e6c:	0e 94 0e 02 	call	0x41c	; 0x41c <lcd_dispRealClock>
      e70:	9f e3       	ldi	r25, 0x3F	; 63
      e72:	ed e0       	ldi	r30, 0x0D	; 13
@@ -2395,10 +1768,6 @@ void countButton()
      e7e:	00 c0       	rjmp	.+0      	; 0xe80 <countButton+0xc4>
      e80:	00 00       	nop
      e82:	08 95       	ret
-                _delay_ms(1000);
-                break;
-            case 5:
-                lcd_dispAccumulatedTime();
      e84:	0e 94 ff 02 	call	0x5fe	; 0x5fe <lcd_dispAccumulatedTime>
      e88:	2f e7       	ldi	r18, 0x7F	; 127
      e8a:	8a e1       	ldi	r24, 0x1A	; 26
@@ -2410,22 +1779,9 @@ void countButton()
      e96:	00 c0       	rjmp	.+0      	; 0xe98 <countButton+0xdc>
      e98:	00 00       	nop
      e9a:	08 95       	ret
-                _delay_ms(2000);
-                break;
-            case 6:
-                lcd_dispProgInfo();
      e9c:	0e 94 56 03 	call	0x6ac	; 0x6ac <lcd_dispProgInfo>
-                break;
      ea0:	08 95       	ret
-            default:
-                lcd_dispMenu();
      ea2:	0e 94 8a 03 	call	0x714	; 0x714 <lcd_dispMenu>
-        //Enable watchdog timer interrupts
-        // and begin counting for alarm
-        //WDTCR |= _BV(WDTIE);
-    }//if (DONE == 1)
-
-}//countButton
      ea6:	08 95       	ret
      ea8:	e1 e1       	ldi	r30, 0x11	; 17
      eaa:	fa e7       	ldi	r31, 0x7A	; 122
@@ -2434,12 +1790,6 @@ void countButton()
      eb0:	00 c0       	rjmp	.+0      	; 0xeb2 <countButton+0xf6>
      eb2:	00 00       	nop
      eb4:	89 cf       	rjmp	.-238    	; 0xdc8 <countButton+0xc>
-            DONE = 2;
-
-      //check if tactile_Switch pressed to 0
-      //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
-      val = tactile_Switch_port & _BV(tactile_Switch_bit);
-      if (val == 0)
      eb6:	1c 99       	sbic	0x03, 4	; 3
      eb8:	f7 cf       	rjmp	.-18     	; 0xea8 <countButton+0xec>
      eba:	94 cf       	rjmp	.-216    	; 0xde4 <countButton+0x28>
@@ -2450,26 +1800,9 @@ void countButton()
      ec4:	00 c0       	rjmp	.+0      	; 0xec6 <countButton+0x10a>
      ec6:	00 00       	nop
      ec8:	9e cf       	rjmp	.-196    	; 0xe06 <countButton+0x4a>
-        //  multiple of _delay_ms(halfSec/4)
-        //  which is the unit delay of each while loop
-        if (lapse > menuSelectInterval)
-        {
-            if (menuCnt != 0)
-                DONE = 1;
      eca:	95 2f       	mov	r25, r21
      ecc:	01 c0       	rjmp	.+2      	; 0xed0 <countButton+0x114>
-                ;
-        }
-        //if user has not chosen menuCnt > 0, and time lapse over 3sec,
-        //forget about it, and call DONE as 2, and eventually go to sleep.
-        if ((lapse > menuSelectInterval*2) && (menuCnt ==0))
-            DONE = 2;
      ece:	94 2f       	mov	r25, r20
-
-      //check if tactile_Switch pressed to 0
-      //AVR equivalent to Arduino digitalRead(tactile_Switch_bit)
-      val = tactile_Switch_port & _BV(tactile_Switch_bit);
-      if (val == 0)
      ed0:	1c 9b       	sbis	0x03, 4	; 3
      ed2:	89 cf       	rjmp	.-238    	; 0xde6 <countButton+0x2a>
      ed4:	f3 cf       	rjmp	.-26     	; 0xebc <countButton+0x100>
